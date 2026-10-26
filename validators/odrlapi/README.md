@@ -15,8 +15,12 @@ Tested on macOS, October 2026.
 
 ```sh
 git clone https://github.com/oeg-upm/licensius.git
-cd licensius/odrlapi
+cd licensius
+git checkout 9949458
+cd odrlapi
 ```
+
+`git checkout 9949458` uses the same version as the benchmark results.
 
 ## 2. Build (once)
 

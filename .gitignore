@@ -1,2 +1,8 @@
 # macOS
 .DS_Store
+
+# Node
+node_modules
+
+# odrlapi, downloaded and built by validators/odrlapi/setup.sh
+validators/odrlapi/licensius/

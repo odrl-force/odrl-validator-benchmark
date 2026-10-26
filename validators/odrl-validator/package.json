@@ -1,0 +1,12 @@
+{
+  "name": "odrl-validator-runner",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node run.js"
+  },
+  "dependencies": {
+    "n3": "^2.0.3",
+    "odrl-validator": "github:odrl-force/odrl-validator#33a82d7a6c1b41a74e88bf0e70defd1fccaceb48"
+  }
+}
