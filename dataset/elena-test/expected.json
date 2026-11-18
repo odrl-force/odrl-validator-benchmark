@@ -1,0 +1,13 @@
+[
+  {"id":"test-00-invalid-empty-policy","file":"test-00-invalid-empty-policy.ttl","expected":{"valid":false,"validationResults":["Policy without rules"],"conflicts":[]}},
+  {"id":"test-01-invalid-policy-permission-prohibition","file":"test-01-invalid-policy-permission-prohibition.ttl","expected":{"valid":false,"validationResults":["Permission without action and target","Prohibition without action and target"],"conflicts":[]}},
+  {"id":"test-02-valid-policy-permission-prohibition","file":"test-02-valid-policy-permission-prohibition.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"test-03-invalid-policy-conflicts-perm-prohibition","file":"test-03-invalid-policy-conflicts-perm-prohibition.ttl","expected":{"valid":false,"validationResults":[],"conflicts":["Permission and prohibition of odrl:use on :file1 for :alice"]}},
+  {"id":"test-04-valid-policy-no-conflicts-perm-prohibition","file":"test-04-valid-policy-no-conflicts-perm-prohibition.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"test-05-inconsistent-policy-perm-prohibition","file":"test-05-inconsistent-policy-perm-prohibition.ttl","expected":{"valid":false,"validationResults":[],"conflicts":["Permission and prohibition of odrl:use on :file1 for :alice"]}},
+  {"id":"test-06-inconsistent-policy-perm-prohibition-duty","file":"test-06-inconsistent-policy-perm-prohibition-duty.ttl","expected":{"valid":false,"validationResults":[],"conflicts":["Permission and prohibition of odrl:use on :file1 for :alice"]}},
+  {"id":"test-07-inconsistent-constraint","file":"test-07-inconsistent-constraint.ttl","expected":{"valid":false,"validationResults":[],"conflicts":["The purpose must be both dpv:Advertising and dpv:NonCommercialResearch"]}},
+  {"id":"test-08-valid-constraint-datetime","file":"test-08-valid-constraint-datetime.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"test-09-invalid-constraint-datetime-operator","file":"test-09-invalid-constraint-datetime-operator.ttl","expected":{"valid":false,"validationResults":["odrl:dateTime must only be used with comparison operators, and here it is odrl:isA"],"conflicts":[]},"note":"This check was a warning before, and now it is a violation."},
+  {"id":"test-10-invalid-constraint-datetime-right-operand","file":"test-10-invalid-constraint-datetime-right-operand.ttl","expected":{"valid":false,"validationResults":["The right operand of odrl:dateTime MUST be an xsd:date or xsd:dateTime, and here it is \"tomorrow\""],"conflicts":[]},"note":"This check was a warning before, and now it is a violation."}
+]

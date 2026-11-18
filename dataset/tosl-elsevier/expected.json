@@ -1,0 +1,19 @@
+[
+  {"id":"API_Service_Agreement_2017","file":"API_Service_Agreement_2017.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-1.1","file":"clause-1.1.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-1.2","file":"clause-1.2.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-1.3","file":"clause-1.3.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-2.1","file":"clause-2.1.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-2.2","file":"clause-2.2.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-2.3","file":"clause-2.3.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-3.1.1","file":"clause-3.1.1.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-3.1.2","file":"clause-3.1.2.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-3.1.3","file":"clause-3.1.3.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-3.1.4","file":"clause-3.1.4.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-3.2","file":"clause-3.2.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-3.3","file":"clause-3.3.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-3.4","file":"clause-3.4.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-4","file":"clause-4.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-5","file":"clause-5.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}},
+  {"id":"clause-6","file":"clause-6.ttl","expected":{"valid":true,"validationResults":[],"conflicts":[]}}
+]
