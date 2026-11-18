@@ -4,7 +4,7 @@
 # Usage, from the root of this repository: sh run-benchmark.sh
 set -e
 
-echo "1/4 Downloading and building odrlapi"
+echo "1/4 Preparing odrlapi (downloaded and built only the first time)"
 sh validators/odrlapi/setup.sh
 
 echo "2/4 Installing odrl-validator and validating the dataset"
@@ -12,7 +12,7 @@ npm install --silent --prefix validators/odrl-validator
 node validators/odrl-validator/run.js > /dev/null
 
 echo "3/4 Validating the dataset with odrlapi (about 5 minutes)"
-sh validators/odrlapi/run.sh > /dev/null
+sh validators/odrlapi/run.sh
 
 echo "4/4 Comparing the results"
 node evaluation/compare.mjs

@@ -82,4 +82,6 @@ for (const r of changed) {
 const header = [ 'file', 'expected', 'uncertain', ...VALIDATORS ];
 writeFileSync(join(import.meta.dirname, 'results', 'comparison.csv'), [ header.join(','), ...rows.map((r) => header.map((k) => r[k]).join(',')) ].join('\n') + '\n');
 writeFileSync(join(import.meta.dirname, 'results', 'summary.md'), lines.join('\n') + '\n');
-console.log(lines.join('\n'));
+// Only the result tables are printed; the details are in the summary.
+console.log(lines.slice(0, lines.indexOf('## Disagreements between the validators')).join('\n').trim());
+console.log('\nDetails: evaluation/results/summary.md');

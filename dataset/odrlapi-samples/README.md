@@ -4,7 +4,7 @@ The 83 example policies of [odrlapi](https://github.com/oeg-upm/licensius/tree/m
 Source: `odrlapi/src/main/webapp/samples` in [oeg-upm/licensius](https://github.com/oeg-upm/licensius), commit `9949458`.
 
 Each sample starts with a comment that says the expected result and why, for example `#invalid due to missing assigner in Offer`.
-The expected results in `../../expected.csv` are taken from these comments.
+The expected results in [`../expected.json`](../expected.json) are taken from these comments.
 
 ## Changes to the original samples
 

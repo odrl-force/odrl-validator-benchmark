@@ -6,6 +6,13 @@ set -e
 DIR=validators/odrlapi/licensius
 COMMIT=9949458e6093105d650c79ce8084d26e7d28ae3a
 
+# Nothing to do if odrlapi is already built at that commit.
+if [ "$(git -C "$DIR" rev-parse HEAD 2>/dev/null)" = "$COMMIT" ] \
+    && [ -f "$DIR/odrlapi/target/odrlapi/WEB-INF/classes/oeg/odrlapi/validator/ODRLValidator.class" ]; then
+    echo "odrlapi is already built."
+    exit 0
+fi
+
 # Download only that commit, not the whole history.
 if [ ! -d "$DIR/.git" ]; then
     git init --quiet "$DIR"
