@@ -6,12 +6,12 @@
     dct:source <http://w3c.github.io/poe/model/> ;
     a odrl:Agreement ;
     odrl:profile <http://example.com/odrl:profile:08> ;
+    odrl:conflict odrl:perm ;
     odrl:permission [
         odrl:target <http://example.com/photoAlbum:55> ;
         odrl:assigner <http://example.com/MyPix:55> ;
         odrl:assignee <http://example.com/assignee:55> ;
-        odrl:action odrl:display ;
-        odrl:conflict odrl:perm         
+        odrl:action odrl:display
     ] ;
     odrl:prohibition [
         odrl:target <http://example.com/photoAlbum:55> ;
