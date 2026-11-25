@@ -71,16 +71,25 @@ The expected errors and the messages of the validators are written in a differen
 
 | Validator | Errors detected | Policies with all their errors detected |
 |---|---|---|
-| odrl-validator | 322/332 (97%) | 229/239 (96%) |
+| odrl-validator | 327/332 (98%) | 234/239 (98%) |
 | odrlapi | 221/332 (67%) | 144/239 (60%) |
+
+**This is an approximate measure.** The main result is the one in [Results](#results) (valid or invalid). Please take into account that:
+
+- We wrote the categories and the patterns that link each message to a category. Another person could group them in a different way and get other numbers.
+- It does not check that the message is about the same rule or constraint as the expected error, only that it is of the same category.
+- One message can count for two categories, for example "Agreements must have an assigner and an assignee".
+- Warnings also count here.
+- Many categories have only 1 or 2 expected errors, so their percentages say very little.
 
 odrlapi stops at the first error it finds, and it does not check some kinds of errors at all: a rule without action, a prohibition without target, conflicts, datatypes and the operator allowed for each left operand.
 
-The 10 errors that odrl-validator does not detect are:
+The 5 errors that odrl-validator does not detect are:
 
-- **A rule inside another rule** (5 errors): no validator checks it.
 - **Inheritance** (2 errors): the same problem as in sample047.
 - **Unknown action** (2 errors) and **the operands of a logical constraint** (1 error).
+
+A rule inside another rule (5 errors, in rdflicenses) is only detected by odrl-validator, but with a message that is not very clear: it reads the rule as a policy and says "Value is not in http://www.w3.org/ns/odrl/2/Policy, ...".
 
 The numbers for each category are in [evaluation/results/summary.md](evaluation/results/summary.md).
 

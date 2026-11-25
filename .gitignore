@@ -6,3 +6,8 @@ node_modules
 
 # odrlapi, downloaded and built by validators/odrlapi/setup.sh
 validators/odrlapi/licensius/
+
+# SHACL shapes of odrl-multi-agent-llm, downloaded by validators/odrl-multi-agent-shacl/setup.sh
+validators/odrl-multi-agent-shacl/odrl_shapes.ttl
+validators/odrl-multi-agent-shacl/odrl_shapes.commit
+validators/odrl-multi-agent-shacl/.venv/

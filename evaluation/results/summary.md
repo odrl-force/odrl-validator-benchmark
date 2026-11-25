@@ -1,87 +1,181 @@
 # Summary
 
-Policies: 389 in 7 groups (6 with an uncertain expected result, marked with (?))
+389 policies in 7 groups. A policy is invalid for a validator if it reports a violation or a conflict. Warnings do not count.
 
 ## Results on all the policies
+
+"Invalid accepted as valid" is the worst mistake: a wrong policy passes as correct.
 
 | Validator | Correct | Invalid accepted as valid | Valid rejected as invalid |
 |---|---|---|---|
 | odrl-validator | 386/389 (99%) | 1 | 2 |
 | odrlapi | 358/389 (92%) | 25 | 6 |
+| odrl-multi-agent-shacl | 282/389 (72%) | 1 | 106 |
 
 ## Results by group
 
-| Group | Policies | Expected invalid | odrl-validator | odrlapi |
-|---|---|---|---|---|
-| elena-test | 11 | 8 | 11/11 (100%) | 5/11 (45%) |
-| odrl-dpv | 29 | 0 | 29/29 (100%) | 29/29 (100%) |
-| odrl-evaluator-test-suite | 29 | 12 | 29/29 (100%) | 23/29 (79%) |
-| odrlapi-samples | 83 | 37 | 80/83 (96%) | 71/83 (86%) |
-| rdflicenses | 179 | 179 | 179/179 (100%) | 179/179 (100%) |
-| tosl-elsevier | 17 | 0 | 17/17 (100%) | 15/17 (88%) |
-| tosl-openai | 41 | 3 | 41/41 (100%) | 36/41 (88%) |
+Correct results in each folder of `dataset/`.
+
+| Group | Policies | Expected invalid | odrl-validator | odrlapi | odrl-multi-agent-shacl |
+|---|---|---|---|---|---|
+| elena-test | 11 | 8 | 11/11 (100%) | 5/11 (45%) | 8/11 (73%) |
+| odrl-dpv | 29 | 0 | 29/29 (100%) | 29/29 (100%) | 29/29 (100%) |
+| odrl-evaluator-test-suite | 29 | 12 | 29/29 (100%) | 23/29 (79%) | 27/29 (93%) |
+| odrlapi-samples | 83 | 37 | 80/83 (96%) | 71/83 (86%) | 36/83 (43%) |
+| rdflicenses | 179 | 179 | 179/179 (100%) | 179/179 (100%) | 179/179 (100%) |
+| tosl-elsevier | 17 | 0 | 17/17 (100%) | 15/17 (88%) | 0/17 (0%) |
+| tosl-openai | 41 | 3 | 41/41 (100%) | 36/41 (88%) | 3/41 (7%) |
 
 ## Results on the original samples of odrlapi-samples
 
-| Validator | Correct | Invalid accepted as valid | Valid rejected as invalid |
-|---|---|---|---|
-| odrl-validator | 73/83 (88%) | 0 | 10 |
-| odrlapi | 71/83 (86%) | 10 | 2 |
+The samples before our corrections (see `dataset/odrlapi-samples/README.md`). The last column is the result with the corrected samples.
 
-## Results on the original samples of tosl-openai
+| Validator | Correct (original) | Invalid accepted as valid | Valid rejected as invalid | Correct (corrected) |
+|---|---|---|---|---|
+| odrl-validator | 73/83 (88%) | 0 | 10 | 80/83 (96%) |
+| odrlapi | 71/83 (86%) | 10 | 2 | 71/83 (86%) |
+| odrl-multi-agent-shacl | 36/83 (43%) | 1 | 46 | 36/83 (43%) |
 
-| Validator | Correct | Invalid accepted as valid | Valid rejected as invalid |
+## What each validator checks
+
+Which kinds of errors each validator reports in this dataset. "no": we never saw this kind of message from the validator. "partly": see the notes below the table.
+
+| Kind of error | odrl-validator | odrlapi | odrl-multi-agent-shacl |
 |---|---|---|---|
-| odrl-validator | 40/41 (98%) | 0 | 1 |
-| odrlapi | 36/41 (88%) | 3 | 2 |
+| Turtle syntax error | yes | partly | yes |
+| No policy | yes | yes | no |
+| Policy without rules | yes | yes | yes |
+| Policy without IRI | yes | yes | yes |
+| Rule without action | yes | no | yes |
+| Permission without target | yes | yes | yes |
+| Prohibition without target | yes | no | yes |
+| Missing assigner | yes | yes | yes |
+| Missing assignee | yes | yes | yes |
+| Rule inside another rule | yes | no | no |
+| Unknown action | yes | yes | no |
+| Unknown left operand | yes | yes | no |
+| Unknown operator | yes | yes | no |
+| Unknown conflict strategy | yes | yes | no |
+| Malformed constraint | yes | yes | yes |
+| Operands of a logical constraint | yes | yes | yes |
+| Wrong right operand value | yes | no | no |
+| Operator not allowed for the left operand | yes | no | no |
+| Collection without source | yes | yes | no |
+| Inheritance | partly | partly | no |
+| Wrong remedy | yes | yes | yes |
+| Rule that is a permission and a prohibition | yes | no | no |
+| Conflict between rules | yes | no | no |
+
+Notes:
+
+- Turtle syntax error, odrlapi: it accepts some syntax errors, like a missing "." at the end of the file (the originals of sample032, sample070, sample071 and sample076).
+- Inheritance, odrl-validator: it checks that odrl:inheritFrom refers to an existing policy (sample049, sample050), but it does not detect circular inheritance (sample047, sample048) and it does not apply the inheritance (sample045).
+- Inheritance, odrlapi: it detects the inheritance errors, but it does not apply nested inheritance well (sample046).
+
+## Time
+
+Time to validate all the files of `dataset/`, with the original samples. It depends on the computer. odrlapi is slower because it starts Java for each file.
+
+| Validator | Files | Time | Time per file |
+|---|---|---|---|
+| odrl-validator | 471 | 15 s | 0.03 s |
+| odrl-multi-agent-shacl | 471 | 5 s | 0.01 s |
+| odrlapi | 471 | 16 min 41 s | 2.13 s |
 
 ## Errors detected
 
-For each invalid policy, which of the expected errors the validator reports. 239 invalid policies, 332 expected errors.
-The expected errors and the messages of the validators are grouped into categories (see `CATEGORIES` in `evaluation/compare.mjs`).
+For each invalid policy (239), which of its expected errors (332) the validator reports. To compare them, the expected errors and the messages are grouped into categories (`CATEGORIES` in `evaluation/compare.mjs`).
+
+**This is an approximate measure.** The main result is "Results on all the policies", because:
+
+- We chose the categories. Another person could group the messages in a different way.
+- It does not check that the message is about the same rule as the expected error.
+- One message can count for two categories, for example "assigner and assignee".
+- Warnings also count.
+- Many categories have only 1 or 2 expected errors.
 
 | Validator | Errors detected | Policies with all their errors detected |
 |---|---|---|
-| odrl-validator | 322/332 (97%) | 229/239 (96%) |
+| odrl-validator | 327/332 (98%) | 234/239 (98%) |
 | odrlapi | 221/332 (67%) | 144/239 (60%) |
+| odrl-multi-agent-shacl | 157/332 (47%) | 130/239 (54%) |
 
 ### Errors detected by category
 
-| Category | Expected | odrl-validator | odrlapi |
-|---|---|---|---|
-| Turtle syntax error | 1 | 1 | 1 |
-| No policy | 1 | 1 | 1 |
-| Policy without rules | 2 | 2 | 2 |
-| Policy without IRI | 1 | 1 | 1 |
-| Rule without action | 3 | 3 | 0 (not checked) |
-| Permission without target | 183 | 183 | 183 |
-| Prohibition without target | 50 | 50 | 0 (not checked) |
-| Missing assigner | 2 | 2 | 2 |
-| Missing assignee | 2 | 2 | 2 |
-| Rule inside another rule | 5 | 0 (not checked) | 0 (not checked) |
-| Unknown action | 34 | 32 | 2 |
-| Unknown left operand | 6 | 6 | 1 |
-| Unknown operator | 2 | 2 | 1 |
-| Unknown conflict strategy | 2 | 2 | 1 |
-| Malformed constraint | 17 | 17 | 16 |
-| Operands of a logical constraint | 4 | 3 | 1 |
-| Wrong right operand value | 3 | 3 | 0 (not checked) |
-| Operator not allowed for the left operand | 1 | 1 | 0 (not checked) |
-| Collection without source | 2 | 2 | 2 |
-| Inheritance | 4 | 2 | 4 |
-| Wrong remedy | 2 | 2 | 1 |
-| Rule that is a permission and a prohibition | 1 | 1 | 0 (not checked) |
-| Conflict between rules | 4 | 4 | 0 (not checked) |
+| Category | Expected | odrl-validator | odrlapi | odrl-multi-agent-shacl |
+|---|---|---|---|---|
+| Turtle syntax error | 1 | 1 | 1 | 1 |
+| No policy | 1 | 1 | 1 | 0 (not checked) |
+| Policy without rules | 2 | 2 | 2 | 2 |
+| Policy without IRI | 1 | 1 | 1 | 1 |
+| Rule without action | 3 | 3 | 0 (not checked) | 3 |
+| Permission without target | 183 | 183 | 183 | 110 |
+| Prohibition without target | 50 | 50 | 0 (not checked) | 22 |
+| Missing assigner | 2 | 2 | 2 | 2 |
+| Missing assignee | 2 | 2 | 2 | 2 |
+| Rule inside another rule | 5 | 5 | 0 (not checked) | 0 (not checked) |
+| Unknown action | 34 | 32 | 2 | 0 (not checked) |
+| Unknown left operand | 6 | 6 | 1 | 0 (not checked) |
+| Unknown operator | 2 | 2 | 1 | 0 (not checked) |
+| Unknown conflict strategy | 2 | 2 | 1 | 0 (not checked) |
+| Malformed constraint | 17 | 17 | 16 | 10 |
+| Operands of a logical constraint | 4 | 3 | 1 | 3 |
+| Wrong right operand value | 3 | 3 | 0 (not checked) | 0 (not checked) |
+| Operator not allowed for the left operand | 1 | 1 | 0 (not checked) | 0 (not checked) |
+| Collection without source | 2 | 2 | 2 | 0 (not checked) |
+| Inheritance | 4 | 2 | 4 | 0 (not checked) |
+| Wrong remedy | 2 | 2 | 1 | 1 |
+| Rule that is a permission and a prohibition | 1 | 1 | 0 (not checked) | 0 (not checked) |
+| Conflict between rules | 4 | 4 | 0 (not checked) | 0 (not checked) |
 
 ### Error messages in no category
+
+Messages that are in no category. If a validator adds a new kind of error, it appears here.
 
 - **odrl-validator**: 
   - Action should be a supported action or a blank node with rdf:value and odrl:refinement.
   - Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
-  - Value is not in http://www.w3.org/ns/odrl/2/Policy, http://www.w3.org/ns/odrl/2/Agreement, http://www.w3.org/ns/odrl/2/Assertion, http://www.w3.org/ns/odrl/2/Offer, http://www.w3.org/ns/odrl/2/Privacy, http://www.w3.org/ns/odrl/2/Request, http://www.w3.org/ns/odrl/2/Set, http://www.w3.org/ns/odrl/2/Ticket
 - **odrlapi**: none
+- **odrl-multi-agent-shacl**: none
 
 ## Disagreements between the validators
+
+The policies where the validators do not give the same result, with the policy and the messages of each validator.
+
+### elena-test/test-02-valid-policy-permission-prohibition.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix : <http://example.com/> .
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+
+  :policy1 a odrl:Policy ;
+      odrl:permission :perm1 ;
+      odrl:prohibition :proh1 .
+
+  :perm1 a odrl:Permission ;
+      odrl:action odrl:distribute ;
+      odrl:target :file1 .
+
+  :proh1 a odrl:Prohibition ;
+      odrl:action odrl:anonymize ;
+      odrl:target :file2 .
+
+
+  :file1 a odrl:Asset .
+  :file2 a odrl:Asset .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### elena-test/test-03-invalid-policy-conflicts-perm-prohibition.ttl
 
@@ -118,6 +212,45 @@ The expected errors and the messages of the validators are grouped into categori
   - Conflict: The permission and prohibition have the same assignee, target and action
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### elena-test/test-04-valid-policy-no-conflicts-perm-prohibition.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix : <http://example.com/> .
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+
+  :policy1 a odrl:Policy ;
+      odrl:permission :perm1 ;
+      odrl:prohibition :proh1 .
+
+  :perm1 a odrl:Permission ;
+      odrl:assignee :alice ;
+      odrl:target :file1 ;
+      odrl:action odrl:use .
+
+  :proh1 a odrl:Prohibition ;
+      odrl:assignee :bob ;
+      odrl:target :file1 ;
+      odrl:action odrl:use .
+
+  :alice a odrl:Party .
+  :bob a odrl:Party .
+  :file1 a odrl:Asset .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### elena-test/test-05-inconsistent-policy-perm-prohibition.ttl
 
@@ -153,6 +286,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Conflict: The permission and prohibition have the same assignee, target and action
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### elena-test/test-06-inconsistent-policy-perm-prohibition-duty.ttl
 
@@ -194,6 +329,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Conflict: The permission and prohibition have the same assignee, target and action
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### elena-test/test-07-inconsistent-constraint.ttl
 
@@ -236,6 +373,43 @@ The expected errors and the messages of the validators are grouped into categori
   - Conflict: A rule with constraints with the same left operand and the equals operator can never be satisfied if the right operands differ
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### elena-test/test-08-valid-constraint-datetime.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix : <http://example.com/> .
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+  :policy1 a odrl:Policy ;
+      odrl:permission :perm1 .
+
+  :perm1 a odrl:Permission ;
+      odrl:action odrl:use ;
+      odrl:target :file1 ;
+      odrl:constraint :constraint1 .
+
+  :constraint1 a odrl:Constraint ;
+      odrl:leftOperand odrl:dateTime ;
+      odrl:operator odrl:lt ;
+      odrl:rightOperand "2026-12-31"^^xsd:date .
+
+  :file1 a odrl:Asset .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### elena-test/test-09-invalid-constraint-datetime-operator.ttl
 
@@ -270,6 +444,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: odrl:dateTime must only be used with comparison operators odrl:eq, odrl:gt, odrl:gteq, odrl:lt, odrl:lteq or odrl:neq.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### elena-test/test-10-invalid-constraint-datetime-right-operand.ttl
 
@@ -304,6 +480,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrl-evaluator-test-suite/policy-2.ttl
 
@@ -337,6 +515,9 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: A Rule must have one action.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Prohibition must have at least one IRI action
+  - Violation: Prohibition must have at least one IRI target
 
 ### odrl-evaluator-test-suite/policy-4.ttl
 
@@ -369,6 +550,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: A Prohibition must have one odrl:target.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Prohibition must have at least one IRI target
 
 ### odrl-evaluator-test-suite/policy-6.ttl
 
@@ -403,6 +586,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: A Prohibition must have one odrl:target.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Prohibition must have at least one IRI target
 
 ### odrl-evaluator-test-suite/policy-15.ttl
 
@@ -452,6 +637,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
 
 ### odrl-evaluator-test-suite/policy-20.ttl
 
@@ -4947,6 +5134,270 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
 
 ### odrl-evaluator-test-suite/policy-21.ttl
 
@@ -5000,6 +5451,586 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+
+### odrl-evaluator-test-suite/policy-28.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix dct: <http://purl.org/dc/terms/>.
+  @prefix ex: <http://example.org/> .
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+
+  <urn:uuid:9c78fffb-81dc-45d0-a6ed-fa016cf480f5> a odrl:Set ;
+    dct:description "ALICE may READ or MODIFY resource X." ;
+    dct:source <https://github.com/SolidLabResearch/ODRL-Test-Suite/>;
+    odrl:permission <urn:uuid:5422211b-0456-4fb7-8ab9-deff4dceaaea> .
+
+  <urn:uuid:5422211b-0456-4fb7-8ab9-deff4dceaaea> a odrl:Permission ;
+    odrl:action odrl:modify, odrl:read ;
+    odrl:target ex:x ;
+    odrl:assignee ex:alice .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrl-evaluator-test-suite/policy-29.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix ex: <http://example.org/> .
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+
+  <urn:uuid:e2dac584-cdb6-4160-a1c1-6ef368d19f8d> a odrl:Set ;
+    dct:description "ALICE may READ resource X (compact policy)." ;
+    dct:source <https://github.com/SolidLabResearch/ODRL-Test-Suite/>;
+    odrl:action odrl:read ;
+    odrl:permission <urn:uuid:dccfa253-1a01-4ed6-926f-1f2f75d4df9d> .
+
+  <urn:uuid:dccfa253-1a01-4ed6-926f-1f2f75d4df9d> a odrl:Permission ;
+    odrl:target ex:x ;
+    odrl:assignee ex:alice .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### odrlapi-samples/sample000.ttl
+
+- **Expected**: invalid (warn a no-policy)
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  #invalid. warn a no-policy
+  ```
+
+  </details>
+
+- **odrl-validator**: invalid
+  - Violation: No valid policy provided
+- **odrlapi**: invalid
+  - not valid. There is no policy, aggrement, offer or set
+- **odrl-multi-agent-shacl**: valid
+
+### odrlapi-samples/sample001.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+
+  #valid. 
+  <http://odrlapi.appspot.com/samples/sample001>
+      a odrl:Policy;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://odrlapi.appspot.com/samples/asset000> ;
+          odrl:action odrl:reproduce
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample003.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. 
+  #This is not forbidden by the spec, although it is a clear contradiction: Offer and Agreement at the same time
+  <http://odrlapi.appspot.com/samples/sample003>
+      a odrl:Offer, odrl:Agreement;
+      dct:source "victor" ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:assigner <http://example.com/user:711> ;
+          odrl:assignee <http://example.com/user:314> ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - Warning: agreements, offers and sets are incompatibles
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample005.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. Target SHOULD be a URI, not a literal. This policy should issue a warning.
+  <http://odrlapi.appspot.com/samples/sample005>
+      a odrl:Policy;
+      dct:source "victor" ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target "asset9898" ;
+          odrl:action odrl:reproduce
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Assets with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI target
+
+### odrlapi-samples/sample007.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix ex: <http://example.org/> .
+
+  #valid with assigner and assignee on rule level
+  <http://odrlapi.appspot.com/samples/sample007>
+      a odrl:Agreement ;   
+      dct:source <https://github.com/simonstey/ODRL-SHACL-Shapes/wiki/3.1.4-Agreement> ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+          odrl:assigner ex:Bob ;
+          odrl:assignee ex:Alice ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample008.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix ex: <http://example.org/> .
+
+  #valid. with assigner and assignee on policy level
+  <http://odrlapi.appspot.com/samples/sample008>
+      a odrl:Agreement ;
+      dct:source <https://github.com/simonstey/ODRL-SHACL-Shapes/wiki/3.1.4-Agreement> ;
+      odrl:assigner ex:Bob ;  
+      odrl:assignee ex:Alice ; 
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample009.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix ex: <http://example.org/> .
+
+  #valid with assigner on rule level and assignee on policy level
+  <http://odrlapi.appspot.com/samples/sample009>
+      a odrl:Agreement ;
+      dct:source <https://github.com/simonstey/ODRL-SHACL-Shapes/wiki/3.1.4-Agreement> ;
+      odrl:assignee ex:Alice ; 
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+          odrl:assigner ex:Bob ;  
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample010.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid with assignee on rule level and assigner on policy level 
+  <http://odrlapi.appspot.com/samples/sample010>
+      a odrl:Agreement ;
+      dct:source <https://github.com/simonstey/ODRL-SHACL-Shapes/wiki/3.1.4-Agreement> ;
+      odrl:assigner _:Bob ; 
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+          odrl:assignee _:Alice ;  
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample012.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (assigner specified externally)
+  <http://odrlapi.appspot.com/samples/sample012>
+      a odrl:Agreement ;   
+      dct:source "victor" ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+          odrl:assignee _:Alice ;
+      ] .
+
+  <http://odrlapi.appspot.com/samples/party000>
+     a odrl:Party;
+     odrl:assignerOf <http://odrlapi.appspot.com/samples/sample012> .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample013.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix ex: <http://example.org/> .
+
+  #valid. assignee defined externally
+  <http://odrlapi.appspot.com/samples/sample013>
+      a odrl:Agreement ;   
+      dct:source "victor" ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+          odrl:assigner ex:Alice ;
+      ] .
+
+  <http://odrlapi.appspot.com/samples/party000>
+     a odrl:Party;
+     odrl:assigneeOf <http://odrlapi.appspot.com/samples/sample013>.
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample015.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix ex: <http://example.org/> .
+
+  #valid only after expansion in atomic policies. Two assignees (see IM 2.6.1)
+  <http://odrlapi.appspot.com/samples/sample015>
+      a odrl:Policy ;  
+      dct:source "victor"; 
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+          odrl:assigner ex:Alice ;
+          odrl:assignee ex:Carlos, ex:Bob ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample016.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid
+  <http://odrlapi.appspot.com/samples/sample016>
+      dct:source <https://github.com/simonstey/ODRL-SHACL-Shapes/wiki/3.1-Policy> ;
+      a odrl:Policy;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce
+      ] ;
+      odrl:prohibition [
+          a odrl:Prohibition ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:modify
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample017.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix ex: <http://example.org/> .
+
+  #valid with assigner on rule level
+  <http://odrlapi.appspot.com/samples/sample017>
+      a odrl:Offer ;   
+      dct:source <https://github.com/simonstey/ODRL-SHACL-Shapes/wiki/3.1.3-Offer> ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+          odrl:assigner ex:Bob ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample018.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix ex: <http://example.org/> .
+
+  #valid. with assigner on policy level. 
+  <http://odrlapi.appspot.com/samples/sample018>
+      a odrl:Offer ;
+      dct:source <https://github.com/simonstey/ODRL-SHACL-Shapes/wiki/3.1.3-Offer> ;
+      odrl:assigner ex:Bob ;   
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:9898> ;
+          odrl:action odrl:reproduce ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Every Offer rule must identify an assigner
+
+### odrlapi-samples/sample020.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (example 20 in the IM)
+  <http://odrlapi.appspot.com/samples/sample020>
+      dct:source <http://w3c.github.io/poe/model/> ;
+      a odrl:Offer ;
+      odrl:profile <http://example.com/odrl:profile:07> ;
+      odrl:permission [
+          odrl:target <http://example.com/game:9090> ;
+          odrl:assigner <http://example.com/org:xyz> ;
+          odrl:action odrl:play ;
+          odrl:constraint [
+              odrl:leftOperand odrl:dateTime ;
+              odrl:operator odrl:lteq;
+              odrl:rightOperand "2017-12-31"^^xsd:date
+          ]            
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:07 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample021.ttl
 
@@ -5044,6 +6075,97 @@ The expected errors and the messages of the validators are grouped into categori
   - Conflict: The permission and prohibition have the same assignee, target and action
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample022.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (example 20 in the IM)
+  <http://odrlapi.appspot.com/samples/sample022>
+      dct:source <http://w3c.github.io/poe/model/> ;
+      a odrl:Agreement ;
+      odrl:profile <http://example.com/odrl:profile:09> ;
+      odrl:obligation [
+          odrl:target <http://example.com/photoAlbum:55> ;
+          odrl:assigner <http://example.com/org:43> ;
+          odrl:assignee <http://example.com/person:44> ;
+          odrl:action [
+              rdf:value odrl:compensate ;
+              odrl:refinement [
+                  odrl:leftOperand odrl:payAmount;
+                  odrl:operator odrl:eq;
+                  odrl:rightOperand 500;
+                  odrl:unit <http://dbpedia.org/resource/Euro>
+              ] 
+          ] 
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:09 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample023.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (example 13 in the IM)
+  <http://odrlapi.appspot.com/samples/sample023>
+      dct:source <http://w3c.github.io/poe/model/> ;
+      a odrl:Offer ;
+      odrl:profile <http://example.com/odrl:profile:10> ;
+      odrl:obligation [
+          odrl:target <http://example.com/document:1234> ;
+          odrl:assigner <http://example.com/org:616> ;
+          odrl:assignee <http://example.com/person:44> ;
+          odrl:action [
+              rdf:value odrl:print;
+              odrl:refinement [
+                  odrl:leftOperand odrl:percentage;
+                  odrl:operator odrl:lteq;
+                  odrl:rightOperand 50;
+              ] 
+          ] 
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:10 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample024.ttl
 
@@ -5096,6 +6218,160 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrlapi**: valid
   - valid
   - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Constraint needs one IRI leftOperand
+  - Violation: Constraint needs one IRI leftOperand
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample025.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (example 25 in the IM)
+  <http://odrlapi.appspot.com/samples/sample025>
+      dct:source <http://w3c.github.io/poe/model/> ;
+      a odrl:Agreement ;
+      odrl:profile <http://example.com/odrl:profile:09> ;
+      odrl:permission [
+          odrl:target <http://example.com/data:77> ;
+          odrl:assigner <http://example.com/org:99> ;
+          odrl:assignee <http://example.com/person:88> ;
+          odrl:action odrl:distribute ;
+          odrl:duty [
+              odrl:action odrl:attribute ;
+              odrl:attributedParty "Australia";
+              odrl:consequence [
+                  odrl:action odrl:acceptTracking ;
+                  odrl:trakingParty <http://example.com/dept:100>
+              ]
+          ]            
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:09 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample026.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (example 17 in the IM)
+  <http://odrlapi.appspot.com/samples/sample026>
+      dct:source <http://w3c.github.io/poe/model/> ;
+      a odrl:Offer ;
+      odrl:profile <http://example.com/odrl:profile:10> ;
+      odrl:permission [
+          odrl:target <http://example.com/document:1234> ;
+          odrl:assigner <http://example.com/org:616> ;
+          odrl:action odrl:distribute ;
+          odrl:constraint [
+              odrl:leftOperand odrl:dateTime;
+              odrl:operator odrl:lt;
+              odrl:rightOperand "2018-01-01"^^xsd:date
+          ]
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:10 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample032.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (asset specified externally)
+  <http://odrlapi.appspot.com/samples/sample032>
+      a odrl:Set ;   
+      dct:source "victor" ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:action odrl:reproduce ;
+      ] .
+
+  <http://odrlapi.appspot.com/samples/asset031>
+       odrl:hasPolicy <http://odrlapi.appspot.com/samples/sample032>.
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI target
+
+### odrlapi-samples/sample033.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid (on despite of flagrant conflict)
+  <http://odrlapi.appspot.com/samples/sample033>
+      a odrl:Set ;
+      dct:source "victor" ;
+      odrl:permission [
+          odrl:target <http://odrlapi.appspot.com/samples/asset000> ;
+          odrl:action odrl:reproduce
+      ];
+      odrl:prohibition [
+          odrl:target <http://odrlapi.appspot.com/samples/asset000> ;
+          odrl:action odrl:reproduce
+      ]  .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample034.ttl
 
@@ -5126,6 +6402,57 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrlapi**: valid
   - valid
   - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample035.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid (Modified example 25, constraint on consequence)
+  <http://odrlapi.appspot.com/samples/sample035>
+      dct:source "victor" ;
+      a odrl:Agreement ;
+      odrl:profile <http://example.com/odrl:profile:09> ;
+      odrl:permission [
+          odrl:target <http://example.com/data:77> ;
+          odrl:assigner <http://example.com/org:99> ;
+          odrl:assignee <http://example.com/person:88> ;
+          odrl:action odrl:distribute ;
+          odrl:duty [
+              odrl:action odrl:attribute ;
+              odrl:attributedParty "Australia";
+              odrl:consequence [
+                  odrl:action odrl:acceptTracking ;
+                  odrl:trakingParty <http://example.com/dept:100> ;
+                  odrl:constraint [
+                      odrl:leftOperand odrl:dateTime ;
+                      odrl:operator odrl:lteq;
+                      odrl:rightOperand "2017-12-31"^^xsd:date
+                  ] 
+              ]
+          ]            
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:09 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample036.ttl
 
@@ -5157,6 +6484,233 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: A remedy must be an odrl:Duty, not a Permission or Prohibition.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample037.ttl
+
+- **Expected**: valid (?)
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (?) three declarations for the assigner, but they match.
+  <http://odrlapi.appspot.com/samples/sample037>
+      a odrl:Policy ;
+      dct:source "victor" ;
+      odrl:assigner <http://odrlapi.appspot.com/samples/party651> ;
+      odrl:permission [
+          odrl:assigner <http://odrlapi.appspot.com/samples/party651> ;
+          odrl:target <http://odrlapi.appspot.com/samples/asset000> ;
+          odrl:action odrl:reproduce
+      ] .
+
+  <http://odrlapi.appspot.com/samples/party651> odrl:assignerOf <http://odrlapi.appspot.com/samples/sample037> .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample038.ttl
+
+- **Expected**: valid (?)
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid only after expansion in atomic policies. assigners do not match. behaviour strange?
+  <http://odrlapi.appspot.com/samples/sample038>
+      a odrl:Policy ;
+      dct:source "victor" ;
+      odrl:assigner <http://odrlapi.appspot.com/samples/party651> ;
+      odrl:permission [
+          odrl:assigner <http://odrlapi.appspot.com/samples/party994> ;
+          odrl:target <http://odrlapi.appspot.com/samples/asset000> ;
+          odrl:action odrl:reproduce
+      ] .
+
+  <http://odrlapi.appspot.com/samples/party651> odrl:assignerOf <http://odrlapi.appspot.com/samples/sample038> .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample039.ttl
+
+- **Expected**: valid (?)
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid only after expansion in atomic policies.  (?) three declarations for the assigner, but they do not match.
+  <http://odrlapi.appspot.com/samples/sample039>
+      a odrl:Policy ;
+      dct:source "victor" ;
+      odrl:assigner <http://odrlapi.appspot.com/samples/party651> ;
+      odrl:permission [
+          odrl:assigner <http://odrlapi.appspot.com/samples/party651> ;
+          odrl:target <http://odrlapi.appspot.com/samples/asset000> ;
+          odrl:action odrl:reproduce
+      ] .
+
+  <http://odrlapi.appspot.com/samples/party111> odrl:assignerOf <http://odrlapi.appspot.com/samples/sample039> .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample040.ttl
+
+- **Expected**: valid (?)
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid only after expansion in atomic policies. (?) three declarations for the assigner, but they dont match.
+  <http://odrlapi.appspot.com/samples/sample040>
+      dct:source "victor" ;
+      a odrl:Policy ;
+      odrl:assigner <http://odrlapi.appspot.com/samples/party111> ;
+      odrl:permission [
+          odrl:assigner <http://odrlapi.appspot.com/samples/party651> ;
+          odrl:target <http://odrlapi.appspot.com/samples/asset000> ;
+          odrl:action odrl:reproduce
+      ] .
+
+  <http://odrlapi.appspot.com/samples/party651> odrl:assignerOf <http://odrlapi.appspot.com/samples/sample040> .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample041.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+  #valid. Example 9 in the IM.
+  <http://odrlapi.appspot.com/samples/sample041>
+      a odrl:Agreement ;
+      odrl:profile <http://example.com/odrl:profile:05> ;
+      dct:source <http://w3c.github.io/poe/model/> ;
+      odrl:permission [
+          odrl:target <http://example.com/looking-glass.ebook> ;
+          odrl:assigner [
+              a odrl:Party, vcard:Organization ;
+              rdf:value <http://example.com/org/sony-books> ;
+              vcard:fn "Sony Books LCC" ;
+              vcard:hasEmail "sony-contact@example.com"
+          ] ;
+          odrl:assignee [
+              a odrl:PartyCollection, vcard:Group ;
+              rdf:value <http://example.com/team/A> ;
+              vcard:fn "Team A" ;
+              vcard:hasEmail "teamA@example.com" ;
+          ] ;
+          odrl:action odrl:use ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:05 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample043.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (modified example 20 in the IM. rightOperandReference is given)
+  <http://odrlapi.appspot.com/samples/sample043>
+      dct:source "victor" ;
+      a odrl:Offer ;
+      odrl:profile <http://example.com/odrl:profile:07> ;
+      odrl:permission [
+          odrl:target <http://example.com/game:9090> ;
+          odrl:assigner <http://example.com/org:xyz> ;
+          odrl:action odrl:play ;
+          odrl:constraint [
+              odrl:leftOperand odrl:dateTime ;
+              odrl:operator odrl:lteq;
+              odrl:rightOperandReference <http://example.com/service:2342> 
+          ]            
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:07 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample045.ttl
 
@@ -5203,6 +6757,10 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrlapi**: valid
   - valid
   - Warning: agreements, offers and sets are incompatibles
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample046.ttl
 
@@ -5278,6 +6836,13 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: Target should be a Asset or AssetCollection.
 - **odrlapi**: invalid
   - not valid. Permissions must have at least one target
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample047.ttl
 
@@ -5317,6 +6882,9 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: The assigner should be a Party or PartyCollection.
 - **odrlapi**: invalid
   - not valid. Policy inheritance graph cannot be cyclic!
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample051.ttl
 
@@ -5347,6 +6915,62 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrlapi**: valid
   - valid
   - Warning: permissions, prohibitions and duties must be disjoint
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample052.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. Example 14 in the IM
+  <http://odrlapi.appspot.com/samples/sample052>
+      a odrl:Offer ;
+      dct:source "http://w3c.github.io/poe/model/#constraint-logical";
+      odrl:profile <http://example.com/odrl:profile:10> ;
+      odrl:permission [
+          odrl:target <http://example.com/book/1999> ;
+          odrl:assigner <http://example.com/org/paisley-park> ;
+          odrl:action [
+              rdf:value odrl:reproduce ;
+              odrl:refinement [
+                  odrl:xone (<http://example.com/p:88/C1> <http://example.com/p:88/C2>)
+              ]
+          ]
+     ] .
+
+  <http://example.com/p:88/C1> 
+      a odrl:Constraint ;
+      odrl:leftOperand odrl:media ;
+      odrl:operator odrl:eq ;
+      odrl:rightOperand odrl:online .
+
+  <http://example.com/p:88/C2> 
+      a odrl:Constraint ;
+      odrl:leftOperand odrl:media ;
+      odrl:operator odrl:eq ;
+      odrl:rightOperand odrl:print .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:10 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The rightOperand of odrl:media should be a string or a list of strings.
+  - Warning: The rightOperand of odrl:media should be a string or a list of strings.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample053.ttl
 
@@ -5392,6 +7016,52 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Constraint needs one IRI leftOperand
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample055.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. Example 16 in the IM
+  <http://odrlapi.appspot.com/samples/sample055>
+      a odrl:Offer ;
+      dct:source "http://w3c.github.io/poe/model/";
+      odrl:profile <http://example.com/odrl:profile:11> ;
+      odrl:permission [
+          odrl:assigner <http://example.com/org88> ;
+          odrl:action odrl:play ;
+          odrl:target [
+              a odrl:AssetCollection ;
+              odrl:source <http://example.com/media-catalogue> ;
+              odrl:refinement [
+                  odrl:leftOperand odrl:runningTime ;
+                  odrl:operator odrl:lt ; 
+                  odrl:rightOperand 60 ;
+                  odrl:unit <http://qudt.org/vocab/unit/MinuteTime>
+              ]
+          ]
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:11 is not supported: terms from this profile are not validated.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Assets with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample056.ttl
 
@@ -5424,6 +7094,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: Target should be a Asset or AssetCollection.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample059.ttl
 
@@ -5461,6 +7133,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample061.ttl
 
@@ -5500,6 +7174,44 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: odrl:dateTime must only be used with comparison operators odrl:eq, odrl:gt, odrl:gteq, odrl:lt, odrl:lteq or odrl:neq.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample062.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix p1: <http://odrlapi.appspot.com/profile/> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. Example 35 in the IM
+  <http://odrlapi.appspot.com/samples/sample062>
+      a odrl:Policy;
+      dct:source <http://w3c.github.io/poe/model/> ;
+      odrl:profile <http://example.com/odrl:profile:40> ;
+      odrl:conflict odrl:perm ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://example.com/asset:1212> ;
+          odrl:action odrl:use ;
+          odrl:assigner <http://example.com/owner:181> 
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:40 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample063.ttl
 
@@ -5535,6 +7247,294 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: The conflict strategy must be odrl:perm, odrl:prohibit or odrl:invalid, or a conflict term defined in a loaded profile.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample067.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+
+  #valid. Example 17 in the IM
+  <http://odrlapi.appspot.com/samples/sample067>
+      a odrl:Agreement ;
+      dct:source "http://w3c.github.io/poe/model/";
+      odrl:profile <http://example.com/odrl:profile:12> ;
+      odrl:permission [
+          odrl:assigner <http://example.com/user44> ;
+          odrl:target <http://example.com/myPhotos:BdayParty> ;
+          odrl:action odrl:display ;
+          odrl:assignee [
+              a odrl:PartyCollection ;
+              odrl:source <http://example.com/user44/friends> ;
+              odrl:refinement [
+                  odrl:leftOperand foaf:age ;
+                  odrl:operator odrl:gt ;
+                  odrl:rightOperand 17 ;
+              ]
+          ]
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:12 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample068.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (example 21 in the IM)
+  <http://odrlapi.appspot.com/samples/sample068>
+      dct:source <http://w3c.github.io/poe/model/> ;
+      a odrl:Agreement ;
+      odrl:profile <http://example.com/odrl:profile:09> ;
+      odrl:assigner <http://example.com/org:43> ;
+      odrl:assignee <http://example.com/person:44> ;
+      odrl:obligation [
+          odrl:target <http://example.com/document:XZY> ;
+          odrl:action odrl:delete ;
+          odrl:consequence [
+              odrl:action [
+                  rdf:value odrl:compensate ;
+                  odrl:compensatedParty <http://wwf.org> ;
+                  odrl:refinement [
+                      odrl:leftOperand odrl:payAmount ;
+                      odrl:operator odrl:eq ;
+                      odrl:rightOperand 10.00 ;
+                      odrl:unit <http://dbpedia.org/resource/Euro> 
+                  ]
+              ]
+          ] 
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:09 is not supported: terms from this profile are not validated.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample070.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. Example 27 in the IM
+  <http://odrlapi.appspot.com/samples/sample070>
+      a odrl:Policy ;
+      dct:source <http://w3c.github.io/poe/model/> ;
+      odrl:profile <http://example.com/odrl:profile:20> ;
+      odrl:permission [
+          odrl:target <http://example.com/music/1999.mp3>, <http://example.com/music/PurpleRain.mp3> ;
+          odrl:assigner <http://example.com/org/sony-music> ;
+          odrl:action odrl:play, odrl:stream
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:20 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample071.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. Modified example 27 in the IM.
+  <http://odrlapi.appspot.com/samples/sample071>
+      a odrl:Policy ;
+      dct:source "victor" ;
+      odrl:profile <http://example.com/odrl:profile:20> ;
+      odrl:permission [
+          odrl:target <http://example.com/music/1999.mp3>, <http://example.com/music/PurpleRain.mp3> ;
+          odrl:assigner <http://example.com/org/sony-music> ;
+          odrl:action odrl:play, odrl:stream, odrl:print
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:20 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample072.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix dct: <http://purl.org/dc/terms/> .
+
+  #valid. (example 24 in the IM)
+  <http://odrlapi.appspot.com/samples/sample072>
+      dct:source <http://w3c.github.io/poe/model/> ;
+      a odrl:Agreement ;
+      odrl:profile <http://example.com/odrl:profile:09> ;
+      odrl:prohibition [
+          odrl:target <http://example.com/data:77> ;
+          odrl:assigner <http://example.com/person:88> ;
+          odrl:assignee <http://example.com/person:99> ;
+          odrl:action odrl:modify ;
+          odrl:remedy [
+              odrl:action odrl:delete ;
+              odrl:target <http://example.com/data:77> 
+          ]
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:09 is not supported: terms from this profile are not validated.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample074.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+
+  #valid. 
+  <http://odrlapi.appspot.com/samples/sample074>
+      a odrl:Policy;
+      odrl:assignee "Pedro" ;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target <http://odrlapi.appspot.com/samples/asset000> ;
+          odrl:action odrl:reproduce, odrl:play
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample075.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+
+  #valid. 
+  <http://example.com/policy:1010>
+    a odrl:Set ;
+    odrl:permission [
+      odrl:action odrl:read ;
+      odrl:target <http://example.com/asset:9898>
+    ] ;
+    odrl:prohibition [
+      odrl:action odrl:reproduce ;
+      odrl:target <http://example.com/asset:9898>
+    ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample076.ttl
 
@@ -5577,6 +7577,93 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: A Constraint must declare exactly one odrl:rightOperand, given as a literal, an IRI, an odrl:RightOperand instance, or a list of these.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample077.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+  #valid. 
+  <http://example.com/policy:4444>
+    a odrl:Offer ;
+    odrl:permission [
+      odrl:action odrl:play ;
+      odrl:assigner <http://example.com/org88> ;
+      odrl:target [
+        a odrl:AssetCollection ;
+        odrl:refinement [
+          odrl:leftOperand odrl:runningTime ;
+          odrl:operator odrl:lt ;
+          odrl:rightOperand "60"^^xsd:string ;
+          odrl:unit "http://qudt.org/vocab/unit/MinuteTime"^^xsd:string
+        ] ;
+        odrl:source <http://example.com/media-catalogue>
+      ]
+    ] ;
+    odrl:profile <http://example.com/odrl:profile:11> .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Profile http://example.com/odrl:profile:11 is not supported: terms from this profile are not validated.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: A Constraint unit should be an IRI.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Assets with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample078.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix ex: <http://example.org/> .
+
+  odrl:play odrl:includedIn odrl:use . 
+  odrl:display odrl:includedIn odrl:use . 
+  odrl:print odrl:includedIn odrl:use .
+   
+  #valid
+  <http://odrlapi.appspot.com/samples/sample078>
+      a odrl:Policy;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target ex:PartA ;
+          odrl:action odrl:use ;
+          odrl:assignee ex:Bob
+      ] ;
+      odrl:prohibition [
+          a odrl:Prohibition ;
+          odrl:target ex:PartB ;
+          odrl:action odrl:print ;
+          odrl:assignee ex:Bob
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### odrlapi-samples/sample079.ttl
 
@@ -5617,6 +7704,107 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: The assignee should be a Party or PartyCollection.
 - **odrlapi**: invalid
   - not valid. Undefined action while the policy does not use a profile.
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample080.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix ex: <http://example.org/> .
+
+  ex:Part1 odrl:partOf ex:Dataset . 
+  ex:Part2 odrl:partOf ex:Dataset . 
+
+  #valid
+  <http://odrlapi.appspot.com/samples/sample080>
+      a odrl:Policy;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target ex:Dataset ;
+          odrl:action odrl:use ;
+          odrl:assignee ex:Bob
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample081.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix ex: <http://example.org/> .
+
+  ex:Person1 odrl:partOf ex:Team . 
+  ex:Person2 odrl:partOf ex:Team . 
+   
+  #valid
+  <http://odrlapi.appspot.com/samples/sample081>
+      a odrl:Policy;
+      odrl:permission [
+          a odrl:Permission ;
+          odrl:target ex:Dataset ;
+          odrl:action odrl:use ;
+          odrl:assignee ex:Team
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
+
+### odrlapi-samples/sample082.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix dc: <http://purl.org/dc/terms/> . 
+  @prefix ex: <http://example.org/> .
+
+  #valid
+  <http://odrlapi.appspot.com/samples/sample082>
+      a odrl:Policy ;
+      dc:isReplacedBy <http://odrlapi.appspot.com/samples/sample005> ;
+      odrl:permission [
+          odrl:target <http://example.com/asset:555> ;
+          odrl:action odrl:display
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Assets with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Policy must have exactly one IRI uid
 
 ### tosl-elsevier/API_Service_Agreement_2017.ttl
 
@@ -6235,6 +8423,444 @@ The expected errors and the messages of the validators are grouped into categori
   - not valid. Agreements must have an assigner and an assignee
   - Agreement must have an assigner and an assignee, either directly or on its rules
   - Permissions must have at least one target
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+  - Violation: Permission must have at least one IRI action
+  - Violation: Permission must have at least one IRI action
+  - Violation: Permission must have at least one IRI action
+  - Violation: Duty must have at least one IRI action
+  - Violation: Duty must have at least one IRI action
+
+### tosl-elsevier/clause-1.1.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 1.1 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission01 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 1.1 ######################################
+  # 1.1 The application programmable interfaces service (the API Service)        #
+  # owned and operated by Elsevier B.V. (Elsevier) is provided to (You, Your or  #
+  # the Developer) under the terms and conditions of this API Service Agreement. #
+  # You confirm that You have the right and authority to enter into this         #
+  # Agreement. You accept and agree to the terms and conditions of this          #
+  # Agreement on Your own behalf and/or on behalf of Your company, institute or  #
+  # organization as its authorized legal representative.                         #
+  ################################################################################
+
+  :permission01 a odrl:Permission ;
+      dcterms:description "1.1 The application programmable interfaces service (the \"API Service\") owned and operated by Elsevier B.V. (\"Elsevier\") is provided to (\"You\", \"Your\" or \"the Developer\") under the terms and conditions of this API Service Agreement. You confirm that You have the right and authority to enter into this Agreement. You accept and agree to the terms and conditions of this Agreement on Your own behalf and/or on behalf of Your company, institute or organization as its authorized legal representative." ;
+      odrl:action odrl:use ;
+      odrl:target :service01 ;
+      odrl:assignee :customer01 ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "You accept and agree to the terms and conditions of this Agreement";
+          odrl:action tosl:consent ;
+          odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:explicitConsent
+          ] ;
+          odrl:target :agreement01 ;
+          odrl:assignee :customer01
+      ].
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-1.2.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 1.2 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission02 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 1.2 ######################################
+  # 1.2 Elsevier reserves the right, at its sole discretion, to change the terms #
+  # of this Agreement at any time with reasonable advance notice given to the    #
+  # Developer. Elsevier will make a new copy of the Agreement available on the   #
+  # API Service's web site. Elsevier will also post a notification on the API    #
+  # Service's web site describing the modifications made.                        #
+  ################################################################################
+
+  :apiNewAgreement a odrl:Asset ;
+      dcterms:description "New API Service Agreement" ;
+      dcterms:replaces :agreement01;
+      dcterms:source <https://dev.elsevier.com/api/agreement> .
+
+  :modificationsInAgreement a odrl:Asset ;
+      dcterms:description "Description of changes to the API Service Agreement" ;
+      dcterms:source <https://www.elsevier.com/api/agreement> .
+
+
+  :permission02 a odrl:Permission ;
+      dcterms:description "1.2 Elsevier reserves the right, at its sole discretion, to change the terms of this Agreement at any time with reasonable advance notice given to the Developer. Elsevier will make a new copy of the Agreement available on the API Service's web site. Elsevier will also post a notification on the API Service's web site describing the modifications made." ;
+      odrl:action odrl:modify ;
+      odrl:target :agreement01 ;
+      odrl:assignee :elsevier ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "To change the terms of this Agreement at any time with reasonable advance notice given to the Developer";
+          odrl:action odrl:inform ;
+          odrl:target :agreement01 ;
+          odrl:assignee :elsevier ;
+          odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand odrl:event ;
+              odrl:operator odrl:lt ;
+              odrl:rightOperand odrl:policyUsage ;
+          ]
+      ];
+      tosl:trigger [
+          a odrl:Duty ;
+          dcterms:description "Elsevier will make a new copy of the Agreement available on the API Service's web site" ;
+          odrl:action tosl:publish ; 
+          odrl:target :apiNewAgreement;
+          odrl:assignee :elsevier ;
+          odrl:constraint [
+              a odrl:Constraint ;
+              odrl:leftOperand odrl:deliveryChannel ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "https://dev.elsevier.com/"^^xsd:string;
+          ] 
+      ] ;
+      tosl:trigger [
+          a odrl:Duty ;
+          dcterms:description "Elsevier will also post a notification on the API Service's web site describing the modifications made." ;
+          odrl:action tosl:publish ;
+          odrl:target :modificationsInAgreement;
+          odrl:assignee :elsevier ;
+          odrl:constraint [
+              a odrl:Constraint ;
+              odrl:leftOperand odrl:deliveryChannel ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "https://dev.elsevier.com/"^^xsd:string;
+          ]
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-1.3.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 1.3 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission03 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 1.3 ######################################
+  # 1.3 Elsevier grants You a limited license to use the, application            #
+  # programmable interfaces ("APIs"), data,  files and other materials provided  #
+  # by Elsevier, to develop and test Your software application ("Application")   #
+  # and to integrate the Application with the API, subject to the usage          #
+  # restrictions as set forth in the API's Content Usage Policies on             #
+  # http://dev.elsevier.com/policy.html. All notices given pursuant to           #
+  # this Agreement shall be in writing and delivered to email address as         #
+  # indicated in the developer portal at dev.elsevier.com.                       #
+  ################################################################################
+
+  :permission03 a odrl:Permission ;
+      dcterms:description "1.3 Elsevier grants You a limited license to use the, application programmable interfaces (\"APIs\"), data, files and other materials provided by Elsevier, to develop and test Your software application (\"Application\") and to integrate the Application with the API, subject to the usage restrictions as set forth in the API's Content Usage Policies on http://dev.elsevier.com/policy.html. All notices given pursuant to this Agreement shall be in writing and delivered to email address as indicated in the developer portal at dev.elsevier.com." ;
+      odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:use;
+          odrl:refinement [
+              a odrl:Constraint ;
+              odrl:leftOperand tosl:compliance ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "http://dev.elsevier.com/policy.html"^^xsd:string
+          ] 
+      ] ;
+      odrl:target :service01 ;
+      odrl:assignee :customer01 ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "All notices given pursuant to this Agreement shall be in writing and delivered to email address as indicated in the developer portal at dev.elsevier.com.";
+          odrl:action odrl:inform ;
+          odrl:constraint [
+              a odrl:Constraint ;
+              odrl:leftOperand odrl:deliveryChannel ;
+              odrl:operator odrl:eq;
+              odrl:rightOperand "email"^^xsd:string
+          ] ;
+          odrl:target :agreement01 ;
+          odrl:assignee :customer01
+      ].
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-elsevier/clause-2.1.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 2.1 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission04 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 2.1 ######################################
+  # 2.1 After You have accepted this Agreement, Elsevier will issue an API Key   #
+  # to You for use with the API Service. Elsevier retains the right to           #
+  # immediately suspend the Application's access to the API Service if, in       #
+  # Elsevier's sole judgment: the Application's usage of the API Service         #
+  # negatively affects the availability or performance of the API Service, or    #
+  # the Application is in breach of the API's Content Usage Policies on          #
+  # http://dev.elsevier.com/policy.html.                                         #
+  ################################################################################
+
+  :permission04 a odrl:Permission ;
+      dcterms:description "2.1 After You have accepted this Agreement, Elsevier will issue an API Key to You for use with the API Service. Elsevier retains the right to immediately suspend the Application's access to the API Service if, in Elsevier's sole judgment: the Application's usage of the API Service negatively affects the availability or performance of the API Service, or the Application is in breach of the API's Content Usage Policies on http://dev.elsevier.com/policy.html";
+      odrl:action tosl:terminate ;
+      odrl:constraint [
+          a odrl:LogicalConstraint ;
+          odrl:or (
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:justification ;
+                  odrl:operator odrl:eq ;
+                  odrl:rightOperand tosl:degradation ;
+              ]
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:justification ;
+                  odrl:operator odrl:eq ;
+                  odrl:rightOperand tosl:breachOfContract ;
+              ]
+          )
+      ] ;
+      odrl:target :service01 ;
+      odrl:assignee :elsevier .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
 
 ### tosl-elsevier/clause-2.2.ttl
 
@@ -6339,6 +8965,1095 @@ The expected errors and the messages of the validators are grouped into categori
   - not valid. Agreements must have an assigner and an assignee
   - Agreement must have an assigner and an assignee, either directly or on its rules
   - Permissions must have at least one target
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-2.3.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 2.3 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission06 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 2.3 ######################################
+  # 2.3 Elsevier reserves the right to deactivate API Keys that have not been    #
+  # used to access the APIs for 90 days.                                         #
+  ################################################################################
+
+  :permission06 a odrl:Permission ;
+      dcterms:description "2.3 Elsevier reserves the right to deactivate API Keys that have not been used to access the APIs for 90 days." ;
+      odrl:action tosl:terminate ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand tosl:inactivityPeriod ;
+          odrl:operator odrl:gt ;
+          odrl:rightOperand "P90D"^^xsd:duration ;
+      ] ;
+      odrl:target :service01 ;
+      odrl:assignee :elsevier .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-3.1.1.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 3.1.1 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission07 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 3.1.1 ####################################
+  # 3.1.1 the Application will not use Elsevier content other than allowed by    #
+  # the API's Content Usage Policies on http://dev.elsevier.com/policy.html;     #
+  ################################################################################
+
+  :permission07 a odrl:Permission ;
+      dcterms:description "3.1.1 the Application will not use Elsevier content other than allowed by the API's Content Usage Policies on http://dev.elsevier.com/policy.html;" ;
+      odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:use;
+          odrl:refinement [
+              a odrl:Constraint ;
+              odrl:leftOperand tosl:compliance ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "http://dev.elsevier.com/policy.html"^^xsd:string
+          ] 
+      ] ;
+      odrl:target :service01 ;
+      odrl:assignee :customer01 .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-elsevier/clause-3.1.2.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 3.1.2 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission08 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 3.1.2 ####################################
+  # 3.1.2 the Application will use the API Key issued by Elsevier upon           #
+  # execution of this Agreement, and no other API Key issued for use by other    #
+  # applications and/or to other developers;                                     #
+  ################################################################################
+
+  :permission08 a odrl:Permission ;
+      dcterms:description "3.1.2 the Application will use the API Key issued by Elsevier upon execution of this Agreement, and no other API Key issued for use by other applications and/or to other developers;";
+      odrl:action odrl:use ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand odrl:recipient ;
+          odrl:operator odrl:eq ;
+          odrl:rightOperand :customer01 ;
+      ] ; 
+      odrl:target :service01 ;
+      odrl:assignee :customer01 .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-3.1.3.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 3.1.3 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission09 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 3.1.3 ####################################
+  # 3.1.3 the Application will avoid excessive and unnecessary use of the API    #
+  # Service that may cause a performance degradation of the API Service          #
+  ################################################################################
+  :permission09 a odrl:Permission ;
+      dcterms:description "3.1.3 the Application will avoid excessive and unnecessary use of the API Service that may cause a performance degradation of the API Service";
+      odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:use;
+          odrl:refinement [
+              a odrl:Constraint ;
+              odrl:leftOperand tosl:effect ;
+              odrl:operator odrl:neq ;
+              odrl:rightOperand tosl:degradation ;
+          ] 
+      ] ;
+      odrl:target :service01 ;
+      odrl:assignee :customer01 .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-elsevier/clause-3.1.4.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 3.1.4 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:prohibition :prohibition01 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 3.1.4 ####################################
+  # 3.1.4 the Developer acknowledges that all right, title and interest in and   #
+  # to the Elsevier content, and any derivative works based upon the Elsevier    #
+  # content, remain with Elsevier and its suppliers, except as expressly set     #
+  # forth in this Agreement, and that the unauthorized redistribution of the     #
+  # Elsevier content is not permitted.                                           #
+  ################################################################################
+
+  :prohibition01 a odrl:Prohibition ;
+      dcterms:description "3.1.4 the Developer acknowledges that all right, title and interest in and to the Elsevier content, and any derivative works based upon the Elsevier content, remain with Elsevier and its suppliers, except as expressly set forth in this Agreement, and that the unauthorized redistribution of the Elsevier content is not permitted." ;
+      odrl:action odrl:distribute ;
+      odrl:target :service01 ;
+      odrl:assignee :customer01 .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-3.2.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 3.2 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission01 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier ;
+      tosl:limitationOfLiability :liability01 .
+
+  # Clause 3.2 has no rules of its own, so the base rule of the contract (clause 1.1) is included
+  # to make this a valid ODRL policy.
+
+  ################################ TERM 1.1 ######################################
+  # 1.1 The application programmable interfaces service (the API Service)        #
+  # owned and operated by Elsevier B.V. (Elsevier) is provided to (You, Your or  #
+  # the Developer) under the terms and conditions of this API Service Agreement. #
+  # You confirm that You have the right and authority to enter into this         #
+  # Agreement. You accept and agree to the terms and conditions of this          #
+  # Agreement on Your own behalf and/or on behalf of Your company, institute or  #
+  # organization as its authorized legal representative.                         #
+  ################################################################################
+
+  :permission01 a odrl:Permission ;
+      dcterms:description "1.1 The application programmable interfaces service (the \"API Service\") owned and operated by Elsevier B.V. (\"Elsevier\") is provided to (\"You\", \"Your\" or \"the Developer\") under the terms and conditions of this API Service Agreement. You confirm that You have the right and authority to enter into this Agreement. You accept and agree to the terms and conditions of this Agreement on Your own behalf and/or on behalf of Your company, institute or organization as its authorized legal representative." ;
+      odrl:action odrl:use ;
+      odrl:target :service01 ;
+      odrl:assignee :customer01 ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "You accept and agree to the terms and conditions of this Agreement";
+          odrl:action tosl:consent ;
+          odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:explicitConsent
+          ] ;
+          odrl:target :agreement01 ;
+          odrl:assignee :customer01
+      ].
+
+  ################################ TERM 3.2 ######################################
+  # 3.2 The Developer will be solely responsible and hold Elsevier harmless      #
+  # for all costs, expenses, losses and liabilities incurred, and activities     #
+  # undertaken by the Developer in connection with the API Service.              #
+  ################################################################################
+
+  :liability01 a tosl:Liability ;
+  		dcterms:description "3.2 The Developer will be solely responsible and hold Elsevier harmless for all costs, expenses, losses and liabilities incurred, and activities undertaken by the Developer in connection with the API Service." ;
+  		rdf:value tosl:anyLiability ;
+  		tosl:liableParty :elsevier ;
+          tosl:targetParty :customer01 .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-3.3.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 3.3 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission10 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 3.3 ######################################
+  # 3.3 Developer shall obtain written permission in advance from Elsevier to    #
+  # use Elsevier's trademarks, logos or other brand features for promoting the   #
+  # Developer's Application. Any press releases regarding this Agreement or the  #
+  # relationship of the parties shall require the prior approval of the parties. #
+  ################################################################################
+
+  :collection01 a odrl:AssetCollection ;
+      dcterms:description "Elsevier's brand assets: trademarks, logos and other brand features." .
+
+  :asset01 a odrl:Asset ;
+      odrl:partOf :collection01 ;
+      dcterms:description "Trademarks, logos and brand features associated with the brand." .
+
+  :asset02 a odrl:Asset ;
+      odrl:partOf :collection01 ;
+      dcterms:description "Logos used in branding." .
+
+  :asset03 a odrl:Asset ;
+      odrl:partOf :collection01 ;
+      dcterms:description "Distinctive brand features and elements." .
+
+  :permission10 a odrl:Permission ;
+      dcterms:description "3.3 Developer shall obtain written permission in advance from Elsevier to use Elsevier's trademarks, logos or other brand features for promoting the Developer's Application. Any press releases regarding this Agreement or the relationship of the parties shall require the prior approval of the parties." ;
+      odrl:action odrl:use ;
+      odrl:target :asset01, :asset02, :asset03 ;
+      odrl:assignee :customer01 ;
+      odrl:duty [
+          a odrl:Duty ; 
+          dcterms:description "Developer shall obtain written permission in advance from Elsevier";
+          odrl:action [
+              a odrl:Action ;
+              rdf:value odrl:grantUse ;
+              odrl:refinement [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:licensingType ;
+                  odrl:operator odrl:eq ;
+                  odrl:rightOperand tosl:writtenPermission ;
+              ] ;
+          ] ;
+          odrl:assignee :elsevier ;
+          odrl:target :asset01, :asset02, :asset03 ;    
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Duty must have at least one IRI action
+
+### tosl-elsevier/clause-3.4.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 3.4 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission11 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 3.4 ######################################
+  # 3.4 The Developer shall not display any advertising inside the Application   #
+  # or use any content as obtained via the API outside the Application, unless   #
+  # permitted by Elsevier in writing.                                            #
+  ################################################################################
+
+  :advertising a odrl:Asset;
+      dcterms:description "The asset refers to advertising materials, which cannot be displayed or used without a valid license agreement." .
+
+  :permission11 a odrl:Permission ;
+      dcterms:description "3.4 The Developer shall not display any advertising inside the Application or use any content as obtained via the API outside the Application, unless permitted by Elsevier in writing.";
+      odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:display ;
+          odrl:refinement [
+              a odrl:Constraint ;
+              odrl:leftOperand odrl:media ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "advertising"^^xsd:string ;
+          ] ;
+      ] ;
+      odrl:target :advertising ;  
+      odrl:assignee :customer01 ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "Unless permitted by Elsevier in writing";
+          odrl:action [
+              a odrl:Action ;
+              rdf:value odrl:grantUse ;
+              odrl:refinement [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:licensingType ;
+                  odrl:operator odrl:eq ;
+                  odrl:rightOperand tosl:writtenPermission ;
+              ] ;
+          ] ;
+          odrl:target :advertising ;  
+          odrl:assignee :elsevier ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+  - Violation: Duty must have at least one IRI action
+
+### tosl-elsevier/clause-4.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 4 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:prohibition :prohibition02 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier ;
+      tosl:limitationOfLiability :liability02, :liability03 .
+
+  ################################ TERM 4 ########################################
+  # The API service is provided on an "as is" and "as available" basis without   #
+  # warranties of any kind, either express or implied, including but not limited #
+  # to warranties of merchantability or fitness for a particular purpose. Except #
+  # as expressly stated in this Agreement, each party disclaims all liability to #
+  # the other party in connection with the parties' performance of this          #
+  # Agreement and in no event will the infringing party be liable to the other   #
+  # party for special, indirect or consequential damages including but not       #
+  # limited to loss of profits, loss of business or unfitness for user purposes. #
+  ################################################################################
+
+  :prohibition02 a odrl:Prohibition;
+          dcterms:description "API service is provided on an 'as is' and 'as available'basis without warranties of any kind" ;
+          odrl:action tosl:procedure;
+          odrl:target :service01;
+          odrl:assignee :customer01 .
+
+  :liability02 a tosl:Liability ;
+          dcterms:description "Except as expressly stated in this Agreement, each party disclaims all liability to the other party in connection with the parties' performance of this Agreement and in no event will the infringing party be liable to the other party for special, indirect or consequential damages including but not limited to loss of profits, loss of business or unfitness for user purposes" ;
+  		rdf:value tosl:anyLiability ;
+  		tosl:liableParty :elsevier ;
+          tosl:targetParty :customer01 .
+      
+  :liability03 a tosl:Liability ;
+          dcterms:description "Except as expressly stated in this Agreement, each party disclaims all liability to the other party in connection with the parties' performance of this Agreement and in no event will the infringing party be liable to the other party for special, indirect or consequential damages including but not limited to loss of profits, loss of business or unfitness for user purposes" ;
+  		rdf:value tosl:anyLiability ;
+          tosl:targetParty :elsevier ;
+  		tosl:liableParty :customer01 .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-5.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 5 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission12, :permission13 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  ################################ TERM 5 ########################################
+  # The term of this Agreement shall commence on the date on which the           #
+  # Developer has accepted this Agreement and shall continue until either party  #
+  # terminates the Agreement in writing or the API Key is deactivated by         #
+  # Elsevier.                                                                    #
+  ################################################################################
+
+  :permission12 a odrl:Permission ;
+      dcterms:description "The term of this Agreement shall commence on the date on which the Developer has accepted this Agreement and shall continue until either party terminates the Agreement in writing or the API Key is deactivated by Elsevier." ;
+      odrl:action tosl:terminate ;
+      odrl:target :agreement01 ; 
+      odrl:assignee :customer01 ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "Either party terminates the Agreement in writing";
+          odrl:action odrl:inform ;
+          odrl:constraint [
+              a odrl:Constraint ;
+              odrl:leftOperand odrl:deliveryChannel ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "written"^^xsd:string
+          ] ;
+          odrl:target :agreement01 ;
+          odrl:assignee :customer01
+      ] .
+
+  :permission13 a odrl:Permission ;
+      dcterms:description "The term of this Agreement shall commence on the date on which the Developer has accepted this Agreement and shall continue until either party terminates the Agreement in writing or the API Key is deactivated by Elsevier." ;
+      odrl:action tosl:terminate ;
+      odrl:target :agreement01 ; 
+      odrl:assignee :elsevier ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "Either party terminates the Agreement in writing";
+          odrl:action odrl:inform ;
+          odrl:constraint [
+              a odrl:Constraint ;
+              odrl:leftOperand odrl:deliveryChannel ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "written"^^xsd:string
+          ] ;
+          odrl:target :agreement01 ;
+          odrl:assignee :customer01
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-elsevier/clause-6.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Clause 6 of the Elsevier API Service Agreement 2017, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/blob/main/examples/elsevier/API_Service_Agreement_2017.ttl
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://dev.elsevier.com/api_service_agreement.html> ;
+      dcterms:title "The Elsevier API Service Agreement 2017"^^xsd:string ;
+      dcterms:description "This Agreement governs the use of Elsevier's API services and replaces previous versions." ;
+      dcterms:creator "Elsevier B.V."^^xsd:string ;
+      dcterms:rightsHolder :elsevier ;
+      dcterms:issued "2016-07-05"^^xsd:date ;
+      dcterms:requires <https://dev.elsevier.com/policy.html> ;
+      odrl:permission :permission01 ;
+      tosl:onDispute :litigation01, :litigation02 ;
+      odrl:assigner :elsevier .
+
+  :elsevier a tosl:Provider ;
+      foaf:name "Elsevier B.V." ;
+      foaf:homepage <https://www.elsevier.com/>;
+      odrl:assignerOf :service01 .
+
+  :customer01 a tosl:Customer;
+      dcterms:description "This party represents the customer in the context of the Elseviert API Service Agreement" .
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context" .
+
+  :service01 a tosl:Service ;
+      dcterms:description "The Elsevier API Service" ;
+      dcterms:rightsHolder :elsevier .
+
+  # Clause 6 has no rules of its own, so the base rule of the contract (clause 1.1) is included
+  # to make this a valid ODRL policy.
+
+  ################################ TERM 1.1 ######################################
+  # 1.1 The application programmable interfaces service (the API Service)        #
+  # owned and operated by Elsevier B.V. (Elsevier) is provided to (You, Your or  #
+  # the Developer) under the terms and conditions of this API Service Agreement. #
+  # You confirm that You have the right and authority to enter into this         #
+  # Agreement. You accept and agree to the terms and conditions of this          #
+  # Agreement on Your own behalf and/or on behalf of Your company, institute or  #
+  # organization as its authorized legal representative.                         #
+  ################################################################################
+
+  :permission01 a odrl:Permission ;
+      dcterms:description "1.1 The application programmable interfaces service (the \"API Service\") owned and operated by Elsevier B.V. (\"Elsevier\") is provided to (\"You\", \"Your\" or \"the Developer\") under the terms and conditions of this API Service Agreement. You confirm that You have the right and authority to enter into this Agreement. You accept and agree to the terms and conditions of this Agreement on Your own behalf and/or on behalf of Your company, institute or organization as its authorized legal representative." ;
+      odrl:action odrl:use ;
+      odrl:target :service01 ;
+      odrl:assignee :customer01 ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "You accept and agree to the terms and conditions of this Agreement";
+          odrl:action tosl:consent ;
+          odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:explicitConsent
+          ] ;
+          odrl:target :agreement01 ;
+          odrl:assignee :customer01
+      ].
+
+  ################################ TERM 6 ########################################
+  # This Agreement will be governed by and construed in accordance with the      #
+  # laws of The Netherlands, and the parties irrevocably consent to the          #
+  # exclusive jurisdiction of the courts of The Netherlands with respect to      #
+  # any action or suit arising out of or pertaining to this Agreement (except    #
+  # where local law requires).                                                   #
+  ################################################################################
+
+  :litigation01 a tosl:Litigation;
+      dcterms:description "This Agreement will be governed by and construed in accordance with the laws of The Netherlands, and the parties irrevocably consent to the exclusive jurisdiction of the courts of The Netherlands with respect to any action or suit arising out of or pertaining to this Agreement (except where local law requires)." ;
+      tosl:targetParty :customer01 ;
+      tosl:takesPlaceIn :netherlandsCourts ;
+      tosl:governedBy :netherlandsLaw .
+
+  :netherlandsCourts a tosl:Jurisdiction;
+      dcterms:description "The courts of The Netherlands with exclusive jurisdiction over disputes arising from this Agreement." .
+
+  :netherlandsLaw a tosl:Law ;
+      dcterms:description "The laws of The Netherlands governing this Agreement." .
+
+  :litigation02 a tosl:Litigation;
+      dcterms:description "Except where local law requires" ;
+      tosl:targetParty :customer01 ;
+      tosl:takesPlaceIn tosl:consumerPlaceCourts ;
+      tosl:governedBy tosl:consumerPlaceLaw .
+
+  tosl:consumerPlaceCourts a tosl:Jurisdiction .
+  tosl:consumerPlaceLaw a tosl:Law .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
 
 ### tosl-openai/Europe_terms_of_use_2024.ttl
 
@@ -7616,6 +11331,134 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrlapi**: valid
   - valid
   - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+  - Violation: Permission must have at least one IRI action
+  - Violation: Permission must have at least one IRI action
+  - Violation: Permission must have at least one IRI action
+  - Violation: Permission must have at least one IRI action
+  - Violation: Permission must have at least one IRI action
+
+### tosl-openai/openai_01_obligation01.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule obligation01 (General) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
 
 ### tosl-openai/openai_02_permission01.ttl
 
@@ -7775,6 +11618,181 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrlapi**: valid
   - valid
   - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-openai/openai_03_prohibition01.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule prohibition01 (Using our Services) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:prohibition :prohibition01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  ##########################  Using our Services #################################
+  #                                                                              #
+  # What you cannot do. You may not use our Services for any illegal, harmful,   #
+  # or abusive activity. For example, you are prohibited from:                   #
+  #                                                                              #
+  # - Using our Services in a way that infringes, misappropriates or violates    # 
+  # anyone’s rights.                                                             # 
+  # - Modifying, copying, leasing, selling or distributing any of our Services.  #
+  # - Attempting to or assisting anyone to reverse engineer, decompile or        #
+  # discover the source code or underlying components of our Services, including #
+  # our models, algorithms, or systems (except to the extent this restriction is #
+  # prohibited by applicable law).                                               #
+  # - Automatically or programmatically extracting data or Output (defined below)#
+  # - Representing that Output was human-generated when it was not.              # 
+  # - Interfering with or disrupting our Services, including circumventing any   #  
+  # rate limits or restrictions or bypassing any protective measures or safety   # 
+  # mitigations we put on our Services.                                          #
+  # - Using Output to develop models that compete with OpenAI.                   #
+  #                                                                              # 
+  # Software. Our Services may allow you to download software, such as mobile    # 
+  # applications, which may update automatically to ensure you’re using the      # 
+  # latest version. Our software may include open source software that is        # 
+  # governed by its own licences that we’ve made available to you.               # 
+  #                                                                              # 
+  # Corporate domains. If you create an account using an email address owned by  # 
+  # an organisation (for example, your employer), that account may be added to   # 
+  # the organisation's business account with us, in which case we will provide   # 
+  # notice to you so that you can help facilitate the transfer of your account   # 
+  # (unless your organisation has already provided notice to you that it may     # 
+  # monitor and control your account). Once your account is transferred, the     # 
+  # organisation’s administrator will be able to control your account, including # 
+  # being able to access Content (defined below) and restrict or remove your     # 
+  # access to the account.                                                       # 
+  #                                                                              # 
+  # Third party Services. Our services may include third party software, products#  
+  # or services, (“Third Party Services”) and some parts of our Services, like   # 
+  # our browse feature, may include output from those services                   # 
+  # (“Third Party Output”). Third Party Services and Third Party Output are      # 
+  # subject to their own terms, and we are not responsible for them.             # 
+  #                                                                              # 
+  # Feedback. We appreciate your feedback about our Services, but you agree that # 
+  # we may use it to provide, maintain, develop, and improve our Services,       #
+  # without compensation to you.                                                 #
+  ################################################################################
+
+  :prohibition01 a odrl:Prohibition;
+      dcterms:description "You may not use our Services for any illegal, harmful, or abusive activity";
+      odrl:action odrl:derive, odrl:distribute, odrl:extract, odrl:reproduce, odrl:sell, odrl:transfer, odrl:modify, odrl:read ;
+      odrl:target :services ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
 
 ### tosl-openai/openai_04_permission02.ttl
 
@@ -7925,6 +11943,4932 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: The assigner should be a Party or PartyCollection.
 - **odrlapi**: invalid
   - not valid. Permissions must have at least one target
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_05_permission03.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission03 (Using our Services) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission03 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :userAccount a tosl:UserContent;
+      dcterms:description "User account".
+
+  ##########################  Using our Services #################################
+  #                                                                              #
+  # What you cannot do. You may not use our Services for any illegal, harmful,   #
+  # or abusive activity. For example, you are prohibited from:                   #
+  #                                                                              #
+  # - Using our Services in a way that infringes, misappropriates or violates    # 
+  # anyone’s rights.                                                             # 
+  # - Modifying, copying, leasing, selling or distributing any of our Services.  #
+  # - Attempting to or assisting anyone to reverse engineer, decompile or        #
+  # discover the source code or underlying components of our Services, including #
+  # our models, algorithms, or systems (except to the extent this restriction is #
+  # prohibited by applicable law).                                               #
+  # - Automatically or programmatically extracting data or Output (defined below)#
+  # - Representing that Output was human-generated when it was not.              # 
+  # - Interfering with or disrupting our Services, including circumventing any   #  
+  # rate limits or restrictions or bypassing any protective measures or safety   # 
+  # mitigations we put on our Services.                                          #
+  # - Using Output to develop models that compete with OpenAI.                   #
+  #                                                                              # 
+  # Software. Our Services may allow you to download software, such as mobile    # 
+  # applications, which may update automatically to ensure you’re using the      # 
+  # latest version. Our software may include open source software that is        # 
+  # governed by its own licences that we’ve made available to you.               # 
+  #                                                                              # 
+  # Corporate domains. If you create an account using an email address owned by  # 
+  # an organisation (for example, your employer), that account may be added to   # 
+  # the organisation's business account with us, in which case we will provide   # 
+  # notice to you so that you can help facilitate the transfer of your account   # 
+  # (unless your organisation has already provided notice to you that it may     # 
+  # monitor and control your account). Once your account is transferred, the     # 
+  # organisation’s administrator will be able to control your account, including # 
+  # being able to access Content (defined below) and restrict or remove your     # 
+  # access to the account.                                                       # 
+  #                                                                              # 
+  # Third party Services. Our services may include third party software, products#  
+  # or services, (“Third Party Services”) and some parts of our Services, like   # 
+  # our browse feature, may include output from those services                   # 
+  # (“Third Party Output”). Third Party Services and Third Party Output are      # 
+  # subject to their own terms, and we are not responsible for them.             # 
+  #                                                                              # 
+  # Feedback. We appreciate your feedback about our Services, but you agree that # 
+  # we may use it to provide, maintain, develop, and improve our Services,       #
+  # without compensation to you.                                                 #
+  ################################################################################
+
+  :permission03 a odrl:Permission;
+      dcterms:description "The account may be added to the organisation's business account with us, in which case we will provide notice to you so that you can help facilitate the transfer of your account";
+      odrl:action odrl:transfer;
+      odrl:target :userAccount ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_06_permission04.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission04 (Using our Services) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission04 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :thirdPartyServices a tosl:Service;
+      dcterms:description "Third party software, products, or services".
+
+  ##########################  Using our Services #################################
+  #                                                                              #
+  # What you cannot do. You may not use our Services for any illegal, harmful,   #
+  # or abusive activity. For example, you are prohibited from:                   #
+  #                                                                              #
+  # - Using our Services in a way that infringes, misappropriates or violates    # 
+  # anyone’s rights.                                                             # 
+  # - Modifying, copying, leasing, selling or distributing any of our Services.  #
+  # - Attempting to or assisting anyone to reverse engineer, decompile or        #
+  # discover the source code or underlying components of our Services, including #
+  # our models, algorithms, or systems (except to the extent this restriction is #
+  # prohibited by applicable law).                                               #
+  # - Automatically or programmatically extracting data or Output (defined below)#
+  # - Representing that Output was human-generated when it was not.              # 
+  # - Interfering with or disrupting our Services, including circumventing any   #  
+  # rate limits or restrictions or bypassing any protective measures or safety   # 
+  # mitigations we put on our Services.                                          #
+  # - Using Output to develop models that compete with OpenAI.                   #
+  #                                                                              # 
+  # Software. Our Services may allow you to download software, such as mobile    # 
+  # applications, which may update automatically to ensure you’re using the      # 
+  # latest version. Our software may include open source software that is        # 
+  # governed by its own licences that we’ve made available to you.               # 
+  #                                                                              # 
+  # Corporate domains. If you create an account using an email address owned by  # 
+  # an organisation (for example, your employer), that account may be added to   # 
+  # the organisation's business account with us, in which case we will provide   # 
+  # notice to you so that you can help facilitate the transfer of your account   # 
+  # (unless your organisation has already provided notice to you that it may     # 
+  # monitor and control your account). Once your account is transferred, the     # 
+  # organisation’s administrator will be able to control your account, including # 
+  # being able to access Content (defined below) and restrict or remove your     # 
+  # access to the account.                                                       # 
+  #                                                                              # 
+  # Third party Services. Our services may include third party software, products#  
+  # or services, (“Third Party Services”) and some parts of our Services, like   # 
+  # our browse feature, may include output from those services                   # 
+  # (“Third Party Output”). Third Party Services and Third Party Output are      # 
+  # subject to their own terms, and we are not responsible for them.             # 
+  #                                                                              # 
+  # Feedback. We appreciate your feedback about our Services, but you agree that # 
+  # we may use it to provide, maintain, develop, and improve our Services,       #
+  # without compensation to you.                                                 #
+  ################################################################################
+
+  :permission04 a odrl:Permission;
+      dcterms:description "Our services may include third party software, products or services, (“Third Party Services”) and some parts of our Services, like our browse feature, may include output from those services (“Third Party Output”).";
+      odrl:action odrl:use;
+      odrl:target :thirdPartyServices ;
+      odrl:assignee :OpenAI .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_07_liability01.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule liability01 (Using our Services) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI ;
+      tosl:limitationOfLiability :liability01 .
+
+  ##########################  Using our Services #################################
+  #                                                                              #
+  # What you cannot do. You may not use our Services for any illegal, harmful,   #
+  # or abusive activity. For example, you are prohibited from:                   #
+  #                                                                              #
+  # - Using our Services in a way that infringes, misappropriates or violates    # 
+  # anyone’s rights.                                                             # 
+  # - Modifying, copying, leasing, selling or distributing any of our Services.  #
+  # - Attempting to or assisting anyone to reverse engineer, decompile or        #
+  # discover the source code or underlying components of our Services, including #
+  # our models, algorithms, or systems (except to the extent this restriction is #
+  # prohibited by applicable law).                                               #
+  # - Automatically or programmatically extracting data or Output (defined below)#
+  # - Representing that Output was human-generated when it was not.              # 
+  # - Interfering with or disrupting our Services, including circumventing any   #  
+  # rate limits or restrictions or bypassing any protective measures or safety   # 
+  # mitigations we put on our Services.                                          #
+  # - Using Output to develop models that compete with OpenAI.                   #
+  #                                                                              # 
+  # Software. Our Services may allow you to download software, such as mobile    # 
+  # applications, which may update automatically to ensure you’re using the      # 
+  # latest version. Our software may include open source software that is        # 
+  # governed by its own licences that we’ve made available to you.               # 
+  #                                                                              # 
+  # Corporate domains. If you create an account using an email address owned by  # 
+  # an organisation (for example, your employer), that account may be added to   # 
+  # the organisation's business account with us, in which case we will provide   # 
+  # notice to you so that you can help facilitate the transfer of your account   # 
+  # (unless your organisation has already provided notice to you that it may     # 
+  # monitor and control your account). Once your account is transferred, the     # 
+  # organisation’s administrator will be able to control your account, including # 
+  # being able to access Content (defined below) and restrict or remove your     # 
+  # access to the account.                                                       # 
+  #                                                                              # 
+  # Third party Services. Our services may include third party software, products#  
+  # or services, (“Third Party Services”) and some parts of our Services, like   # 
+  # our browse feature, may include output from those services                   # 
+  # (“Third Party Output”). Third Party Services and Third Party Output are      # 
+  # subject to their own terms, and we are not responsible for them.             # 
+  #                                                                              # 
+  # Feedback. We appreciate your feedback about our Services, but you agree that # 
+  # we may use it to provide, maintain, develop, and improve our Services,       #
+  # without compensation to you.                                                 #
+  ################################################################################
+
+  :liability01 a tosl:Liability;
+      dcterms:description "Third Party Services and Third Party Output are subject to their own terms, and we are not responsible for them.";
+      rdf:value tosl:thirdParty;
+      tosl:targetParty :customer ;
+  	tosl:liableParty :OpenAI .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_08_permission05.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission05 (Using our Services) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission05 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :userFeedback a tosl:UserContent ;
+      dcterms:description "Content submitted by a user, typically including feedback, comments, or other forms of input relevant to the application." .
+
+  ##########################  Using our Services #################################
+  #                                                                              #
+  # What you cannot do. You may not use our Services for any illegal, harmful,   #
+  # or abusive activity. For example, you are prohibited from:                   #
+  #                                                                              #
+  # - Using our Services in a way that infringes, misappropriates or violates    # 
+  # anyone’s rights.                                                             # 
+  # - Modifying, copying, leasing, selling or distributing any of our Services.  #
+  # - Attempting to or assisting anyone to reverse engineer, decompile or        #
+  # discover the source code or underlying components of our Services, including #
+  # our models, algorithms, or systems (except to the extent this restriction is #
+  # prohibited by applicable law).                                               #
+  # - Automatically or programmatically extracting data or Output (defined below)#
+  # - Representing that Output was human-generated when it was not.              # 
+  # - Interfering with or disrupting our Services, including circumventing any   #  
+  # rate limits or restrictions or bypassing any protective measures or safety   # 
+  # mitigations we put on our Services.                                          #
+  # - Using Output to develop models that compete with OpenAI.                   #
+  #                                                                              # 
+  # Software. Our Services may allow you to download software, such as mobile    # 
+  # applications, which may update automatically to ensure you’re using the      # 
+  # latest version. Our software may include open source software that is        # 
+  # governed by its own licences that we’ve made available to you.               # 
+  #                                                                              # 
+  # Corporate domains. If you create an account using an email address owned by  # 
+  # an organisation (for example, your employer), that account may be added to   # 
+  # the organisation's business account with us, in which case we will provide   # 
+  # notice to you so that you can help facilitate the transfer of your account   # 
+  # (unless your organisation has already provided notice to you that it may     # 
+  # monitor and control your account). Once your account is transferred, the     # 
+  # organisation’s administrator will be able to control your account, including # 
+  # being able to access Content (defined below) and restrict or remove your     # 
+  # access to the account.                                                       # 
+  #                                                                              # 
+  # Third party Services. Our services may include third party software, products#  
+  # or services, (“Third Party Services”) and some parts of our Services, like   # 
+  # our browse feature, may include output from those services                   # 
+  # (“Third Party Output”). Third Party Services and Third Party Output are      # 
+  # subject to their own terms, and we are not responsible for them.             # 
+  #                                                                              # 
+  # Feedback. We appreciate your feedback about our Services, but you agree that # 
+  # we may use it to provide, maintain, develop, and improve our Services,       #
+  # without compensation to you.                                                 #
+  ################################################################################
+
+  :permission05 a odrl:Permission;
+      dcterms:description "We appreciate your feedback about our Services, but you agree that we may use it to provide, maintain, develop, and improve our Services, without compensation to you.";
+      odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:use;
+          odrl:refinement [
+              a odrl:Constraint ;
+              odrl:leftOperand odrl:payAmount;
+              odrl:operator odrl:eq;
+              odrl:rightOperand "0.0"^^xsd:decimal;
+          ]
+      ];
+      odrl:target :userFeedback ;
+      odrl:assignee :OpenAI .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-openai/openai_09_permission06.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission06 (Content) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission06 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :content a tosl:UserContent;
+      dcterms:description "The Input provided by the customer and the corresponding Output generated by the services in response to that Input.";
+      dcterms:rightsHolder :customer .
+
+  ###################################  Content  ##################################
+  # Your content. You may provide input to the Services (“Input”), and receive   #
+  # output from the Services based on the Input (“Output”). Input and Output are #
+  # collectively “Content”. You are responsible for Content, including ensuring  #
+  # that it does not violate any applicable law or these Terms.You represent and #
+  # warrant that you have all rights, licences and permissions needed to provide #
+  # Input to our Services.                                                       #
+  #                                                                              #
+  # Ownership of content. As between you and OpenAI, and to the extent permitted #
+  # by applicable law, you (a) retain your ownership rights in Input and (b) own #
+  # the Output. We hereby assign to you all our right, title, and interest, if   #
+  # any, in and to Output.                                                       # 
+  #                                                                              #
+  # Similarity of content. Due to the nature of our Services and artificial      #
+  # intelligence generally, Output may not be unique and other users may receive # 
+  # similar output from our Services. Our assignment above does not extend to    # 
+  # other users’ output or any Third Party Output.                               #
+  #                                                                              #
+  # Our use of content. We can use your Content worldwide to provide, maintain,  #
+  # develop, and improve our Services, comply with applicable law, enforce our   # 
+  # terms and policies and keep our Services safe. If you're using ChatGPT       #
+  # through Apple's integrations, see this Help Center article⁠(opens in a new    #
+  # window) for how we handle your Content.                                      #
+  #                                                                              #
+  # Opt out. If you do not want us to use your Content to train our models, you  #
+  # have the option to opt out by updating your account settings. Further        #
+  # information can be found in this Help Center article⁠(opens in a new window). #
+  # Please note that in some cases this may limit the ability of our Services    #
+  # to better address your specific use case.                                    #
+  #                                                                              #
+  # Accuracy. Artificial intelligence and machine learning are rapidly evolving  #
+  # fields of study. We are constantly working to improve our Services to make   #
+  # them more accurate, reliable, safe, and beneficial. Given the probabilistic  #
+  # nature of machine learning, use of our Services may in some situations       #
+  # result in Output that does not accurately reflect real people, places,       #
+  # or facts.                                                                    #
+  #                                                                              #
+  # When you use our Services you understand and agree:                          #
+  #                                                                              #
+  # Output may not always be accurate. You should not rely on Output from our    #
+  # Services as a sole source of truth or factual information, or as a           #
+  # substitute for professional advice.                                          #
+  # You must evaluate Output for accuracy and appropriateness for your use       #
+  # case, including using human review as appropriate, before using or sharing   #
+  # Output from the Services.                                                    #
+  # You must not use any Output relating to a person for any purpose that could  #
+  # have a legal or material impact on that person, such as making credit,       #
+  # educational, employment, housing, insurance, legal, medical, or other        #
+  # important decisions about them.                                              #
+  # Our Services may provide incomplete, incorrect, or offensive Output that     #
+  # does not represent OpenAI’s views. If Output references any third party      #
+  # products or services, it doesn’t mean the third party endorses or is         #
+  # affiliated with OpenAI.                                                      #
+  ################################################################################
+
+  :permission06 a odrl:Permission ;
+      dcterms:description "You are responsible for Content, including ensuring that it does not violate any applicable law or these Terms.";
+      odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:use;
+          odrl:refinement [
+              a odrl:Constraint ;
+              odrl:leftOperand tosl:compliance ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "https://openai.com/policies/eu-terms-of-use/"^^xsd:string
+          ] 
+      ] ;
+      odrl:target :content ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-openai/openai_10_permission07.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission07 (Content) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission07 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :content a tosl:UserContent;
+      dcterms:description "The Input provided by the customer and the corresponding Output generated by the services in response to that Input.";
+      dcterms:rightsHolder :customer .
+
+  ###################################  Content  ##################################
+  # Your content. You may provide input to the Services (“Input”), and receive   #
+  # output from the Services based on the Input (“Output”). Input and Output are #
+  # collectively “Content”. You are responsible for Content, including ensuring  #
+  # that it does not violate any applicable law or these Terms.You represent and #
+  # warrant that you have all rights, licences and permissions needed to provide #
+  # Input to our Services.                                                       #
+  #                                                                              #
+  # Ownership of content. As between you and OpenAI, and to the extent permitted #
+  # by applicable law, you (a) retain your ownership rights in Input and (b) own #
+  # the Output. We hereby assign to you all our right, title, and interest, if   #
+  # any, in and to Output.                                                       # 
+  #                                                                              #
+  # Similarity of content. Due to the nature of our Services and artificial      #
+  # intelligence generally, Output may not be unique and other users may receive # 
+  # similar output from our Services. Our assignment above does not extend to    # 
+  # other users’ output or any Third Party Output.                               #
+  #                                                                              #
+  # Our use of content. We can use your Content worldwide to provide, maintain,  #
+  # develop, and improve our Services, comply with applicable law, enforce our   # 
+  # terms and policies and keep our Services safe. If you're using ChatGPT       #
+  # through Apple's integrations, see this Help Center article⁠(opens in a new    #
+  # window) for how we handle your Content.                                      #
+  #                                                                              #
+  # Opt out. If you do not want us to use your Content to train our models, you  #
+  # have the option to opt out by updating your account settings. Further        #
+  # information can be found in this Help Center article⁠(opens in a new window). #
+  # Please note that in some cases this may limit the ability of our Services    #
+  # to better address your specific use case.                                    #
+  #                                                                              #
+  # Accuracy. Artificial intelligence and machine learning are rapidly evolving  #
+  # fields of study. We are constantly working to improve our Services to make   #
+  # them more accurate, reliable, safe, and beneficial. Given the probabilistic  #
+  # nature of machine learning, use of our Services may in some situations       #
+  # result in Output that does not accurately reflect real people, places,       #
+  # or facts.                                                                    #
+  #                                                                              #
+  # When you use our Services you understand and agree:                          #
+  #                                                                              #
+  # Output may not always be accurate. You should not rely on Output from our    #
+  # Services as a sole source of truth or factual information, or as a           #
+  # substitute for professional advice.                                          #
+  # You must evaluate Output for accuracy and appropriateness for your use       #
+  # case, including using human review as appropriate, before using or sharing   #
+  # Output from the Services.                                                    #
+  # You must not use any Output relating to a person for any purpose that could  #
+  # have a legal or material impact on that person, such as making credit,       #
+  # educational, employment, housing, insurance, legal, medical, or other        #
+  # important decisions about them.                                              #
+  # Our Services may provide incomplete, incorrect, or offensive Output that     #
+  # does not represent OpenAI’s views. If Output references any third party      #
+  # products or services, it doesn’t mean the third party endorses or is         #
+  # affiliated with OpenAI.                                                      #
+  ################################################################################
+
+  :permission07 a odrl:Permission ;
+      dcterms:description "We can use your Content worldwide to provide, maintain, develop, and improve our Services, comply with applicable law, enforce our terms and policies and keep our Services safe. If you do not want us to use your Content to train our models, you have the option to opt out by updating your account settings.";
+       odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:use;
+          odrl:refinement [
+              a odrl:Constraint ;
+              odrl:leftOperand tosl:justification ;
+              odrl:operator odrl:neq ;
+              odrl:rightOperand :optOut
+          ] 
+      ] ;
+      odrl:target :content ;
+      odrl:assignee :OpenAI .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-openai/openai_11_liability02.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule liability02 (Content) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI ;
+      tosl:limitationOfLiability :liability02 .
+
+  ###################################  Content  ##################################
+  # Your content. You may provide input to the Services (“Input”), and receive   #
+  # output from the Services based on the Input (“Output”). Input and Output are #
+  # collectively “Content”. You are responsible for Content, including ensuring  #
+  # that it does not violate any applicable law or these Terms.You represent and #
+  # warrant that you have all rights, licences and permissions needed to provide #
+  # Input to our Services.                                                       #
+  #                                                                              #
+  # Ownership of content. As between you and OpenAI, and to the extent permitted #
+  # by applicable law, you (a) retain your ownership rights in Input and (b) own #
+  # the Output. We hereby assign to you all our right, title, and interest, if   #
+  # any, in and to Output.                                                       # 
+  #                                                                              #
+  # Similarity of content. Due to the nature of our Services and artificial      #
+  # intelligence generally, Output may not be unique and other users may receive # 
+  # similar output from our Services. Our assignment above does not extend to    # 
+  # other users’ output or any Third Party Output.                               #
+  #                                                                              #
+  # Our use of content. We can use your Content worldwide to provide, maintain,  #
+  # develop, and improve our Services, comply with applicable law, enforce our   # 
+  # terms and policies and keep our Services safe. If you're using ChatGPT       #
+  # through Apple's integrations, see this Help Center article⁠(opens in a new    #
+  # window) for how we handle your Content.                                      #
+  #                                                                              #
+  # Opt out. If you do not want us to use your Content to train our models, you  #
+  # have the option to opt out by updating your account settings. Further        #
+  # information can be found in this Help Center article⁠(opens in a new window). #
+  # Please note that in some cases this may limit the ability of our Services    #
+  # to better address your specific use case.                                    #
+  #                                                                              #
+  # Accuracy. Artificial intelligence and machine learning are rapidly evolving  #
+  # fields of study. We are constantly working to improve our Services to make   #
+  # them more accurate, reliable, safe, and beneficial. Given the probabilistic  #
+  # nature of machine learning, use of our Services may in some situations       #
+  # result in Output that does not accurately reflect real people, places,       #
+  # or facts.                                                                    #
+  #                                                                              #
+  # When you use our Services you understand and agree:                          #
+  #                                                                              #
+  # Output may not always be accurate. You should not rely on Output from our    #
+  # Services as a sole source of truth or factual information, or as a           #
+  # substitute for professional advice.                                          #
+  # You must evaluate Output for accuracy and appropriateness for your use       #
+  # case, including using human review as appropriate, before using or sharing   #
+  # Output from the Services.                                                    #
+  # You must not use any Output relating to a person for any purpose that could  #
+  # have a legal or material impact on that person, such as making credit,       #
+  # educational, employment, housing, insurance, legal, medical, or other        #
+  # important decisions about them.                                              #
+  # Our Services may provide incomplete, incorrect, or offensive Output that     #
+  # does not represent OpenAI’s views. If Output references any third party      #
+  # products or services, it doesn’t mean the third party endorses or is         #
+  # affiliated with OpenAI.                                                      #
+  ################################################################################
+
+  :liability02 a tosl:Liability;
+      dcterms:description "Output generated by the Services may not accurately reflect real people, places, or facts. Do not rely on Output as a sole source of truth or substitute for professional advice.";
+      rdf:value tosl:serviceContent;
+      tosl:targetParty :customer ;
+  	tosl:liableParty :OpenAI .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_12_permission08.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission08 (Content) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission08 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :content a tosl:UserContent;
+      dcterms:description "The Input provided by the customer and the corresponding Output generated by the services in response to that Input.";
+      dcterms:rightsHolder :customer .
+
+  ###################################  Content  ##################################
+  # Your content. You may provide input to the Services (“Input”), and receive   #
+  # output from the Services based on the Input (“Output”). Input and Output are #
+  # collectively “Content”. You are responsible for Content, including ensuring  #
+  # that it does not violate any applicable law or these Terms.You represent and #
+  # warrant that you have all rights, licences and permissions needed to provide #
+  # Input to our Services.                                                       #
+  #                                                                              #
+  # Ownership of content. As between you and OpenAI, and to the extent permitted #
+  # by applicable law, you (a) retain your ownership rights in Input and (b) own #
+  # the Output. We hereby assign to you all our right, title, and interest, if   #
+  # any, in and to Output.                                                       # 
+  #                                                                              #
+  # Similarity of content. Due to the nature of our Services and artificial      #
+  # intelligence generally, Output may not be unique and other users may receive # 
+  # similar output from our Services. Our assignment above does not extend to    # 
+  # other users’ output or any Third Party Output.                               #
+  #                                                                              #
+  # Our use of content. We can use your Content worldwide to provide, maintain,  #
+  # develop, and improve our Services, comply with applicable law, enforce our   # 
+  # terms and policies and keep our Services safe. If you're using ChatGPT       #
+  # through Apple's integrations, see this Help Center article⁠(opens in a new    #
+  # window) for how we handle your Content.                                      #
+  #                                                                              #
+  # Opt out. If you do not want us to use your Content to train our models, you  #
+  # have the option to opt out by updating your account settings. Further        #
+  # information can be found in this Help Center article⁠(opens in a new window). #
+  # Please note that in some cases this may limit the ability of our Services    #
+  # to better address your specific use case.                                    #
+  #                                                                              #
+  # Accuracy. Artificial intelligence and machine learning are rapidly evolving  #
+  # fields of study. We are constantly working to improve our Services to make   #
+  # them more accurate, reliable, safe, and beneficial. Given the probabilistic  #
+  # nature of machine learning, use of our Services may in some situations       #
+  # result in Output that does not accurately reflect real people, places,       #
+  # or facts.                                                                    #
+  #                                                                              #
+  # When you use our Services you understand and agree:                          #
+  #                                                                              #
+  # Output may not always be accurate. You should not rely on Output from our    #
+  # Services as a sole source of truth or factual information, or as a           #
+  # substitute for professional advice.                                          #
+  # You must evaluate Output for accuracy and appropriateness for your use       #
+  # case, including using human review as appropriate, before using or sharing   #
+  # Output from the Services.                                                    #
+  # You must not use any Output relating to a person for any purpose that could  #
+  # have a legal or material impact on that person, such as making credit,       #
+  # educational, employment, housing, insurance, legal, medical, or other        #
+  # important decisions about them.                                              #
+  # Our Services may provide incomplete, incorrect, or offensive Output that     #
+  # does not represent OpenAI’s views. If Output references any third party      #
+  # products or services, it doesn’t mean the third party endorses or is         #
+  # affiliated with OpenAI.                                                      #
+  ################################################################################
+
+  :permission08 a odrl:Permission ;
+      dcterms:description "You must not use any Output relating to a person for any purpose that could have a legal or material impact on that person, such as making credit, educational, employment, housing, insurance, legal, medical, or other important decisions about them. ";
+      odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:use;
+          odrl:refinement [
+              a odrl:Constraint ;
+              dcterms:description "Use cases that materially affect individuals, such as decisions about credit, employment, education, or medical treatment.";
+              odrl:leftOperand odrl:purpose ;
+              odrl:operator odrl:neq ;
+              odrl:rightOperand :highImpactDecision
+          ] 
+      ] ;
+      odrl:target :content ;
+      odrl:assignee :customer ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "User must evaluate Output for accuracy and appropriateness, including human review, before using or sharing.";
+          odrl:action tosl:evaluate ;
+          odrl:target :content ;
+          odrl:assignee :customer ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-openai/openai_13_permission09.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission09 (Our IP rights) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission09 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :openaiBrand a tosl:Service ;
+      dcterms:description "Trademarked elements including the name OpenAI and associated logos.";
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:source <https://openai.com/brand/> .
+
+  ################################  Our IP rights  ###############################
+  # We and our affiliates own all rights, title, and interest in and to the      #
+  # Services. You may only use our name and logo in accordance with our          #
+  # Brand Guidelines⁠.                                                            #
+  ################################################################################
+
+  :permission09 a odrl:Permission ;
+      dcterms:description "You may only use our name and logo in accordance with our Brand Guidelines";
+       odrl:action [
+          a odrl:Action ;
+          rdf:value odrl:use;
+          odrl:refinement [
+              a odrl:Constraint ;
+              odrl:leftOperand tosl:compliance ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand "https://openai.com/brand/"^^xsd:string
+          ] 
+      ] ;
+      odrl:target :openaiBrand ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+  - warning. Please consider using Actions with a URI
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+  - Violation: Permission must have at least one IRI action
+
+### tosl-openai/openai_14_permission10.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission10 (Paid accounts) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission10 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :paidFeatures a tosl:Service ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:description "Premium features available only to paying subscribers.".
+
+  :billingData a tosl:UserContent ;
+      dcterms:description "Billing information provided by the customer, including valid payment method.";
+      dcterms:rightsHolder :customer .
+
+  ################################  Paid accounts  ###############################
+  # Paid subscriptions. Some of our Services allow you to purchase paid          # 
+  # subscriptions to benefit from enhanced features and functionalities          # 
+  # (the “Benefits”). The exact nature of the Benefits differs between Services  #  
+  # and will be made clear to you before purchase. You can manage your paid      # 
+  # subscription from your account settings.                                     # 
+  #                                                                              #
+  # Fees: All charges, including subscription fees, will be made clear to you    # 
+  # before purchase.                                                             # 
+  #                                                                              #
+  # Billing. If you sign-up for paid subscription or purchase any Services, you  #  
+  # will provide complete and accurate billing information, including a valid    # 
+  # payment method. For paid subscriptions, we will automatically charge your    # 
+  # payment method on each agreed-upon periodic renewal until you cancel. If     # 
+  # your payment cannot be completed, we may downgrade your account or suspend   # 
+  # your access to our Services until payment is received.                       # 
+  #                                                                              #
+  # Service credits. You can pay for some Services in advance by purchasing      # 
+  # service credits. All service credits are subject to our Service credit terms⁠ # 
+  #                                                                              #
+  # Cooling off period. You are entitled to cancel your purchase and request a   # 
+  # refund without stating the reason during the 14 days following the date of   # 
+  # your purchase (the “Cooling Off Period”). The refund will cover the relevant # 
+  # subscription fee prorated from the date you request cancellation to the end  # 
+  # of the relevant subscription period you have paid for. To cancel and request #  
+  # a refund please contact Support⁠(opens in a new window) or fill out and send  # 
+  # us the model withdrawal form⁠, or alternatively you may complete the model    # 
+  # withdrawal form as described under Termination and Suspension below.         # 
+  #                                                                              #
+  # Cancellation. Following the Cooling Off Period, you can cancel⁠(opens in new  #  
+  # window) your paid subscription at any time by updating your account settings # 
+  # You will not be charged after you cancel your paid subscription. You will    # 
+  # continue to have access to the Benefits until the end of the subscription    # 
+  # period you have paid for, at which point your cancellation will become       # 
+  # effective. Unless we specify otherwise, you will not receive a refund or     # 
+  # service credit for any days between the day you cancel and the last day of   # 
+  # the subscription period you have paid for.                                   # 
+  #                                                                              #
+  # Changes. We may change our prices from time to time. If we increase our      # 
+  # subscription prices, we will give you at least 30 days’ notice and any price # 
+  # increase will take effect on your next renewal so that you can cancel if you # 
+  # do not agree to the price increase.                                          #
+  ################################################################################
+
+  :permission10 a odrl:Permission ;
+      dcterms:description "Access paid features, subject to payment and valid billing information.";
+      odrl:action odrl:use;
+      odrl:target :paidFeatures ;
+      odrl:assignee :customer ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "All charges, including subscription fees, will be made clear to you before purchase.";
+          odrl:action odrl:compensate ;
+          odrl:target :paidFeatures ;
+          odrl:assignee :customer ;
+          odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand odrl:event ;
+              odrl:operator odrl:lt ;
+              odrl:rightOperand odrl:policyUsage
+          ] ;
+      ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "Customer must provide valid billing information, including a payment method.";
+          odrl:action odrl:inform ;
+          odrl:target :billingData ;
+          odrl:assignee :customer ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_15_permission11.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission11 (Paid accounts) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission11 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :serviceCredits a odrl:Asset ;
+      dcterms:description "Prepaid digital credits that can be used to access certain OpenAI services.";
+      dcterms:source <https://openai.com/policies/service-credits> .
+
+  ################################  Paid accounts  ###############################
+  # Paid subscriptions. Some of our Services allow you to purchase paid          # 
+  # subscriptions to benefit from enhanced features and functionalities          # 
+  # (the “Benefits”). The exact nature of the Benefits differs between Services  #  
+  # and will be made clear to you before purchase. You can manage your paid      # 
+  # subscription from your account settings.                                     # 
+  #                                                                              #
+  # Fees: All charges, including subscription fees, will be made clear to you    # 
+  # before purchase.                                                             # 
+  #                                                                              #
+  # Billing. If you sign-up for paid subscription or purchase any Services, you  #  
+  # will provide complete and accurate billing information, including a valid    # 
+  # payment method. For paid subscriptions, we will automatically charge your    # 
+  # payment method on each agreed-upon periodic renewal until you cancel. If     # 
+  # your payment cannot be completed, we may downgrade your account or suspend   # 
+  # your access to our Services until payment is received.                       # 
+  #                                                                              #
+  # Service credits. You can pay for some Services in advance by purchasing      # 
+  # service credits. All service credits are subject to our Service credit terms⁠ # 
+  #                                                                              #
+  # Cooling off period. You are entitled to cancel your purchase and request a   # 
+  # refund without stating the reason during the 14 days following the date of   # 
+  # your purchase (the “Cooling Off Period”). The refund will cover the relevant # 
+  # subscription fee prorated from the date you request cancellation to the end  # 
+  # of the relevant subscription period you have paid for. To cancel and request #  
+  # a refund please contact Support⁠(opens in a new window) or fill out and send  # 
+  # us the model withdrawal form⁠, or alternatively you may complete the model    # 
+  # withdrawal form as described under Termination and Suspension below.         # 
+  #                                                                              #
+  # Cancellation. Following the Cooling Off Period, you can cancel⁠(opens in new  #  
+  # window) your paid subscription at any time by updating your account settings # 
+  # You will not be charged after you cancel your paid subscription. You will    # 
+  # continue to have access to the Benefits until the end of the subscription    # 
+  # period you have paid for, at which point your cancellation will become       # 
+  # effective. Unless we specify otherwise, you will not receive a refund or     # 
+  # service credit for any days between the day you cancel and the last day of   # 
+  # the subscription period you have paid for.                                   # 
+  #                                                                              #
+  # Changes. We may change our prices from time to time. If we increase our      # 
+  # subscription prices, we will give you at least 30 days’ notice and any price # 
+  # increase will take effect on your next renewal so that you can cancel if you # 
+  # do not agree to the price increase.                                          #
+  ################################################################################
+
+  :permission11 a odrl:Permission ;
+      dcterms:description "You can pay for some Services in advance by purchasing service credits";
+      odrl:action odrl:use ;
+      odrl:target :serviceCredits ;
+      odrl:assignee :customer ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand tosl:compliance ;
+          odrl:operator odrl:eq ;
+          odrl:rightOperand <https://openai.com/policies/service-credit-terms/>
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_16_permission12.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission12 (Paid accounts) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission12 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :paidFeatures a tosl:Service ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:description "Premium features available only to paying subscribers.".
+
+  ################################  Paid accounts  ###############################
+  # Paid subscriptions. Some of our Services allow you to purchase paid          # 
+  # subscriptions to benefit from enhanced features and functionalities          # 
+  # (the “Benefits”). The exact nature of the Benefits differs between Services  #  
+  # and will be made clear to you before purchase. You can manage your paid      # 
+  # subscription from your account settings.                                     # 
+  #                                                                              #
+  # Fees: All charges, including subscription fees, will be made clear to you    # 
+  # before purchase.                                                             # 
+  #                                                                              #
+  # Billing. If you sign-up for paid subscription or purchase any Services, you  #  
+  # will provide complete and accurate billing information, including a valid    # 
+  # payment method. For paid subscriptions, we will automatically charge your    # 
+  # payment method on each agreed-upon periodic renewal until you cancel. If     # 
+  # your payment cannot be completed, we may downgrade your account or suspend   # 
+  # your access to our Services until payment is received.                       # 
+  #                                                                              #
+  # Service credits. You can pay for some Services in advance by purchasing      # 
+  # service credits. All service credits are subject to our Service credit terms⁠ # 
+  #                                                                              #
+  # Cooling off period. You are entitled to cancel your purchase and request a   # 
+  # refund without stating the reason during the 14 days following the date of   # 
+  # your purchase (the “Cooling Off Period”). The refund will cover the relevant # 
+  # subscription fee prorated from the date you request cancellation to the end  # 
+  # of the relevant subscription period you have paid for. To cancel and request #  
+  # a refund please contact Support⁠(opens in a new window) or fill out and send  # 
+  # us the model withdrawal form⁠, or alternatively you may complete the model    # 
+  # withdrawal form as described under Termination and Suspension below.         # 
+  #                                                                              #
+  # Cancellation. Following the Cooling Off Period, you can cancel⁠(opens in new  #  
+  # window) your paid subscription at any time by updating your account settings # 
+  # You will not be charged after you cancel your paid subscription. You will    # 
+  # continue to have access to the Benefits until the end of the subscription    # 
+  # period you have paid for, at which point your cancellation will become       # 
+  # effective. Unless we specify otherwise, you will not receive a refund or     # 
+  # service credit for any days between the day you cancel and the last day of   # 
+  # the subscription period you have paid for.                                   # 
+  #                                                                              #
+  # Changes. We may change our prices from time to time. If we increase our      # 
+  # subscription prices, we will give you at least 30 days’ notice and any price # 
+  # increase will take effect on your next renewal so that you can cancel if you # 
+  # do not agree to the price increase.                                          #
+  ################################################################################
+
+  :permission12 a odrl:Permission ;
+      dcterms:description "You are entitled to cancel your purchase and request a refund without stating the reason during the 14 days following the date of your purchase";
+      odrl:action tosl:terminate ; 
+      odrl:target :paidFeatures ;
+      odrl:assignee :customer ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand odrl:elapsedTime ;
+          odrl:operator odrl:lteq ;
+          odrl:rightOperand "P14D"^^xsd:duration
+      ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "The refund will cover the relevant subscription fee prorated from the date you request cancellation to the end of the relevant subscription period you have paid for";
+          odrl:action odrl:compensate ;
+          odrl:target :paidFeatures ;
+          odrl:assignee :OpenAI ;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_17_permission13.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission13 (Paid accounts) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission13 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :paidFeatures a tosl:Service ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:description "Premium features available only to paying subscribers.".
+
+  ################################  Paid accounts  ###############################
+  # Paid subscriptions. Some of our Services allow you to purchase paid          # 
+  # subscriptions to benefit from enhanced features and functionalities          # 
+  # (the “Benefits”). The exact nature of the Benefits differs between Services  #  
+  # and will be made clear to you before purchase. You can manage your paid      # 
+  # subscription from your account settings.                                     # 
+  #                                                                              #
+  # Fees: All charges, including subscription fees, will be made clear to you    # 
+  # before purchase.                                                             # 
+  #                                                                              #
+  # Billing. If you sign-up for paid subscription or purchase any Services, you  #  
+  # will provide complete and accurate billing information, including a valid    # 
+  # payment method. For paid subscriptions, we will automatically charge your    # 
+  # payment method on each agreed-upon periodic renewal until you cancel. If     # 
+  # your payment cannot be completed, we may downgrade your account or suspend   # 
+  # your access to our Services until payment is received.                       # 
+  #                                                                              #
+  # Service credits. You can pay for some Services in advance by purchasing      # 
+  # service credits. All service credits are subject to our Service credit terms⁠ # 
+  #                                                                              #
+  # Cooling off period. You are entitled to cancel your purchase and request a   # 
+  # refund without stating the reason during the 14 days following the date of   # 
+  # your purchase (the “Cooling Off Period”). The refund will cover the relevant # 
+  # subscription fee prorated from the date you request cancellation to the end  # 
+  # of the relevant subscription period you have paid for. To cancel and request #  
+  # a refund please contact Support⁠(opens in a new window) or fill out and send  # 
+  # us the model withdrawal form⁠, or alternatively you may complete the model    # 
+  # withdrawal form as described under Termination and Suspension below.         # 
+  #                                                                              #
+  # Cancellation. Following the Cooling Off Period, you can cancel⁠(opens in new  #  
+  # window) your paid subscription at any time by updating your account settings # 
+  # You will not be charged after you cancel your paid subscription. You will    # 
+  # continue to have access to the Benefits until the end of the subscription    # 
+  # period you have paid for, at which point your cancellation will become       # 
+  # effective. Unless we specify otherwise, you will not receive a refund or     # 
+  # service credit for any days between the day you cancel and the last day of   # 
+  # the subscription period you have paid for.                                   # 
+  #                                                                              #
+  # Changes. We may change our prices from time to time. If we increase our      # 
+  # subscription prices, we will give you at least 30 days’ notice and any price # 
+  # increase will take effect on your next renewal so that you can cancel if you # 
+  # do not agree to the price increase.                                          #
+  ################################################################################
+
+  :permission13 a odrl:Permission ;
+      dcterms:description "You can cancel your paid subscription at any time by updating your account settings. You will not be charged after you cancel your paid subscription";
+      odrl:action tosl:terminate ; 
+      odrl:target :paidFeatures ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_18_permission14.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission14 (Paid accounts) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission14 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :paidFeatures a tosl:Service ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:description "Premium features available only to paying subscribers.".
+
+  ################################  Paid accounts  ###############################
+  # Paid subscriptions. Some of our Services allow you to purchase paid          # 
+  # subscriptions to benefit from enhanced features and functionalities          # 
+  # (the “Benefits”). The exact nature of the Benefits differs between Services  #  
+  # and will be made clear to you before purchase. You can manage your paid      # 
+  # subscription from your account settings.                                     # 
+  #                                                                              #
+  # Fees: All charges, including subscription fees, will be made clear to you    # 
+  # before purchase.                                                             # 
+  #                                                                              #
+  # Billing. If you sign-up for paid subscription or purchase any Services, you  #  
+  # will provide complete and accurate billing information, including a valid    # 
+  # payment method. For paid subscriptions, we will automatically charge your    # 
+  # payment method on each agreed-upon periodic renewal until you cancel. If     # 
+  # your payment cannot be completed, we may downgrade your account or suspend   # 
+  # your access to our Services until payment is received.                       # 
+  #                                                                              #
+  # Service credits. You can pay for some Services in advance by purchasing      # 
+  # service credits. All service credits are subject to our Service credit terms⁠ # 
+  #                                                                              #
+  # Cooling off period. You are entitled to cancel your purchase and request a   # 
+  # refund without stating the reason during the 14 days following the date of   # 
+  # your purchase (the “Cooling Off Period”). The refund will cover the relevant # 
+  # subscription fee prorated from the date you request cancellation to the end  # 
+  # of the relevant subscription period you have paid for. To cancel and request #  
+  # a refund please contact Support⁠(opens in a new window) or fill out and send  # 
+  # us the model withdrawal form⁠, or alternatively you may complete the model    # 
+  # withdrawal form as described under Termination and Suspension below.         # 
+  #                                                                              #
+  # Cancellation. Following the Cooling Off Period, you can cancel⁠(opens in new  #  
+  # window) your paid subscription at any time by updating your account settings # 
+  # You will not be charged after you cancel your paid subscription. You will    # 
+  # continue to have access to the Benefits until the end of the subscription    # 
+  # period you have paid for, at which point your cancellation will become       # 
+  # effective. Unless we specify otherwise, you will not receive a refund or     # 
+  # service credit for any days between the day you cancel and the last day of   # 
+  # the subscription period you have paid for.                                   # 
+  #                                                                              #
+  # Changes. We may change our prices from time to time. If we increase our      # 
+  # subscription prices, we will give you at least 30 days’ notice and any price # 
+  # increase will take effect on your next renewal so that you can cancel if you # 
+  # do not agree to the price increase.                                          #
+  ################################################################################
+
+  :permission14 a odrl:Permission ;
+      dcterms:description "We may change our prices from time to time. If we increase our subscription prices, we will give you at least 30 days’ notice and any price increase will take effect on your next renewal so that you can cancel if you do not agree to the price increase.";
+      odrl:action odrl:modify;
+      odrl:target :paidFeatures ;
+      odrl:assignee :OpenAI ;
+      odrl:constraint [
+              a odrl:Constraint ;
+              dcterms:description "At least 30 days notice must be provided before a price increase takes effect.";
+              odrl:leftOperand odrl:delayPeriod ;
+              odrl:operator odrl:gteq ;
+              odrl:rightOperand "P30D"^^xsd:duration ;
+          ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "we will give you at least 30 days notice";
+          odrl:action odrl:inform ;
+          odrl:target :paidFeatures ;
+          odrl:assignee :OpenAI ;
+          odrl:informedParty :customer
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_19_permission15.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission15 (Termination and suspension) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission15 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  ##########################  Termination and suspension  ########################
+  # Your rights. You can stop using our Services and end your relationship with  #
+  # OpenAI at any time by simply closing your account and stopping your use of   #
+  # the Services. Instructions for how to do this are available here⁠(opens in    #
+  # a new window).                                                               #
+  #                                                                              #
+  # EEA consumer withdrawal right. If you are an EEA-based consumer, you can     #
+  # close your account and withdraw from these Terms within 14 days of accepting #
+  # them by contacting Support⁠(opens in a new window) or filling out and sending #
+  # us the model withdrawal form⁠.                                                #
+  #                                                                              #
+  # OpenAI rights. We may take action to suspend or terminate your access to our #
+  # Services or close your account if we determine, acting reasonably            #
+  # and objectively:                                                             #
+  #                                                                              #
+  # - You breached these Terms or our Usage Policies⁠.                            #
+  # - We must do so to comply with the law.                                      #
+  # - Your use of our Services could cause risk or harm to OpenAI, our users,    #
+  # or anyone else.                                                              #
+  # - Your account has been inactive for over a year and you do not have a paid  #
+  # account.                                                                     #
+  #                                                                              #
+  # Notice. If we terminate your account, we will make reasonable efforts to     # 
+  # notify you in advance so you can export your Content or your data from the   #
+  # Services, unless it is not appropriate for us to do so, we reasonably        #
+  # believe that continued access to your account will cause damage to OpenAI or #
+  # anyone else, or we are legally prohibited from doing so.                     #
+  #                                                                              #
+  # Appeals. If you believe we have suspended or terminated your account in      #
+  # error, you can file an appeal with us by contacting Support⁠(opens in a       #
+  # new window).                                                                 #
+  ################################################################################
+
+  :permission15 a odrl:Permission ;
+      dcterms:description "You can stop using our Services and end your relationship with OpenAI at any time by simply closing your account and stopping your use of the Services";
+      odrl:action tosl:terminate ;
+      odrl:target :services ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_20_permission16.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission16 (Termination and suspension) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission16 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  ##########################  Termination and suspension  ########################
+  # Your rights. You can stop using our Services and end your relationship with  #
+  # OpenAI at any time by simply closing your account and stopping your use of   #
+  # the Services. Instructions for how to do this are available here⁠(opens in    #
+  # a new window).                                                               #
+  #                                                                              #
+  # EEA consumer withdrawal right. If you are an EEA-based consumer, you can     #
+  # close your account and withdraw from these Terms within 14 days of accepting #
+  # them by contacting Support⁠(opens in a new window) or filling out and sending #
+  # us the model withdrawal form⁠.                                                #
+  #                                                                              #
+  # OpenAI rights. We may take action to suspend or terminate your access to our #
+  # Services or close your account if we determine, acting reasonably            #
+  # and objectively:                                                             #
+  #                                                                              #
+  # - You breached these Terms or our Usage Policies⁠.                            #
+  # - We must do so to comply with the law.                                      #
+  # - Your use of our Services could cause risk or harm to OpenAI, our users,    #
+  # or anyone else.                                                              #
+  # - Your account has been inactive for over a year and you do not have a paid  #
+  # account.                                                                     #
+  #                                                                              #
+  # Notice. If we terminate your account, we will make reasonable efforts to     # 
+  # notify you in advance so you can export your Content or your data from the   #
+  # Services, unless it is not appropriate for us to do so, we reasonably        #
+  # believe that continued access to your account will cause damage to OpenAI or #
+  # anyone else, or we are legally prohibited from doing so.                     #
+  #                                                                              #
+  # Appeals. If you believe we have suspended or terminated your account in      #
+  # error, you can file an appeal with us by contacting Support⁠(opens in a       #
+  # new window).                                                                 #
+  ################################################################################
+
+  :permission16 a odrl:Permission ;
+      dcterms:description "EEA-based consumers may withdraw from the Terms within 14 days of acceptance.";
+      odrl:action tosl:terminate ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer ;
+      odrl:constraint [
+          a odrl:LogicalConstraint ;
+          odrl:and (
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand odrl:elapsedTime ;
+                  odrl:operator odrl:lteq ;
+                  odrl:rightOperand "P14D"^^xsd:duration ;
+              ]
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:consumerResidentCountry ;
+                  odrl:operator odrl:isAnyOf ;
+                  odrl:rightOperand ("AT" "BE" "BG" "HR" "CY" "CZ" "DK" "EE" "FI" "FR" "DE" "GR" "HU" "IS" "IE" "IT" "LV" "LI" "LT" "LU" "MT" "NL" "NO" "PL" "PT" "RO" "SK" "SI" "ES" "SE" "CH") ;
+              ]
+          )
+      ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "By contacting Support⁠ or filling out and sending us the model withdrawal form⁠.";
+          odrl:action odrl:inform ;
+          odrl:assignee :customer ;
+          odrl:target :agreement01 ;
+          odrl:informedParty :OpenAI;
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_21_permission17.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission17 (Termination and suspension) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission17 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :userAccount a tosl:UserContent;
+      dcterms:description "User account".
+
+  ##########################  Termination and suspension  ########################
+  # Your rights. You can stop using our Services and end your relationship with  #
+  # OpenAI at any time by simply closing your account and stopping your use of   #
+  # the Services. Instructions for how to do this are available here⁠(opens in    #
+  # a new window).                                                               #
+  #                                                                              #
+  # EEA consumer withdrawal right. If you are an EEA-based consumer, you can     #
+  # close your account and withdraw from these Terms within 14 days of accepting #
+  # them by contacting Support⁠(opens in a new window) or filling out and sending #
+  # us the model withdrawal form⁠.                                                #
+  #                                                                              #
+  # OpenAI rights. We may take action to suspend or terminate your access to our #
+  # Services or close your account if we determine, acting reasonably            #
+  # and objectively:                                                             #
+  #                                                                              #
+  # - You breached these Terms or our Usage Policies⁠.                            #
+  # - We must do so to comply with the law.                                      #
+  # - Your use of our Services could cause risk or harm to OpenAI, our users,    #
+  # or anyone else.                                                              #
+  # - Your account has been inactive for over a year and you do not have a paid  #
+  # account.                                                                     #
+  #                                                                              #
+  # Notice. If we terminate your account, we will make reasonable efforts to     # 
+  # notify you in advance so you can export your Content or your data from the   #
+  # Services, unless it is not appropriate for us to do so, we reasonably        #
+  # believe that continued access to your account will cause damage to OpenAI or #
+  # anyone else, or we are legally prohibited from doing so.                     #
+  #                                                                              #
+  # Appeals. If you believe we have suspended or terminated your account in      #
+  # error, you can file an appeal with us by contacting Support⁠(opens in a       #
+  # new window).                                                                 #
+  ################################################################################
+
+  :permission17 a odrl:Permission ;
+      dcterms:description "OpenAI may suspend or terminate your access to Services or close your account if: (1) you breached the Terms or Usage Policies"; 
+      odrl:action tosl:terminate ;
+      odrl:target :userAccount ;
+      odrl:assignee :OpenAI ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand tosl:justification ;
+          odrl:operator odrl:eq ;
+          odrl:rightOperand tosl:breachOfContract ;
+      ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "We will make reasonable efforts to notify you in advance so you can export your Content or your data from the Services";
+          odrl:action odrl:inform ;
+          odrl:assignee :OpenAI ;
+          odrl:target :userAccount ;
+          odrl:informedParty :customer
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_22_permission18.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission18 (Termination and suspension) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission18 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :userAccount a tosl:UserContent;
+      dcterms:description "User account".
+
+  :legalRequirement a odrl:RightOperand ;
+      dcterms:description "Required by Law".
+
+  ##########################  Termination and suspension  ########################
+  # Your rights. You can stop using our Services and end your relationship with  #
+  # OpenAI at any time by simply closing your account and stopping your use of   #
+  # the Services. Instructions for how to do this are available here⁠(opens in    #
+  # a new window).                                                               #
+  #                                                                              #
+  # EEA consumer withdrawal right. If you are an EEA-based consumer, you can     #
+  # close your account and withdraw from these Terms within 14 days of accepting #
+  # them by contacting Support⁠(opens in a new window) or filling out and sending #
+  # us the model withdrawal form⁠.                                                #
+  #                                                                              #
+  # OpenAI rights. We may take action to suspend or terminate your access to our #
+  # Services or close your account if we determine, acting reasonably            #
+  # and objectively:                                                             #
+  #                                                                              #
+  # - You breached these Terms or our Usage Policies⁠.                            #
+  # - We must do so to comply with the law.                                      #
+  # - Your use of our Services could cause risk or harm to OpenAI, our users,    #
+  # or anyone else.                                                              #
+  # - Your account has been inactive for over a year and you do not have a paid  #
+  # account.                                                                     #
+  #                                                                              #
+  # Notice. If we terminate your account, we will make reasonable efforts to     # 
+  # notify you in advance so you can export your Content or your data from the   #
+  # Services, unless it is not appropriate for us to do so, we reasonably        #
+  # believe that continued access to your account will cause damage to OpenAI or #
+  # anyone else, or we are legally prohibited from doing so.                     #
+  #                                                                              #
+  # Appeals. If you believe we have suspended or terminated your account in      #
+  # error, you can file an appeal with us by contacting Support⁠(opens in a       #
+  # new window).                                                                 #
+  ################################################################################
+
+  :permission18 a odrl:Permission ;
+      dcterms:description "OpenAI may suspend or terminate your access to Services or close your account if: (2) required by law ";
+      odrl:action tosl:terminate ;
+      odrl:target :userAccount ;
+      odrl:assignee :OpenAI ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand tosl:justification ;
+          odrl:operator odrl:eq ;
+          odrl:rightOperand :legalRequirement
+      ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "We will make reasonable efforts to notify you in advance so you can export your Content or your data from the Services";
+          odrl:action odrl:inform ;
+          odrl:assignee :OpenAI ;
+          odrl:target :userAccount ;
+          odrl:informedParty :customer
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_23_permission19.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission19 (Termination and suspension) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission19 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :userAccount a tosl:UserContent;
+      dcterms:description "User account".
+
+  :riskOrHarm a odrl:RightOperand ;
+      dcterms:description "Use of services could cause risk or harm to OpenAI, users, or others.".
+
+  ##########################  Termination and suspension  ########################
+  # Your rights. You can stop using our Services and end your relationship with  #
+  # OpenAI at any time by simply closing your account and stopping your use of   #
+  # the Services. Instructions for how to do this are available here⁠(opens in    #
+  # a new window).                                                               #
+  #                                                                              #
+  # EEA consumer withdrawal right. If you are an EEA-based consumer, you can     #
+  # close your account and withdraw from these Terms within 14 days of accepting #
+  # them by contacting Support⁠(opens in a new window) or filling out and sending #
+  # us the model withdrawal form⁠.                                                #
+  #                                                                              #
+  # OpenAI rights. We may take action to suspend or terminate your access to our #
+  # Services or close your account if we determine, acting reasonably            #
+  # and objectively:                                                             #
+  #                                                                              #
+  # - You breached these Terms or our Usage Policies⁠.                            #
+  # - We must do so to comply with the law.                                      #
+  # - Your use of our Services could cause risk or harm to OpenAI, our users,    #
+  # or anyone else.                                                              #
+  # - Your account has been inactive for over a year and you do not have a paid  #
+  # account.                                                                     #
+  #                                                                              #
+  # Notice. If we terminate your account, we will make reasonable efforts to     # 
+  # notify you in advance so you can export your Content or your data from the   #
+  # Services, unless it is not appropriate for us to do so, we reasonably        #
+  # believe that continued access to your account will cause damage to OpenAI or #
+  # anyone else, or we are legally prohibited from doing so.                     #
+  #                                                                              #
+  # Appeals. If you believe we have suspended or terminated your account in      #
+  # error, you can file an appeal with us by contacting Support⁠(opens in a       #
+  # new window).                                                                 #
+  ################################################################################
+
+  :permission19 a odrl:Permission ;
+      dcterms:description "OpenAI may suspend or terminate your access to Services or close your account if: (3) your use poses risk or harm";
+      odrl:action tosl:terminate ;
+      odrl:target :userAccount ;
+      odrl:assignee :OpenAI ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand tosl:justification ;
+          odrl:operator odrl:eq ;
+          odrl:rightOperand :riskOrHarm
+      ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "We will make reasonable efforts to notify you in advance so you can export your Content or your data from the Services";
+          odrl:action odrl:inform ;
+          odrl:assignee :OpenAI ;
+          odrl:target :userAccount ;
+          odrl:informedParty :customer
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_24_permission20.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission20 (Termination and suspension) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission20 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :userAccount a tosl:UserContent;
+      dcterms:description "User account".
+
+  :hasPaidAccount a odrl:LeftOperand ;
+      dcterms:description "Indicates whether the user has an active paid subscription.".
+
+  ##########################  Termination and suspension  ########################
+  # Your rights. You can stop using our Services and end your relationship with  #
+  # OpenAI at any time by simply closing your account and stopping your use of   #
+  # the Services. Instructions for how to do this are available here⁠(opens in    #
+  # a new window).                                                               #
+  #                                                                              #
+  # EEA consumer withdrawal right. If you are an EEA-based consumer, you can     #
+  # close your account and withdraw from these Terms within 14 days of accepting #
+  # them by contacting Support⁠(opens in a new window) or filling out and sending #
+  # us the model withdrawal form⁠.                                                #
+  #                                                                              #
+  # OpenAI rights. We may take action to suspend or terminate your access to our #
+  # Services or close your account if we determine, acting reasonably            #
+  # and objectively:                                                             #
+  #                                                                              #
+  # - You breached these Terms or our Usage Policies⁠.                            #
+  # - We must do so to comply with the law.                                      #
+  # - Your use of our Services could cause risk or harm to OpenAI, our users,    #
+  # or anyone else.                                                              #
+  # - Your account has been inactive for over a year and you do not have a paid  #
+  # account.                                                                     #
+  #                                                                              #
+  # Notice. If we terminate your account, we will make reasonable efforts to     # 
+  # notify you in advance so you can export your Content or your data from the   #
+  # Services, unless it is not appropriate for us to do so, we reasonably        #
+  # believe that continued access to your account will cause damage to OpenAI or #
+  # anyone else, or we are legally prohibited from doing so.                     #
+  #                                                                              #
+  # Appeals. If you believe we have suspended or terminated your account in      #
+  # error, you can file an appeal with us by contacting Support⁠(opens in a       #
+  # new window).                                                                 #
+  ################################################################################
+
+  :permission20 a odrl:Permission ;
+      dcterms:description "OpenAI may suspend or terminate your access to Services or close your account if: (4) your account has been inactive for over a year and is not paid";
+      odrl:action tosl:terminate ;
+      odrl:target :userAccount ;
+      odrl:assignee :OpenAI ;
+      odrl:constraint [
+          a odrl:LogicalConstraint ;
+          odrl:and (
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:inactivityPeriod ;
+                  odrl:operator odrl:gt ;
+                  odrl:rightOperand "P1Y"^^xsd:duration;
+              ]
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand :hasPaidAccount ;
+                  odrl:operator odrl:eq ;
+                  odrl:rightOperand "false"^^xsd:boolean;
+              ]
+          )
+      ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "We will make reasonable efforts to notify you in advance so you can export your Content or your data from the Services";
+          odrl:action odrl:inform ;
+          odrl:assignee :OpenAI ;
+          odrl:target :userAccount ;
+          odrl:informedParty :customer
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_25_permission21.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission21 (Termination and suspension) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission21 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :userAccount a tosl:UserContent;
+      dcterms:description "User account".
+
+  :riskOrHarm a odrl:RightOperand ;
+      dcterms:description "Use of services could cause risk or harm to OpenAI, users, or others.".
+
+  ##########################  Termination and suspension  ########################
+  # Your rights. You can stop using our Services and end your relationship with  #
+  # OpenAI at any time by simply closing your account and stopping your use of   #
+  # the Services. Instructions for how to do this are available here⁠(opens in    #
+  # a new window).                                                               #
+  #                                                                              #
+  # EEA consumer withdrawal right. If you are an EEA-based consumer, you can     #
+  # close your account and withdraw from these Terms within 14 days of accepting #
+  # them by contacting Support⁠(opens in a new window) or filling out and sending #
+  # us the model withdrawal form⁠.                                                #
+  #                                                                              #
+  # OpenAI rights. We may take action to suspend or terminate your access to our #
+  # Services or close your account if we determine, acting reasonably            #
+  # and objectively:                                                             #
+  #                                                                              #
+  # - You breached these Terms or our Usage Policies⁠.                            #
+  # - We must do so to comply with the law.                                      #
+  # - Your use of our Services could cause risk or harm to OpenAI, our users,    #
+  # or anyone else.                                                              #
+  # - Your account has been inactive for over a year and you do not have a paid  #
+  # account.                                                                     #
+  #                                                                              #
+  # Notice. If we terminate your account, we will make reasonable efforts to     # 
+  # notify you in advance so you can export your Content or your data from the   #
+  # Services, unless it is not appropriate for us to do so, we reasonably        #
+  # believe that continued access to your account will cause damage to OpenAI or #
+  # anyone else, or we are legally prohibited from doing so.                     #
+  #                                                                              #
+  # Appeals. If you believe we have suspended or terminated your account in      #
+  # error, you can file an appeal with us by contacting Support⁠(opens in a       #
+  # new window).                                                                 #
+  ################################################################################
+
+  :permission21 a odrl:Permission ;
+      dcterms:description "unless it is not appropriate for us to do so, we reasonably believe that continued access to your account will cause damage to OpenAI or anyone else, or we are legally prohibited from doing so";
+      odrl:action tosl:remove ;
+      odrl:assignee :OpenAI ;
+      odrl:target :userAccount ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand tosl:justification ;
+          odrl:operator odrl:eq ;
+          odrl:rightOperand :riskOrHarm
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_26_permission22.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission22 (Termination and suspension) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission22 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :userAccount a tosl:UserContent;
+      dcterms:description "User account".
+
+  ##########################  Termination and suspension  ########################
+  # Your rights. You can stop using our Services and end your relationship with  #
+  # OpenAI at any time by simply closing your account and stopping your use of   #
+  # the Services. Instructions for how to do this are available here⁠(opens in    #
+  # a new window).                                                               #
+  #                                                                              #
+  # EEA consumer withdrawal right. If you are an EEA-based consumer, you can     #
+  # close your account and withdraw from these Terms within 14 days of accepting #
+  # them by contacting Support⁠(opens in a new window) or filling out and sending #
+  # us the model withdrawal form⁠.                                                #
+  #                                                                              #
+  # OpenAI rights. We may take action to suspend or terminate your access to our #
+  # Services or close your account if we determine, acting reasonably            #
+  # and objectively:                                                             #
+  #                                                                              #
+  # - You breached these Terms or our Usage Policies⁠.                            #
+  # - We must do so to comply with the law.                                      #
+  # - Your use of our Services could cause risk or harm to OpenAI, our users,    #
+  # or anyone else.                                                              #
+  # - Your account has been inactive for over a year and you do not have a paid  #
+  # account.                                                                     #
+  #                                                                              #
+  # Notice. If we terminate your account, we will make reasonable efforts to     # 
+  # notify you in advance so you can export your Content or your data from the   #
+  # Services, unless it is not appropriate for us to do so, we reasonably        #
+  # believe that continued access to your account will cause damage to OpenAI or #
+  # anyone else, or we are legally prohibited from doing so.                     #
+  #                                                                              #
+  # Appeals. If you believe we have suspended or terminated your account in      #
+  # error, you can file an appeal with us by contacting Support⁠(opens in a       #
+  # new window).                                                                 #
+  ################################################################################
+
+  :permission22 a odrl:Permission ;
+      dcterms:description "If you believe we have suspended or terminated your account in error, you can file an appeal with us by contacting Support";
+      odrl:action tosl:appeal ;
+      odrl:assignee :customer ;
+      odrl:target :userAccount .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_27_liability03.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule liability03 (Our commitments to you) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI ;
+      tosl:limitationOfLiability :liability03 .
+
+  ############################  Our commitments to you  ##########################
+  # How we provide the Services. We commit to provide the Services to you with   #
+  # reasonable skill and care and to act with professional diligence. We do not  #
+  # promise to offer the Services forever or in their current form for any       #
+  # particular period of time.                                                   #
+  #                                                                              #
+  # Liability. Provided that we have acted with professional diligence, we do    #
+  # not take responsibility for loss or damage caused by us, unless it is:       #
+  #                                                                              #
+  # - caused by our breach of these Terms or                                     #
+  # - reasonably foreseeable at the time of entering into these Terms.           #
+  #                                                                              #
+  # We do not take responsibility for loss or damage caused by events beyond our # 
+  # reasonable control. We do not exclude or limit our liability to you in any   #
+  # way where it would be unlawful for us to do so. You still have the full      #
+  # protections of the laws applicable to you.                                   #
+  #                                                                              #
+  # Statutory rights. You have certain statutory rights that cannot be limited   #
+  # or excluded by a contract like these Terms or that you are legally entitled  #
+  # to, for example, by virtue of being a consumer. These Terms are in no way    #
+  # intended to affect or restrict those rights.                                 #
+  #                                                                              #
+  # EEA consumer guarantee. If you are an EEA-based consumer, then EEA consumer  #
+  # laws provide you with a legal guarantee covering the Services. If you have   #
+  # any questions about your legal guarantee, please contact Support⁠(opens       #
+  # in a new window).                                                            #
+  ################################################################################
+
+  :liability03 a tosl:Liability ;
+      dcterms:description "We do not promise to offer the Services forever or in their current form for any particular period of time";
+      tosl:liableParty :OpenAI ;
+      tosl:targetParty :customer ;
+      rdf:value tosl:discontinuity .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_28_liability04.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule liability04 (Our commitments to you) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      tosl:limitationOfLiability :liability04 ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  ############################  Our commitments to you  ##########################
+  # How we provide the Services. We commit to provide the Services to you with   #
+  # reasonable skill and care and to act with professional diligence. We do not  #
+  # promise to offer the Services forever or in their current form for any       #
+  # particular period of time.                                                   #
+  #                                                                              #
+  # Liability. Provided that we have acted with professional diligence, we do    #
+  # not take responsibility for loss or damage caused by us, unless it is:       #
+  #                                                                              #
+  # - caused by our breach of these Terms or                                     #
+  # - reasonably foreseeable at the time of entering into these Terms.           #
+  #                                                                              #
+  # We do not take responsibility for loss or damage caused by events beyond our # 
+  # reasonable control. We do not exclude or limit our liability to you in any   #
+  # way where it would be unlawful for us to do so. You still have the full      #
+  # protections of the laws applicable to you.                                   #
+  #                                                                              #
+  # Statutory rights. You have certain statutory rights that cannot be limited   #
+  # or excluded by a contract like these Terms or that you are legally entitled  #
+  # to, for example, by virtue of being a consumer. These Terms are in no way    #
+  # intended to affect or restrict those rights.                                 #
+  #                                                                              #
+  # EEA consumer guarantee. If you are an EEA-based consumer, then EEA consumer  #
+  # laws provide you with a legal guarantee covering the Services. If you have   #
+  # any questions about your legal guarantee, please contact Support⁠(opens       #
+  # in a new window).                                                            #
+  ################################################################################
+
+  :liability04 a tosl:Liability ;
+      dcterms:description "Provided that we have acted with professional diligence, we do not take responsibility for loss or damage caused by us";
+      tosl:liableParty :OpenAI ;
+      tosl:targetParty :customer ;
+      rdf:value tosl:anyIndirectDamage, tosl:anyLoss .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_29_liability05.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule liability05 (Our commitments to you) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      tosl:liability :liability05 ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  ############################  Our commitments to you  ##########################
+  # How we provide the Services. We commit to provide the Services to you with   #
+  # reasonable skill and care and to act with professional diligence. We do not  #
+  # promise to offer the Services forever or in their current form for any       #
+  # particular period of time.                                                   #
+  #                                                                              #
+  # Liability. Provided that we have acted with professional diligence, we do    #
+  # not take responsibility for loss or damage caused by us, unless it is:       #
+  #                                                                              #
+  # - caused by our breach of these Terms or                                     #
+  # - reasonably foreseeable at the time of entering into these Terms.           #
+  #                                                                              #
+  # We do not take responsibility for loss or damage caused by events beyond our # 
+  # reasonable control. We do not exclude or limit our liability to you in any   #
+  # way where it would be unlawful for us to do so. You still have the full      #
+  # protections of the laws applicable to you.                                   #
+  #                                                                              #
+  # Statutory rights. You have certain statutory rights that cannot be limited   #
+  # or excluded by a contract like these Terms or that you are legally entitled  #
+  # to, for example, by virtue of being a consumer. These Terms are in no way    #
+  # intended to affect or restrict those rights.                                 #
+  #                                                                              #
+  # EEA consumer guarantee. If you are an EEA-based consumer, then EEA consumer  #
+  # laws provide you with a legal guarantee covering the Services. If you have   #
+  # any questions about your legal guarantee, please contact Support⁠(opens       #
+  # in a new window).                                                            #
+  ################################################################################
+
+  :liability05 a tosl:Liability ;
+      dcterms:description "OpenAI is liable for loss or damage if the damage was caused by a breach of the Terms or was reasonably foreseeable at the time of the agreement.";
+      tosl:targetParty :customer ;
+      tosl:liableParty :OpenAI ;
+      rdf:value tosl:breachOfContract, tosl:directDamage, tosl:legalCompliance .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_30_permission23.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission23 (Dispute resolution) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission23 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :disputeResolution a odrl:Asset ;
+      dcterms:description "An asset representing the informal process through which OpenAI and users attempt to address concerns or disagreements prior to initiating formal legal proceedings.".
+
+  ##############################  Dispute resolution  ############################
+  # Concerns. If we have a dispute, we would first like to understand and try to # 
+  # address your concerns before any formal legal action. To share your concerns # 
+  # you can contact us through this form⁠(opens in a new window).                 # 
+  #                                                                              #
+  # Court. If we cannot resolve our dispute, you or we can go to your local      # 
+  # courts.                                                                      # 
+  #                                                                              #
+  # EEA consumer alternative dispute resolution. If you reside in the EEA, you   # 
+  # can also raise the dispute with an alternative dispute resolution body via   # 
+  # the European Commission’s Online Dispute Resolution (ODR) Platform, which    # 
+  # you can access at https://ec.europa.eu/consumers/odr⁠(opens in a new window). # 
+  ################################################################################
+
+  :permission23 a odrl:Permission ;
+      dcterms:description "If we have a dispute, we would first like to understand and try to address your concerns before any formal legal action. To share your concerns you can contact us through this form⁠(opens in a new window).";
+      odrl:action odrl:inform ;
+      odrl:assignee :customer ;
+      odrl:informedParty :OpenAI ;
+      odrl:target :disputeResolution ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand odrl:deliveryChannel ;
+          odrl:operator odrl:eq;
+          odrl:rightOperand "form"^^xsd:string
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_31_litigation01.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule litigation01 (Dispute resolution) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      tosl:onDispute :litigation01 ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  tosl:consumerPlaceCourts a tosl:Jurisdiction .
+
+  tosl:consumerPlaceLaw a tosl:Law .
+
+  ##############################  Dispute resolution  ############################
+  # Concerns. If we have a dispute, we would first like to understand and try to # 
+  # address your concerns before any formal legal action. To share your concerns # 
+  # you can contact us through this form⁠(opens in a new window).                 # 
+  #                                                                              #
+  # Court. If we cannot resolve our dispute, you or we can go to your local      # 
+  # courts.                                                                      # 
+  #                                                                              #
+  # EEA consumer alternative dispute resolution. If you reside in the EEA, you   # 
+  # can also raise the dispute with an alternative dispute resolution body via   # 
+  # the European Commission’s Online Dispute Resolution (ODR) Platform, which    # 
+  # you can access at https://ec.europa.eu/consumers/odr⁠(opens in a new window). # 
+  ################################################################################
+
+  :litigation01 a tosl:Litigation;
+      dcterms:description "If we cannot resolve our dispute, you or we can go to your local courts.";
+      tosl:targetParty :customer ;
+      tosl:takesPlaceIn tosl:consumerPlaceCourts ;
+      tosl:governedBy tosl:consumerPlaceLaw .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_32_litigation02.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule litigation02 (Dispute resolution) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      tosl:onDispute :litigation02 ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  tosl:consumerPlaceCourts a tosl:Jurisdiction .
+
+  tosl:consumerPlaceLaw a tosl:Law .
+
+  ##############################  Dispute resolution  ############################
+  # Concerns. If we have a dispute, we would first like to understand and try to # 
+  # address your concerns before any formal legal action. To share your concerns # 
+  # you can contact us through this form⁠(opens in a new window).                 # 
+  #                                                                              #
+  # Court. If we cannot resolve our dispute, you or we can go to your local      # 
+  # courts.                                                                      # 
+  #                                                                              #
+  # EEA consumer alternative dispute resolution. If you reside in the EEA, you   # 
+  # can also raise the dispute with an alternative dispute resolution body via   # 
+  # the European Commission’s Online Dispute Resolution (ODR) Platform, which    # 
+  # you can access at https://ec.europa.eu/consumers/odr⁠(opens in a new window). # 
+  ################################################################################
+
+  :litigation02 a tosl:Litigation ;
+      dcterms:description "If you reside in the EEA, you can also raise the dispute with an alternative dispute resolution body via the European Commission’s Online Dispute Resolution (ODR) Platform";
+      tosl:targetParty :customer ;
+      tosl:takesPlaceIn tosl:consumerPlaceCourts ;
+      tosl:governedBy tosl:consumerPlaceLaw ;
+      tosl:condition [
+          a odrl:LogicalConstraint ;
+          odrl:and (
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:consumerResidentCountry ;
+                  odrl:operator odrl:isAnyOf ;
+                  odrl:rightOperand ("AT" "BE" "BG" "HR" "CY" "CZ" "DK" "EE" "FI" "FR" "DE" "GR" "HU" "IS" "IE" "IT" "LV" "LI" "LT" "LU" "MT" "NL" "NO" "PL" "PT" "RO" "SK" "SI" "ES" "SE" "CH");
+              ]
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand odrl:deliveryChannel ;
+                  odrl:operator odrl:eq ;
+                  odrl:rightOperand <https://ec.europa.eu/consumers/odr>;
+              ]
+          )
+      ] .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_33_permission24.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission24 (Copyright complaints) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission24 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  :infringIPRight a odrl:Asset ;
+      dcterms:description "Alleged intellectual property rights that have been infringed.".
+
+  #############################  Copyright complaints  ###########################
+  # If you believe that your intellectual property rights have been infringed,   #
+  # please send notice to the address below or fill out this form. We may delete #
+  # or disable content alleged to be infringing and may terminate accounts of    #
+  # repeat infringers.                                                           #
+  #                                                                              #
+  # OpenAI, L.L.C.                                                               #
+  # 1455 3rd Street                                                              #
+  # San Francisco, CA 94158                                                      #
+  # Attn: General Counsel / Copyright Agent                                      #
+  #                                                                              #
+  # Written claims concerning copyright infringement must include the            #
+  # following information:                                                       #
+  #                                                                              #
+  # - A physical or electronic signature of the person authorised to act on      #
+  # behalf of the owner of the copyright interest;                               #
+  # - A description of the copyrighted work that you claim has been infringed    #
+  # upon;                                                                        #
+  # - A description of where the allegedly infringing material is located on our #
+  # site so we can find it;                                                      #
+  # - Your address, telephone number, and e-mail address;                        #
+  # - A statement by you that you have a good-faith belief that the disputed use #
+  # is not authorised by the copyright owner, its agent, or the law; and         #
+  # - A statement by you, that the above information in your notice is accurate  #
+  # and, under penalty of perjury, that you are the copyright owner or           #
+  # authorised to act on the copyright owner’s behalf.                           #
+  ################################################################################
+
+  :permission24 a odrl:Permission ;
+      dcterms:description "The user may submit a copyright complaint if they believe their intellectual property rights have been infringed.";
+      odrl:assignee :customer ;
+      odrl:action tosl:claim ;
+      odrl:target :infringIPRight ;
+      odrl:constraint [
+              a odrl:Constraint ;
+              odrl:leftOperand odrl:deliveryChannel ;
+              odrl:operator odrl:isAnyOf ;
+              odrl:rightOperand (
+              <https://openai.com/form/copyright-disputes/>
+              "postal:OpenAI, L.L.C., 1455 3rd Street, San Francisco, CA 94158, Attn: General Counsel / Copyright Agent"^^xsd:string
+          );
+      ] ;
+      odrl:duty [
+          a odrl:Duty ;
+          dcterms:description "Written claims concerning copyright infringement";
+          odrl:action odrl:inform ;
+          odrl:target :infringIPRight ;
+          odrl:assignee :customer ;
+          odrl:informedParty :OpenAI
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_34_prohibition02.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule prohibition02 (General terms) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:prohibition :prohibition02 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  #################################  General terms  ##############################
+  # Assignment. You may not assign or transfer any rights or obligations under   #
+  # these Terms. We may assign or transfer our rights or obligations under these #
+  # Terms to any affiliate or subsidiary or any successor in interest of any     #
+  # business associated with our Services. If we do, any rights you have as a    #
+  # consumer will not be affected. If you are not satisfied, you have the right  #
+  # to terminate your relationship with OpenAI and stop using our Services at    #
+  # any time.                                                                    #
+  #                                                                              #
+  # Changes to these Terms or our Services. We are continuously working to       #
+  # develop and improve our Services. We may update these Terms or our Services  #
+  # accordingly from time to time. For example, we may make changes to these     #
+  # Terms or the Services due to:                                                #
+  #                                                                              #
+  # - Changes to the law or regulatory requirements.                             #
+  # - Security or safety reasons.                                                #
+  # - Circumstances beyond our reasonable control.                               #
+  # - Changes we make in the usual course of developing our Services.            #
+  # - To adapt to new technologies.                                              #
+  # - We will give you at least 30 days advance notice of changes that           #
+  # materially adversely impact you and the date that they will come into        #
+  # force either via email or an in-product notification. Any changes will       #
+  # only apply to our relationship going forward. If you do not agree to the     #
+  # changes, you must stop using our Services.                                   #
+  #                                                                              #
+  # Delay in enforcing these Terms. If we or you delay enforcing a provision of  #
+  # these Terms, either of us can still enforce it later, and it will not        #
+  # prevent us or you from taking steps against the other at a later date. If    #
+  # any part of these Terms is determined to be invalid or unenforceable, it     #
+  # will not affect the enforceability of any other part of these Terms.         #
+  #                                                                              #
+  # Trade controls. You must comply with all applicable trade laws, including    #
+  # sanctions and export control laws. Our Services may not be used in or for    #
+  # the benefit of, or exported or re-exported to (a) any U.S. embargoed country # 
+  # or territory or (b) any individual or entity with whom dealings are          #
+  # prohibited or restricted under applicable trade laws. Our Services may not   #
+  # be used for any end use prohibited by applicable trade laws, and your Input  #
+  # may not include material or information that requires a government licence   #
+  # for release or export.                                                       #
+  #                                                                              #
+  # Governing law. The law of the jurisdiction where you are a resident will     #
+  # govern these Terms.                                                          #
+  ################################################################################
+
+  :prohibition02 a odrl:Prohibition ;
+      dcterms:description "The customer may not assign or transfer any rights or obligations under these Terms.";
+      odrl:assignee :customer ;
+      odrl:action tosl:assign ;
+      odrl:target :agreement01 .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_35_permission25.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule permission25 (General terms) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:permission :permission25 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  #################################  General terms  ##############################
+  # Assignment. You may not assign or transfer any rights or obligations under   #
+  # these Terms. We may assign or transfer our rights or obligations under these #
+  # Terms to any affiliate or subsidiary or any successor in interest of any     #
+  # business associated with our Services. If we do, any rights you have as a    #
+  # consumer will not be affected. If you are not satisfied, you have the right  #
+  # to terminate your relationship with OpenAI and stop using our Services at    #
+  # any time.                                                                    #
+  #                                                                              #
+  # Changes to these Terms or our Services. We are continuously working to       #
+  # develop and improve our Services. We may update these Terms or our Services  #
+  # accordingly from time to time. For example, we may make changes to these     #
+  # Terms or the Services due to:                                                #
+  #                                                                              #
+  # - Changes to the law or regulatory requirements.                             #
+  # - Security or safety reasons.                                                #
+  # - Circumstances beyond our reasonable control.                               #
+  # - Changes we make in the usual course of developing our Services.            #
+  # - To adapt to new technologies.                                              #
+  # - We will give you at least 30 days advance notice of changes that           #
+  # materially adversely impact you and the date that they will come into        #
+  # force either via email or an in-product notification. Any changes will       #
+  # only apply to our relationship going forward. If you do not agree to the     #
+  # changes, you must stop using our Services.                                   #
+  #                                                                              #
+  # Delay in enforcing these Terms. If we or you delay enforcing a provision of  #
+  # these Terms, either of us can still enforce it later, and it will not        #
+  # prevent us or you from taking steps against the other at a later date. If    #
+  # any part of these Terms is determined to be invalid or unenforceable, it     #
+  # will not affect the enforceability of any other part of these Terms.         #
+  #                                                                              #
+  # Trade controls. You must comply with all applicable trade laws, including    #
+  # sanctions and export control laws. Our Services may not be used in or for    #
+  # the benefit of, or exported or re-exported to (a) any U.S. embargoed country # 
+  # or territory or (b) any individual or entity with whom dealings are          #
+  # prohibited or restricted under applicable trade laws. Our Services may not   #
+  # be used for any end use prohibited by applicable trade laws, and your Input  #
+  # may not include material or information that requires a government licence   #
+  # for release or export.                                                       #
+  #                                                                              #
+  # Governing law. The law of the jurisdiction where you are a resident will     #
+  # govern these Terms.                                                          #
+  ################################################################################
+
+  :permission25 a odrl:Permission ;
+      dcterms:description "OpenAI may assign or transfer rights or obligations under these Terms to an affiliate, subsidiary, or successor in interest.";
+      odrl:assignee :OpenAI ;
+      odrl:action tosl:assign ;
+      odrl:target :agreement01 .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
 
 ### tosl-openai/openai_36_permission26.ttl
 
@@ -8105,6 +17049,9 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrlapi**: invalid
   - not valid. Agreements must have an assigner and an assignee
   - Agreement must have an assigner and an assignee, either directly or on its rules
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
 
 ### tosl-openai/openai_37_prohibition03.ttl
 
@@ -8269,28 +17216,540 @@ The expected errors and the messages of the validators are grouped into categori
   - Violation: The rightOperand of odrl:spatial must be an IRI or a list of IRIs.
 - **odrlapi**: valid
   - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_38_liability06.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule liability06 (Business use of the Services addendum) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:obligation :obligation01 ;
+      tosl:liability :liability06 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  #####################  Business use of the Services addendum  ##################
+  # Commercial and business use. If you use our Services for commercial or       #
+  # business use, the following terms apply. In the event of a conflict between  #
+  # this Business Use of the Services Addendum and the rest of these Terms,      #
+  # this Addendum shall take precedence.                                         #
+  #                                                                              #
+  # Limitation of liability. NEITHER WE NOR ANY OF OUR AFFILIATES OR LICENSORS   #
+  # WILL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR      #
+  # EXEMPLARY DAMAGES, INCLUDING DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE,     #
+  # OR DATA OR OTHER LOSSES, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY     #
+  # OF SUCH DAMAGES. OUR AGGREGATE LIABILITY UNDER THESE TERMS WILL NOT          #
+  # EXCEED ​​THE GREATER OF THE AMOUNT YOU PAID FOR THE SERVICE THAT GAVE RISE     #
+  # TO THE CLAIM DURING THE 12 MONTHS BEFORE THE LIABILITY AROSE OR ONE HUNDRED  #
+  # DOLLARS ($100). THE LIMITATIONS IN THIS SECTION APPLY ONLY TO THE MAXIMUM    #
+  # EXTENT PERMITTED BY APPLICABLE LAW.                                          #
+  #                                                                              #
+  # Some countries and states do not allow the disclaimer of certain warranties  #
+  # or the limitation of certain damages, so some or all of the terms above may  #
+  # not apply to you, and you may have additional rights. In that case, these    #
+  # Terms only limit our responsibilities to the maximum extent permissible in   #
+  # your country of residence.                                                   #
+  #                                                                              #
+  # OPENAI’S AFFILIATES, SUPPLIERS, LICENSORS, AND DISTRIBUTORS ARE INTENDED     #
+  # THIRD PARTY BENEFICIARIES OF THIS ADDENDUM.                                  #
+  #                                                                              #
+  # Indemnity. If you are a business or organisation, to the extent permitted    #
+  # by law, you will indemnify and hold harmless us, our affiliates, and our     #
+  # personnel, from and against any costs, losses, liabilities, and expenses     #
+  # (including attorneys’ fees) from third party claims arising out of or        #
+  # relating to your use of the Services and Content or any violation of         #
+  # these Terms.                                                                 #
+  #                                                                              #
+  # Governing law (business use). California law will govern these Terms except  # 
+  # for its conflicts of laws principles. All claims arising out of or relating  # 
+  # to these Terms will be brought exclusively in the federal or state courts of #
+  # San Francisco, California.                                                   #
+  ################################################################################
+
+  :liability06 a tosl:Liability ;
+      dcterms:description "Neither OpenAI nor any of its affiliates or licensors will be liable for any indirect, incidental, special, consequential, or exemplary damages. The total liability is limited to the greater of: (1) the amount paid by the user in the prior 12 months for the specific service, or (2) $100. These limitations apply only to the maximum extent permitted by applicable law.";
+      tosl:liableParty :OpenAI ;
+      tosl:targetParty :businessCustomer ;
+      rdf:value tosl:anyIndirectDamage, tosl:anyLoss, tosl:legalCompliance ;
+      tosl:limitation [
+          a odrl:LogicalConstraint ;
+          odrl:or (
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:totalAmount ;
+                  odrl:operator odrl:lteq ;
+                  odrl:rightOperand :consumerQuote12Months ;
+              ]
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand odrl:payAmount ;
+                  odrl:operator odrl:eq ;
+                  odrl:rightOperand "100.00"^^xsd:decimal ;
+                  odrl:unit <http://dbpedia.org/resource/United_States_dollar>;
+              ]
+          )
+      ] .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_39_obligation02.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule obligation02 (Business use of the Services addendum) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:obligation :obligation02 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  #####################  Business use of the Services addendum  ##################
+  # Commercial and business use. If you use our Services for commercial or       #
+  # business use, the following terms apply. In the event of a conflict between  #
+  # this Business Use of the Services Addendum and the rest of these Terms,      #
+  # this Addendum shall take precedence.                                         #
+  #                                                                              #
+  # Limitation of liability. NEITHER WE NOR ANY OF OUR AFFILIATES OR LICENSORS   #
+  # WILL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR      #
+  # EXEMPLARY DAMAGES, INCLUDING DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE,     #
+  # OR DATA OR OTHER LOSSES, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY     #
+  # OF SUCH DAMAGES. OUR AGGREGATE LIABILITY UNDER THESE TERMS WILL NOT          #
+  # EXCEED ​​THE GREATER OF THE AMOUNT YOU PAID FOR THE SERVICE THAT GAVE RISE     #
+  # TO THE CLAIM DURING THE 12 MONTHS BEFORE THE LIABILITY AROSE OR ONE HUNDRED  #
+  # DOLLARS ($100). THE LIMITATIONS IN THIS SECTION APPLY ONLY TO THE MAXIMUM    #
+  # EXTENT PERMITTED BY APPLICABLE LAW.                                          #
+  #                                                                              #
+  # Some countries and states do not allow the disclaimer of certain warranties  #
+  # or the limitation of certain damages, so some or all of the terms above may  #
+  # not apply to you, and you may have additional rights. In that case, these    #
+  # Terms only limit our responsibilities to the maximum extent permissible in   #
+  # your country of residence.                                                   #
+  #                                                                              #
+  # OPENAI’S AFFILIATES, SUPPLIERS, LICENSORS, AND DISTRIBUTORS ARE INTENDED     #
+  # THIRD PARTY BENEFICIARIES OF THIS ADDENDUM.                                  #
+  #                                                                              #
+  # Indemnity. If you are a business or organisation, to the extent permitted    #
+  # by law, you will indemnify and hold harmless us, our affiliates, and our     #
+  # personnel, from and against any costs, losses, liabilities, and expenses     #
+  # (including attorneys’ fees) from third party claims arising out of or        #
+  # relating to your use of the Services and Content or any violation of         #
+  # these Terms.                                                                 #
+  #                                                                              #
+  # Governing law (business use). California law will govern these Terms except  # 
+  # for its conflicts of laws principles. All claims arising out of or relating  # 
+  # to these Terms will be brought exclusively in the federal or state courts of #
+  # San Francisco, California.                                                   #
+  ################################################################################
+
+  :obligation02 a odrl:Duty ;
+      dcterms:description "If you are a business or organisation, to the extent permitted by law, you will indemnify and hold harmless us, our affiliates, and our personnel, from and against any costs, losses, liabilities, and expenses (including attorneys’ fees) from third party claims arising out of or relating to your use of the Services and Content or any violation of these Terms.";
+      odrl:action odrl:compensate ;
+      odrl:assignee :businessCustomer ;
+      odrl:target :services ;
+      odrl:compensatedParty :OpenAI ;
+      odrl:constraint [
+          a odrl:Constraint ;
+          odrl:leftOperand tosl:justification ;
+          odrl:operator odrl:isAnyOf ;
+          odrl:rightOperand (
+              tosl:degradation
+              tosl:breachOfContract        
+              )
+      ] .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: Target should be a Asset or AssetCollection.
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
+
+### tosl-openai/openai_40_litigation03.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule litigation03 (Business use of the Services addendum) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      tosl:onDispute :litigation03 ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  tosl:californiaCourts a tosl:Jurisdiction .
+
+  tosl:californiaLaw a tosl:Law .
+
+  #####################  Business use of the Services addendum  ##################
+  # Commercial and business use. If you use our Services for commercial or       #
+  # business use, the following terms apply. In the event of a conflict between  #
+  # this Business Use of the Services Addendum and the rest of these Terms,      #
+  # this Addendum shall take precedence.                                         #
+  #                                                                              #
+  # Limitation of liability. NEITHER WE NOR ANY OF OUR AFFILIATES OR LICENSORS   #
+  # WILL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR      #
+  # EXEMPLARY DAMAGES, INCLUDING DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE,     #
+  # OR DATA OR OTHER LOSSES, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY     #
+  # OF SUCH DAMAGES. OUR AGGREGATE LIABILITY UNDER THESE TERMS WILL NOT          #
+  # EXCEED ​​THE GREATER OF THE AMOUNT YOU PAID FOR THE SERVICE THAT GAVE RISE     #
+  # TO THE CLAIM DURING THE 12 MONTHS BEFORE THE LIABILITY AROSE OR ONE HUNDRED  #
+  # DOLLARS ($100). THE LIMITATIONS IN THIS SECTION APPLY ONLY TO THE MAXIMUM    #
+  # EXTENT PERMITTED BY APPLICABLE LAW.                                          #
+  #                                                                              #
+  # Some countries and states do not allow the disclaimer of certain warranties  #
+  # or the limitation of certain damages, so some or all of the terms above may  #
+  # not apply to you, and you may have additional rights. In that case, these    #
+  # Terms only limit our responsibilities to the maximum extent permissible in   #
+  # your country of residence.                                                   #
+  #                                                                              #
+  # OPENAI’S AFFILIATES, SUPPLIERS, LICENSORS, AND DISTRIBUTORS ARE INTENDED     #
+  # THIRD PARTY BENEFICIARIES OF THIS ADDENDUM.                                  #
+  #                                                                              #
+  # Indemnity. If you are a business or organisation, to the extent permitted    #
+  # by law, you will indemnify and hold harmless us, our affiliates, and our     #
+  # personnel, from and against any costs, losses, liabilities, and expenses     #
+  # (including attorneys’ fees) from third party claims arising out of or        #
+  # relating to your use of the Services and Content or any violation of         #
+  # these Terms.                                                                 #
+  #                                                                              #
+  # Governing law (business use). California law will govern these Terms except  # 
+  # for its conflicts of laws principles. All claims arising out of or relating  # 
+  # to these Terms will be brought exclusively in the federal or state courts of #
+  # San Francisco, California.                                                   #
+  ################################################################################
+
+  :litigation03 a tosl:Litigation;
+      dcterms:description "California law will govern these Terms except for its conflicts of laws principles. All claims arising out of or relating to these Terms will be brought exclusively in the federal or state courts of San Francisco, California.";
+      tosl:takesPlaceIn tosl:californiaCourts ;
+      tosl:governedBy tosl:californiaLaw ;
+      tosl:targetParty :businessCustomer .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: valid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+- **odrlapi**: valid
+  - valid
+- **odrl-multi-agent-shacl**: invalid
+  - Violation: Every Agreement rule must identify assigner and assignee
+  - Violation: Policy must have exactly one IRI uid
 
 ## Original and corrected samples
 
-| Policy | Expected | odrl-validator (original → corrected) | odrlapi (original → corrected) | Why odrl-validator rejected the original |
-|---|---|---|---|---|
-| odrlapi-samples/sample020.ttl | valid | invalid → valid | valid → valid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
-| odrlapi-samples/sample021.ttl | valid | invalid → invalid | valid → valid | Conflict: The permission and prohibition have the same assignee, target and action |
-| odrlapi-samples/sample024.ttl | invalid | invalid → invalid | valid → valid | Action is neither part of the ODRL Vocabulary nor typed as odrl:Action in a profile.<br>The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.<br>A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.<br>Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> |
-| odrlapi-samples/sample026.ttl | valid | invalid → valid | valid → valid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
-| odrlapi-samples/sample032.ttl | valid | invalid → valid | valid → valid | Error: Expected entity but got eof on line 16. |
-| odrlapi-samples/sample035.ttl | valid | invalid → valid | valid → valid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
-| odrlapi-samples/sample036.ttl | invalid | invalid → invalid | valid → valid | Policies must have at least one permission, obligation or prohibition.<br>Value is not in http://www.w3.org/ns/odrl/2/Policy, http://www.w3.org/ns/odrl/2/Agreement, http://www.w3.org/ns/odrl/2/Assertion, http://www.w3.org/ns/odrl/2/Offer, http://www.w3.org/ns/odrl/2/Privacy, http://www.w3.org/ns/odrl/2/Request, http://www.w3.org/ns/odrl/2/Set, http://www.w3.org/ns/odrl/2/Ticket<br>A Rule must have one action.<br>A remedy must be an odrl:Duty, not a Permission or Prohibition.<br>A Prohibition must have one odrl:target. |
-| odrlapi-samples/sample047.ttl | invalid | invalid → valid | invalid → invalid | A Permission must have one odrl:target. |
-| odrlapi-samples/sample053.ttl | invalid | invalid → invalid | valid → valid | Each constraint must conform to ODRL constraint or ODRL logical constraint.<br>The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile. |
-| odrlapi-samples/sample055.ttl | valid | invalid → valid | valid → valid | A Rule must have one action. |
-| odrlapi-samples/sample058.ttl | invalid | invalid → invalid | invalid → invalid | Error: Expected punctuation to follow "http://www.w3.org/ns/odrl/2/play" on line 13. |
-| odrlapi-samples/sample060.ttl | invalid | invalid → invalid | invalid → invalid | Error: Expected punctuation to follow "http://www.w3.org/ns/odrl/2/play" on line 13. |
-| odrlapi-samples/sample061.ttl | invalid | invalid → invalid | valid → valid | The operator should be a standard ODRL operators or typed as odrl:Operator in a profile.<br>odrl:dateTime must only be used with comparison operators odrl:eq, odrl:gt, odrl:gteq, odrl:lt, odrl:lteq or odrl:neq.<br>The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
-| odrlapi-samples/sample065.ttl | invalid | invalid → invalid | invalid → invalid | A Rule must have one action.<br>A collection with refinement must have one source. |
-| odrlapi-samples/sample066.ttl | invalid | invalid → invalid | invalid → invalid | A Rule must have one action.<br>A collection with refinement must have one source. |
-| odrlapi-samples/sample067.ttl | valid | invalid → valid | valid → valid | A Rule must have one action. |
-| odrlapi-samples/sample070.ttl | valid | invalid → valid | valid → valid | Error: Expected entity but got eof on line 15. |
-| odrlapi-samples/sample071.ttl | valid | invalid → valid | valid → valid | Error: Expected entity but got eof on line 16. |
-| odrlapi-samples/sample076.ttl | invalid | invalid → invalid | valid → valid | Error: Expected declaration to end with a dot on line 6. |
-| tosl-openai/openai_38_liability06.ttl | valid | invalid → valid | valid → valid | The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile. |
+The files that we corrected, with the result of each validator before and after the correction.
+
+| Policy | Expected | odrl-validator (original → corrected) | odrlapi (original → corrected) | odrl-multi-agent-shacl (original → corrected) | Why odrl-validator rejected the original |
+|---|---|---|---|---|---|
+| odrlapi-samples/sample020.ttl | valid | invalid → valid | valid → valid | invalid → invalid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
+| odrlapi-samples/sample021.ttl | valid | invalid → invalid | valid → valid | invalid → invalid | Conflict: The permission and prohibition have the same assignee, target and action |
+| odrlapi-samples/sample024.ttl | invalid | invalid → invalid | valid → valid | invalid → invalid | Action is neither part of the ODRL Vocabulary nor typed as odrl:Action in a profile.<br>The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.<br>A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.<br>Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> |
+| odrlapi-samples/sample026.ttl | valid | invalid → valid | valid → valid | invalid → invalid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
+| odrlapi-samples/sample032.ttl | valid | invalid → valid | valid → valid | invalid → invalid | Error: Expected entity but got eof on line 16. |
+| odrlapi-samples/sample035.ttl | valid | invalid → valid | valid → valid | invalid → invalid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
+| odrlapi-samples/sample036.ttl | invalid | invalid → invalid | valid → valid | invalid → invalid | Policies must have at least one permission, obligation or prohibition.<br>Value is not in http://www.w3.org/ns/odrl/2/Policy, http://www.w3.org/ns/odrl/2/Agreement, http://www.w3.org/ns/odrl/2/Assertion, http://www.w3.org/ns/odrl/2/Offer, http://www.w3.org/ns/odrl/2/Privacy, http://www.w3.org/ns/odrl/2/Request, http://www.w3.org/ns/odrl/2/Set, http://www.w3.org/ns/odrl/2/Ticket<br>A Rule must have one action.<br>A remedy must be an odrl:Duty, not a Permission or Prohibition.<br>A Prohibition must have one odrl:target. |
+| odrlapi-samples/sample047.ttl | invalid | invalid → valid | invalid → invalid | invalid → invalid | A Permission must have one odrl:target. |
+| odrlapi-samples/sample053.ttl | invalid | invalid → invalid | valid → valid | invalid → invalid | Each constraint must conform to ODRL constraint or ODRL logical constraint.<br>The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile. |
+| odrlapi-samples/sample055.ttl | valid | invalid → valid | valid → valid | invalid → invalid | A Rule must have one action. |
+| odrlapi-samples/sample058.ttl | invalid | invalid → invalid | invalid → invalid | invalid → invalid | Error: Expected punctuation to follow "http://www.w3.org/ns/odrl/2/play" on line 13. |
+| odrlapi-samples/sample060.ttl | invalid | invalid → invalid | invalid → invalid | invalid → invalid | Error: Expected punctuation to follow "http://www.w3.org/ns/odrl/2/play" on line 13. |
+| odrlapi-samples/sample061.ttl | invalid | invalid → invalid | valid → valid | invalid → invalid | The operator should be a standard ODRL operators or typed as odrl:Operator in a profile.<br>odrl:dateTime must only be used with comparison operators odrl:eq, odrl:gt, odrl:gteq, odrl:lt, odrl:lteq or odrl:neq.<br>The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
+| odrlapi-samples/sample065.ttl | invalid | invalid → invalid | invalid → invalid | invalid → invalid | A Rule must have one action.<br>A collection with refinement must have one source. |
+| odrlapi-samples/sample066.ttl | invalid | invalid → invalid | invalid → invalid | invalid → invalid | A Rule must have one action.<br>A collection with refinement must have one source. |
+| odrlapi-samples/sample067.ttl | valid | invalid → valid | valid → valid | invalid → invalid | A Rule must have one action. |
+| odrlapi-samples/sample070.ttl | valid | invalid → valid | valid → valid | invalid → invalid | Error: Expected entity but got eof on line 15. |
+| odrlapi-samples/sample071.ttl | valid | invalid → valid | valid → valid | invalid → invalid | Error: Expected entity but got eof on line 16. |
+| odrlapi-samples/sample076.ttl | invalid | invalid → invalid | valid → valid | invalid → invalid | Error: Expected declaration to end with a dot on line 6. |
+| tosl-openai/openai_38_liability06.ttl | valid | invalid → valid | valid → valid | invalid → invalid | The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile. |

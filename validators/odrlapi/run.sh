@@ -10,7 +10,7 @@ LIB=validators/odrlapi/licensius/odrlapi/target/odrlapi/WEB-INF
 SEP=":"
 case "$(uname)" in MINGW*|MSYS*|CYGWIN*) SEP=";" ;; esac
 
-FILES=$(cd dataset && find . -name '*.ttl' | sed 's#^\./##' | sort)
+FILES=$(cd dataset && find . -name '*.ttl' | sed 's#^\./##' | LC_ALL=C sort)
 TOTAL=$(echo "$FILES" | wc -l | tr -d ' ')
 COUNT=0
 

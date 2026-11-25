@@ -5,6 +5,7 @@ Validators compared:
 
 - [odrl-validator](https://github.com/odrl-force/odrl-validator), version 0.2.0 (commit `0e6b7e4`), with the TOSL and DPV-ODRL profiles
 - [odrlapi](https://github.com/oeg-upm/licensius/tree/master/odrlapi), commit `9949458`
+- The SHACL shapes of [odrl-multi-agent-llm](https://github.com/Daham-Mustaf/odrl-multi-agent-llm) (`odrl-multi-agent-shacl`), commit `c701396`, see [its README](validators/odrl-multi-agent-shacl/README.md)
 
 The latest results are explained in [REPORT.md](REPORT.md). The detailed results are in [evaluation/results/summary.md](evaluation/results/summary.md).
 
@@ -26,7 +27,7 @@ The latest results are explained in [REPORT.md](REPORT.md). The detailed results
 
 ## How to run
 
-Requirements: git, Node 20 or newer, Java 11 or newer, and Maven.
+Requirements: git, curl, Node 20 or newer, Java 11 or newer, Maven, and Python 3.10 or newer.
 
 ```sh
 git clone https://github.com/odrl-force/odrl-validator-benchmark.git
@@ -40,6 +41,7 @@ The script downloads each validator at a fixed commit, so everyone gets the same
 
 - odrl-validator from GitHub, at the commit in `validators/odrl-validator/package.json`.
 - odrlapi from the licensius repository, at the commit in `validators/odrlapi/setup.sh`. It is built locally with Maven.
+- The SHACL shapes of odrl-multi-agent-llm from GitHub, at the commit in `validators/odrl-multi-agent-shacl/setup.sh`. pyshacl is installed in a `.venv` folder inside that folder.
 
 ## License
 
@@ -54,3 +56,5 @@ The policies in `dataset/` are copied from other projects and keep the license o
 | odrl-evaluator-test-suite | [SolidLabResearch/ODRL-Test-Suite](https://github.com/SolidLabResearch/ODRL-Test-Suite) | MIT |
 | tosl-elsevier, tosl-openai | [isa-group/tosl](https://github.com/isa-group/tosl) | CC BY 4.0 |
 | odrl-dpv | [besteves4/SDS2026-DPV-ODRL-mapping](https://github.com/besteves4/SDS2026-DPV-ODRL-mapping) | CC BY-SA 4.0 |
+
+The validators are not copied into this repository: `run-benchmark.sh` downloads them. [odrl-multi-agent-llm](https://github.com/Daham-Mustaf/odrl-multi-agent-llm) is MIT.
