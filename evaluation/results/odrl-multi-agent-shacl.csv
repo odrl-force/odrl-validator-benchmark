@@ -1,0 +1,472 @@
+file,valid,violations,warnings,conflicts,messages
+elena-test/test-00-invalid-empty-policy.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must contain at least one rule
+elena-test/test-01-invalid-policy-permission-prohibition.ttl,false,5,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI action | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI target
+elena-test/test-02-valid-policy-permission-prohibition.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+elena-test/test-03-invalid-policy-conflicts-perm-prohibition.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+elena-test/test-04-valid-policy-no-conflicts-perm-prohibition.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+elena-test/test-05-inconsistent-policy-perm-prohibition.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+elena-test/test-06-inconsistent-policy-perm-prohibition-duty.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+elena-test/test-07-inconsistent-constraint.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+elena-test/test-08-valid-constraint-datetime.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+elena-test/test-09-invalid-constraint-datetime-operator.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+elena-test/test-10-invalid-constraint-datetime-right-operand.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrl-dpv/data-age.ttl,true,0,0,0,
+odrl-dpv/data-data-source.ttl,true,0,0,0,
+odrl-dpv/data-data.ttl,true,0,0,0,
+odrl-dpv/data-gender.ttl,true,0,0,0,
+odrl-dpv/data-nationality.ttl,true,0,0,0,
+odrl-dpv/data-personal-data.ttl,true,0,0,0,
+odrl-dpv/entities-actor.ttl,true,0,0,0,
+odrl-dpv/entities-agent.ttl,true,0,0,0,
+odrl-dpv/entities-entity.ttl,true,0,0,0,
+odrl-dpv/entities-human-subject.ttl,true,0,0,0,
+odrl-dpv/entities-legal-entity.ttl,true,0,0,0,
+odrl-dpv/entities-organisation.ttl,true,0,0,0,
+odrl-dpv/entities-party-collection.ttl,true,0,0,0,
+odrl-dpv/entities-recipient.ttl,true,0,0,0,
+odrl-dpv/legal-gdpr-consent.ttl,true,0,0,0,
+odrl-dpv/location-location.ttl,true,0,0,0,
+odrl-dpv/processing-action-refinement.ttl,true,0,0,0,
+odrl-dpv/processing-processing.ttl,true,0,0,0,
+odrl-dpv/purpose-purpose.ttl,true,0,0,0,
+odrl-dpv/rights-justifications-rights-justifications.ttl,true,0,0,0,
+odrl-dpv/risk-risk.ttl,true,0,0,0,
+odrl-dpv/risk-severity.ttl,true,0,0,0,
+odrl-dpv/sector-sector.ttl,true,0,0,0,
+odrl-dpv/status-status.ttl,true,0,0,0,
+odrl-dpv/tech-tech-constraint.ttl,true,0,0,0,
+odrl-dpv/tech-tech.ttl,true,0,0,0,
+odrl-dpv/temporal-duration.ttl,true,0,0,0,
+odrl-dpv/temporal-frequency.ttl,true,0,0,0,
+odrl-dpv/tom-tom.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-1.ttl,false,2,0,0,Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI target
+odrl-evaluator-test-suite/policy-10.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-11.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-12.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-13.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-14.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-15.ttl,false,1,0,0,Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+odrl-evaluator-test-suite/policy-16.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-17.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-18.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-19.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-2.ttl,false,2,0,0,Violation: Prohibition must have at least one IRI action | Violation: Prohibition must have at least one IRI target
+odrl-evaluator-test-suite/policy-20.ttl,false,263,0,0,Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list | Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+odrl-evaluator-test-suite/policy-21.ttl,false,1,0,0,Violation: LogicalConstraint needs an and/or/xone/andSequence operand list
+odrl-evaluator-test-suite/policy-22.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-23.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-24.ttl,false,1,0,0,Violation: Constraint needs exactly one rightOperand or rightOperandReference
+odrl-evaluator-test-suite/policy-25.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-26.ttl,false,1,0,0,Violation: Constraint needs exactly one rightOperand or rightOperandReference
+odrl-evaluator-test-suite/policy-27.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-28.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrl-evaluator-test-suite/policy-29.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+odrl-evaluator-test-suite/policy-3.ttl,false,1,0,0,Violation: Permission must have at least one IRI target
+odrl-evaluator-test-suite/policy-4.ttl,false,1,0,0,Violation: Prohibition must have at least one IRI target
+odrl-evaluator-test-suite/policy-5.ttl,false,1,0,0,Violation: Permission must have at least one IRI target
+odrl-evaluator-test-suite/policy-6.ttl,false,1,0,0,Violation: Prohibition must have at least one IRI target
+odrl-evaluator-test-suite/policy-7.ttl,false,1,0,0,Violation: Permission must have at least one IRI target
+odrl-evaluator-test-suite/policy-8.ttl,true,0,0,0,
+odrl-evaluator-test-suite/policy-9.ttl,true,0,0,0,
+odrlapi-samples/original/sample000.ttl,true,0,0,0,
+odrlapi-samples/original/sample001.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample002.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must contain at least one rule
+odrlapi-samples/original/sample003.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample004.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample005.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+odrlapi-samples/original/sample006.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Every Offer rule must identify an assigner
+odrlapi-samples/original/sample007.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample008.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample009.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample010.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample011.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample012.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample013.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample014.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample015.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample016.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample017.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample018.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Every Offer rule must identify an assigner
+odrlapi-samples/original/sample019.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample020.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample021.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample022.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample023.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample024.ttl,false,3,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample025.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample026.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample027.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample028.ttl,false,2,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample029.ttl,false,2,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample030.ttl,false,2,0,0,Violation: Constraint needs one IRI operator | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample031.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+odrlapi-samples/original/sample032.ttl,false,1,0,0,"Error: at line 16 of <>: Bad syntax (EOF found when expected verb in property list) at ^ in: ""...b'rl:hasPolicy <http://odrlapi.appspot.com/samples/sample031>;'^b'\n\n'"""
+odrlapi-samples/original/sample033.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample034.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample035.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample036.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI action | Violation: Prohibition must have at least one IRI target
+odrlapi-samples/original/sample037.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample038.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample039.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample040.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample041.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample042.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample043.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample044.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample045.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample046.ttl,false,6,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample047.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample048.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample049.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample050.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample051.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample052.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample053.ttl,false,2,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample054.ttl,false,2,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample055.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample056.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample057.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample058.ttl,false,1,0,0,"Error: at line 13 of <>: Bad syntax (']' expected) at ^ in: ""...b'm/samples/asset000> ;\n odrl:action odrl:play\n '^b'odrl:constraint [\n odrl:leftOperand p1:abracadabr'..."""
+odrlapi-samples/original/sample059.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample060.ttl,false,1,0,0,"Error: at line 13 of <>: Bad syntax (']' expected) at ^ in: ""...b'm/samples/asset000> ;\n odrl:action odrl:play\n '^b'odrl:constraint [\n odrl:leftOperand odrl:dateTime'..."""
+odrlapi-samples/original/sample061.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample062.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample063.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample064.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample065.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample066.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample067.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample068.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample069.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample070.ttl,false,1,0,0,"Error: at line 15 of <>: Bad syntax (EOF found after object) at ^ in: ""b'@prefix odrl: <http://www.w3.org/ns/odrl/2/> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix dct: <http://purl.org/dc/terms/> .\n\n#valid. Example 27 in the IM\n<http://odrlapi.appspot.com/samples/sample070>\n a odrl:Policy ;\n dct:source <http://w3c.github.io/poe/model/> ;\n odrl:profile <http://example.com/odrl:profile:20> ;\n odrl:permission [\n odrl:target <http://example.com/music/1999.mp3>, <http://example.com/music/PurpleRain.mp3> ;\n odrl:assigner <http://example.com/org/sony-music> ;\n odrl:action odrl:play, odrl:stream\n ]'^b''..."""
+odrlapi-samples/original/sample071.ttl,false,1,0,0,"Error: at line 16 of <>: Bad syntax (EOF found after object) at ^ in: ""b'@prefix odrl: <http://www.w3.org/ns/odrl/2/> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix dct: <http://purl.org/dc/terms/> .\n\n#valid. Modified example 27 in the IM.\n<http://odrlapi.appspot.com/samples/sample071>\n a odrl:Policy ;\n dct:source ""victor"" ;\n odrl:profile <http://example.com/odrl:profile:20> ;\n odrl:permission [\n odrl:target <http://example.com/music/1999.mp3>, <http://example.com/music/PurpleRain.mp3> ;\n odrl:assigner <http://example.com/org/sony-music> ;\n odrl:action odrl:play, odrl:stream, odrl:print\n ]\n'^b''..."""
+odrlapi-samples/original/sample072.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample073.ttl,false,2,0,0,Violation: A prohibition remedy must not have a consequence | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample074.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample076.ttl,false,1,0,0,"Error: at line 6 of <>: Bad syntax (expected '.' or '}' or ']' at end of statement) at ^ in: ""...b'000/01/rdf-schema#>\n\n#invalid. rightOperand is a blank node\n'^b'<http://odrlapi.appspot.com/samples/sample076>\n dct:sourc'..."""
+odrlapi-samples/original/sample078.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample079.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample080.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample081.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/original/sample082.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample000.ttl,true,0,0,0,
+odrlapi-samples/sample001.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample002.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must contain at least one rule
+odrlapi-samples/sample003.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample004.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample005.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+odrlapi-samples/sample006.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Every Offer rule must identify an assigner
+odrlapi-samples/sample007.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample008.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample009.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample010.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample011.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample012.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample013.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample014.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample015.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample016.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample017.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample018.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Every Offer rule must identify an assigner
+odrlapi-samples/sample019.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample020.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample021.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample022.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample023.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample024.ttl,false,3,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample025.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample026.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample027.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample028.ttl,false,2,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample029.ttl,false,2,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample030.ttl,false,2,0,0,Violation: Constraint needs one IRI operator | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample031.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+odrlapi-samples/sample032.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+odrlapi-samples/sample033.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample034.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample035.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample036.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample037.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample038.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample039.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample040.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample041.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample042.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample043.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample044.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample045.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample046.ttl,false,6,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample047.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample048.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample049.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample050.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample051.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample052.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample053.ttl,false,2,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample054.ttl,false,2,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample055.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample056.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample057.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample058.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample059.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample060.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample061.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample062.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample063.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample064.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample065.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample066.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample067.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample068.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample069.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample070.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample071.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample072.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample073.ttl,false,2,0,0,Violation: A prohibition remedy must not have a consequence | Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample074.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample075.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample076.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample077.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample078.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample079.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample080.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample081.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+odrlapi-samples/sample082.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/APACHE1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/APACHE2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ARTISTIC2.0.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/BOOST1.0.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/BSD2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/BSD3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/BSD4.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/CDDL1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/COLORIURIS1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/COMMON1.0.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/CRYPTIX1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ECLIPSE1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/EUC1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/EUPL1.1.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/FREEBSD1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/GOVTRACK1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/IBM1.0.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/MICROSOFT1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/MIT1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/MOZILLA2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/NDL1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/OGL1.0.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target
+rdflicenses/OL1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ORACLE1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/OS3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/PDM1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/W3C1.0.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/afl3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/againstdrm2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/agpl3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/allrightsreserved.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc-nd2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc-nd3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc-nd3.0at.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0au.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0br.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0ch.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0cl.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0cn.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc-nd3.0de.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0ec.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0es.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc-nd3.0fr.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0gr.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0ie.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0it.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0nl.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0pt.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0ro.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd3.0ve.ttl,false,3,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nc-nd4.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc-sa2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc-sa3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc-sa4.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nc4.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nd2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nd2.0be.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd2.5dk.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-nd3.0at.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0au.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0br.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0ch.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0cl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0cn.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0de.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0ec.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0es.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0fr.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0gr.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0ie.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0it.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0nl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0pt.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0ro.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd3.0ve.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-nd4.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-sa2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-sa3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by-sa3.0at.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0au.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0br.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0ch.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0cl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0cn.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0de.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0ec.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0es.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0fr.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0gr.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0ie.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0it.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0nl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0pt.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0ro.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa3.0ve.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by-sa4.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by2.0at.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0au.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0be.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0br.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0ca.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0cl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0de.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0es.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0fr.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0it.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0jp.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0kr.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0nl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0uk.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.0za.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5ar.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5bg.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5ch.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5cz.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5dk.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5hu.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5il.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5in.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5mx.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5pe.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5pt.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by2.5se.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by3.0at.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0au.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0br.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0ch.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0cl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0cn.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0de.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0ec.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0eg.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0es.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by3.0fr.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-by3.0gr.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0ie.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0it.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0lu.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0nl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0nz.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0pl.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0pt.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0ro.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0th.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0us.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by3.0ve.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI target
+rdflicenses/cc-by4.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/cc-zero1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/clarin_aca_by.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/elra-end-user.ttl,false,5,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid | Violation: Constraint needs exactly one rightOperand or rightOperandReference | Violation: Constraint needs exactly one rightOperand or rightOperandReference
+rdflicenses/elra-var.ttl,false,5,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid | Violation: Constraint needs exactly one rightOperand or rightOperandReference | Violation: Constraint needs exactly one rightOperand or rightOperandReference
+rdflicenses/fal1.3.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/gfdl1.1.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/gfdl1.3.ttl,false,1,0,0,"Error: at line 26 of <>: Bad syntax (Prefix "":"" not bound) at ^ in: ""...b' odrl:duty\n [ odrl:action '^b':patentFree , cc:ShareAlike , cc:Attribution\n '..."""
+rdflicenses/gpl1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/gpl2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/gpl3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/lgpl2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/lgpl2.1.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/lgpl3.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ms-c-nored-ff.ttl,false,5,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid | Violation: Constraint needs exactly one rightOperand or rightOperandReference | Violation: Constraint needs exactly one rightOperand or rightOperandReference
+rdflicenses/ms-c-nored.ttl,false,5,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid | Violation: Constraint needs exactly one rightOperand or rightOperandReference | Violation: Constraint needs exactly one rightOperand or rightOperandReference
+rdflicenses/ms-commons-byncnd.ttl,false,5,0,0,Violation: Constraint needs one IRI leftOperand | Violation: Constraint needs one IRI leftOperand | Violation: Policy must have exactly one IRI uid | Violation: Constraint needs exactly one rightOperand or rightOperandReference | Violation: Constraint needs exactly one rightOperand or rightOperandReference
+rdflicenses/odbc-by1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/odbc-pddl1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/odbl1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ogl-nc1.0.ttl,false,2,0,0,Violation: Policy must have exactly one IRI uid | Violation: Prohibition must have at least one IRI target
+rdflicenses/publicdomain.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/simple2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ukogl-nc2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ukogl1.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ukogl2.0.ttl,false,1,0,0,Violation: Policy must have exactly one IRI uid
+rdflicenses/ukogl3.0.ttl,false,1,0,0,"Error: at line 104 of <>: Bad syntax (expected '.' or '}' or ']' at end of statement) at ^ in: ""...b'amework section on The National Archives website.\n """""" '^b'@en .\n'"""
+tosl-elsevier/API_Service_Agreement_2017.ttl,false,8,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI action | Violation: Duty must have at least one IRI action | Violation: Duty must have at least one IRI action
+tosl-elsevier/clause-1.1.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-1.2.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-1.3.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-elsevier/clause-2.1.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-2.2.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-2.3.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-3.1.1.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-elsevier/clause-3.1.2.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-3.1.3.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-elsevier/clause-3.1.4.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-3.2.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-3.3.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Duty must have at least one IRI action
+tosl-elsevier/clause-3.4.ttl,false,4,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action | Violation: Duty must have at least one IRI action
+tosl-elsevier/clause-4.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-5.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-elsevier/clause-6.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/Europe_terms_of_use_2024.ttl,false,8,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI action | Violation: Permission must have at least one IRI action
+tosl-openai/openai_01_obligation01.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_02_permission01.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-openai/openai_03_prohibition01.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_04_permission02.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_05_permission03.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_06_permission04.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_07_liability01.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_08_permission05.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-openai/openai_09_permission06.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-openai/openai_10_permission07.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-openai/openai_11_liability02.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_12_permission08.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-openai/openai_13_permission09.ttl,false,3,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid | Violation: Permission must have at least one IRI action
+tosl-openai/openai_14_permission10.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_15_permission11.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_16_permission12.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_17_permission13.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_18_permission14.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_19_permission15.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_20_permission16.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_21_permission17.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_22_permission18.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_23_permission19.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_24_permission20.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_25_permission21.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_26_permission22.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_27_liability03.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_28_liability04.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_29_liability05.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_30_permission23.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_31_litigation01.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_32_litigation02.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_33_permission24.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_34_prohibition02.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_35_permission25.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_36_permission26.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_37_prohibition03.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_38_liability06.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_39_obligation02.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/openai_40_litigation03.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
+tosl-openai/original/openai_38_liability06.ttl,false,2,0,0,Violation: Every Agreement rule must identify assigner and assignee | Violation: Policy must have exactly one IRI uid
