@@ -3,7 +3,7 @@ Benchmark to compare ODRL policy validators using a shared dataset of valid and 
 
 Validators compared:
 
-- [odrl-validator](https://github.com/odrl-force/odrl-validator), commit `33a82d7`
+- [odrl-validator](https://github.com/odrl-force/odrl-validator), version 0.2.0 (commit `0e6b7e4`), with the TOSL and DPV-ODRL profiles
 - [odrlapi](https://github.com/oeg-upm/licensius/tree/master/odrlapi), commit `9949458`
 
 The latest results are explained in [REPORT.md](REPORT.md). The detailed results are in [evaluation/results/summary.md](evaluation/results/summary.md).
@@ -40,3 +40,17 @@ The script downloads each validator at a fixed commit, so everyone gets the same
 
 - odrl-validator from GitHub, at the commit in `validators/odrl-validator/package.json`.
 - odrlapi from the licensius repository, at the commit in `validators/odrlapi/setup.sh`. It is built locally with Maven.
+
+## License
+
+The code of this repository is licensed under the [MIT License](LICENSE.md).
+
+The policies in `dataset/` are copied from other projects and keep the license of their source:
+
+| Folder | Source | License |
+|---|---|---|
+| odrlapi-samples, rdflicenses | [oeg-upm/licensius](https://github.com/oeg-upm/licensius) | MIT |
+| elena-test | [odrl-force/odrl-validator](https://github.com/odrl-force/odrl-validator) | MIT |
+| odrl-evaluator-test-suite | [SolidLabResearch/ODRL-Test-Suite](https://github.com/SolidLabResearch/ODRL-Test-Suite) | MIT |
+| tosl-elsevier, tosl-openai | [isa-group/tosl](https://github.com/isa-group/tosl) | CC BY 4.0 |
+| odrl-dpv | [besteves4/SDS2026-DPV-ODRL-mapping](https://github.com/besteves4/SDS2026-DPV-ODRL-mapping) | CC BY-SA 4.0 |

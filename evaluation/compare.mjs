@@ -109,7 +109,8 @@ const CATEGORIES = [
     { name: 'Operator not allowed for the left operand', expected: /must only be used with comparison operators/, 'odrl-validator': /must only be used with comparison operators/ },
     { name: 'Collection without source', expected: /lacks source/, 'odrl-validator': /collection with refinement must have one source/, odrlapi: /must have a odrl:source/ },
     { name: 'Inheritance', expected: /inheritance|inheritsFrom/i, 'odrl-validator': /inheritFrom/, odrlapi: /inheritance|inheritsFrom/ },
-    { name: 'Remedy with a consequence', expected: /remedy/, 'odrl-validator': /remedy/, odrlapi: /remedy/ },
+    { name: 'Wrong remedy', expected: /remedy/, 'odrl-validator': /remedy/, odrlapi: /remedy/ },
+    { name: 'Rule that is a permission and a prohibition', expected: /both a permission and a prohibition/, 'odrl-validator': /A permission must be an odrl:Permission/ },
     { name: 'Conflict between rules', expected: /^Conflict: /, 'odrl-validator': /^Conflict: / },
 ];
 const expectedErrors = (e) => [ ...e.expected.validationResults, ...e.expected.conflicts.map((c) => `Conflict: ${c}`) ];
