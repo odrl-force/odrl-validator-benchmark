@@ -385,6 +385,6 @@ tosl-openai,tosl-openai/openai_34_prohibition02.ttl,valid,false,valid,valid,,
 tosl-openai,tosl-openai/openai_35_permission25.ttl,valid,false,valid,valid,,
 tosl-openai,tosl-openai/openai_36_permission26.ttl,valid,false,valid,invalid,,
 tosl-openai,tosl-openai/openai_37_prohibition03.ttl,invalid,false,invalid,valid,1/1,0/1
-tosl-openai,tosl-openai/openai_38_liability06.ttl,valid,false,valid,valid,,
+tosl-openai,tosl-openai/openai_38_liability06.ttl,valid,false,invalid,valid,,
 tosl-openai,tosl-openai/openai_39_obligation02.ttl,valid,false,valid,valid,,
 tosl-openai,tosl-openai/openai_40_litigation03.ttl,valid,false,valid,valid,,

@@ -3,7 +3,7 @@ Benchmark to compare ODRL policy validators using a shared dataset of valid and 
 
 Validators compared:
 
-- [odrl-validator](https://github.com/odrl-force/odrl-validator), commit `33a82d7`
+- [odrl-validator](https://github.com/odrl-force/odrl-validator), version 0.2.0 (commit `0e6b7e4`), with the TOSL and DPV-ODRL profiles
 - [odrlapi](https://github.com/oeg-upm/licensius/tree/master/odrlapi), commit `9949458`
 
 The latest results are explained in [REPORT.md](REPORT.md). The detailed results are in [evaluation/results/summary.md](evaluation/results/summary.md).

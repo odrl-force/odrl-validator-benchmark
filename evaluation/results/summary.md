@@ -6,7 +6,7 @@ Policies: 389 in 7 groups (11 with an uncertain expected result, marked with (?)
 
 | Validator | Correct | Invalid accepted as valid | Valid rejected as invalid |
 |---|---|---|---|
-| odrl-validator | 377/389 (97%) | 1 | 11 |
+| odrl-validator | 376/389 (97%) | 1 | 12 |
 | odrlapi | 367/389 (94%) | 16 | 6 |
 
 ## Results by group
@@ -19,7 +19,7 @@ Policies: 389 in 7 groups (11 with an uncertain expected result, marked with (?)
 | odrlapi-samples | 83 | 28 | 71/83 (86%) | 80/83 (96%) |
 | rdflicenses | 179 | 179 | 179/179 (100%) | 179/179 (100%) |
 | tosl-elsevier | 17 | 0 | 17/17 (100%) | 15/17 (88%) |
-| tosl-openai | 41 | 3 | 41/41 (100%) | 36/41 (88%) |
+| tosl-openai | 41 | 3 | 40/41 (98%) | 36/41 (88%) |
 
 ## Results on the original samples of odrlapi-samples
 
@@ -70,7 +70,8 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrl-validator**: 
   - A permission must be an odrl:Permission, not a Prohibition or Duty.
   - Action should be a supported action or a blank node with rdf:value and odrl:refinement.
-  - The policy type must be an ODRL policy class, or a subclass of odrl:Policy defined in a loaded profile.
+  - Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Value is not in http://www.w3.org/ns/odrl/2/Policy, http://www.w3.org/ns/odrl/2/Agreement, http://www.w3.org/ns/odrl/2/Assertion, http://www.w3.org/ns/odrl/2/Offer, http://www.w3.org/ns/odrl/2/Privacy, http://www.w3.org/ns/odrl/2/Request, http://www.w3.org/ns/odrl/2/Set, http://www.w3.org/ns/odrl/2/Ticket
 - **odrlapi**: none
 
 ## Disagreements between the validators
@@ -325,8 +326,8 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrl-validator**: invalid
   - Violation: A Prohibition must have one odrl:target.
   - Violation: A Rule must have one action.
-  - Violation: A Rule must have one action.
   - Violation: A Prohibition must have one odrl:target.
+  - Violation: A Rule must have one action.
 - **odrlapi**: valid
   - valid
 
@@ -440,8 +441,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: The assignee should be a Party or PartyCollection.
   - Violation: Each constraint must conform to ODRL constraint or ODRL logical constraint.
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
 - **odrlapi**: valid
   - valid
 
@@ -3889,1054 +3890,1054 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: The assignee should be a Party or PartyCollection.
   - Violation: Each constraint must conform to ODRL constraint or ODRL logical constraint.
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
 - **odrlapi**: valid
   - valid
 
@@ -4988,8 +4989,8 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: Target should be a Asset or AssetCollection.
   - Violation: Each constraint must conform to ODRL constraint or ODRL logical constraint.
   - Violation: A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
-  - Violation: Value does not have shape <http://example.com/RdfListNodeShape>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
+  - Violation: Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>
 - **odrlapi**: valid
   - valid
 
@@ -5186,9 +5187,9 @@ The expected errors and the messages of the validators are grouped into categori
 
 - **odrl-validator**: invalid
   - Warning: Profile http://example.com/odrl:profile:30 is not supported: terms from this profile are not validated.
-  - Warning: Profile http://example.com/odrl:profile:30 is not supported: terms from this profile are not validated.
   - Warning: Target should be a Asset or AssetCollection.
   - Warning: The assigner should be a Party or PartyCollection.
+  - Warning: Profile http://example.com/odrl:profile:30 is not supported: terms from this profile are not validated.
   - Warning: Target should be a Asset or AssetCollection.
   - Warning: The assignee should be a Party or PartyCollection.
   - Violation: An Agreement rule must have one assigner.
@@ -7604,6 +7605,7 @@ The expected errors and the messages of the validators are grouped into categori
   - Warning: The assigner should be a Party or PartyCollection.
   - Violation: The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.
   - Violation: The rightOperand of odrl:spatial must be an IRI or a list of IRIs.
+  - Violation: The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.
 - **odrlapi**: valid
   - valid
   - warning. Please consider using Actions with a URI
@@ -8261,17 +8263,198 @@ The expected errors and the messages of the validators are grouped into categori
 - **odrlapi**: valid
   - valid
 
+### tosl-openai/openai_38_liability06.ttl
+
+- **Expected**: valid
+
+  <details><summary>Policy (Turtle)</summary>
+
+  ```turtle
+  # Rule liability06 (Business use of the Services addendum) of the OpenAI Europe Terms of Use 2024, modelled with the TOSL profile.
+  # Source: https://github.com/isa-group/tosl/ (OpenAI Europe Terms of Use 2024 example)
+
+  @prefix : <http://example.com/> .
+  @prefix owl: <http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: <http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+  @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+  @prefix dcterms: <http://purl.org/dc/terms/> .
+  @prefix foaf: <http://xmlns.com/foaf/0.1/> .    
+  @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .  
+  @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  @prefix tosl: <https://w3id.org/tosl/> .
+  @base <http://example.com> .
+
+  :agreement01 a odrl:Agreement, odrl:Asset ;
+      odrl:profile tosl: ;
+      dcterms:source <https://openai.com/policies/eu-terms-of-use/> ;
+      odrl:hasPolicy <https://openai.com/policies/eu-terms-of-use/> ;
+      dcterms:title "The OpenAI Europe Terms of Use 2024"^^xsd:string ;
+      dcterms:description "These Terms of Use govern the use of OpenAI's services, including ChatGPT and DALL·E."^^xsd:string;
+      dcterms:creator "OpenAI"^^xsd:string ;
+      dcterms:rightsHolder :OpenAI ;
+      dcterms:issued "2024-12-11"^^xsd:date ;
+      dcterms:requires <https://openai.com/policies/usage-policies/>,
+      <https://openai.com/policies/service-terms/>,
+      <https://openai.com/policies/sharing-publication-policy/>,
+      <https://openai.com/policies/service-credit-terms/>,
+      <https://openai.com/brand/> ;
+      odrl:obligation :obligation01 ;
+      odrl:assigner :OpenAI .
+
+  ### odrl:Party
+
+  :OpenAI a tosl:Provider ;
+      dcterms:description "OpenAI is an AI research and deployment company committed to ensuring that artificial general intelligence (AGI) benefits all of humanity."^^xsd:string ;
+      foaf:name "Open AI";
+      foaf:homepage <https://openai.com/>;
+      odrl:assignerOf :services .
+
+  :OpenAI_Ireland a foaf:Organization ;
+      foaf:name "OpenAI Ireland Ltd"^^xsd:string ;
+      dcterms:identifier "Company Number: 737350"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1st Floor, The Liffey Trust Centre, 117-126 Sheriff Street Upper";
+          vcard:locality "Dublin 1";
+          vcard:postal-code "D01 YC43";
+          vcard:country-name "Ireland"
+      ] ;
+      dcterms:coverage "EEA", "Switzerland" .
+
+  :OpenAI_LLC a foaf:Organization ;
+      foaf:name "OpenAI, L.L.C."^^xsd:string ;
+      dcterms:identifier "Company Number: 7063675"^^xsd:string ;
+      vcard:hasAddress [
+          vcard:street-address "1455 3rd Street";
+          vcard:locality "San Francisco";
+          vcard:region "California";
+          vcard:postal-code "94158";
+          vcard:country-name "United States"
+      ] ;
+      dcterms:coverage "United Kingdom"^^xsd:string .
+
+  :OpenAI foaf:subOrganizationOf :OpenAI_Ireland, :OpenAI_LLC .
+
+  :customer a tosl:Customer ;
+      dcterms:description "This party represents the consumer in the context of the OpenAI services Terms of Use".
+
+  :businessCustomer a tosl:BusinessCustomer ;
+      dcterms:description "This party represents a business entity consuming the service in a commercial context, under the OpenAI Terms of Use.".
+
+  ### odrl:Asset
+
+  :services a tosl:Service ;
+      dcterms:description "OpenAI’s services";
+      dcterms:rightsHolder :OpenAI .
+
+  #####################  Business use of the Services addendum  ##################
+  # Commercial and business use. If you use our Services for commercial or       #
+  # business use, the following terms apply. In the event of a conflict between  #
+  # this Business Use of the Services Addendum and the rest of these Terms,      #
+  # this Addendum shall take precedence.                                         #
+  #                                                                              #
+  # Limitation of liability. NEITHER WE NOR ANY OF OUR AFFILIATES OR LICENSORS   #
+  # WILL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR      #
+  # EXEMPLARY DAMAGES, INCLUDING DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE,     #
+  # OR DATA OR OTHER LOSSES, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY     #
+  # OF SUCH DAMAGES. OUR AGGREGATE LIABILITY UNDER THESE TERMS WILL NOT          #
+  # EXCEED ​​THE GREATER OF THE AMOUNT YOU PAID FOR THE SERVICE THAT GAVE RISE     #
+  # TO THE CLAIM DURING THE 12 MONTHS BEFORE THE LIABILITY AROSE OR ONE HUNDRED  #
+  # DOLLARS ($100). THE LIMITATIONS IN THIS SECTION APPLY ONLY TO THE MAXIMUM    #
+  # EXTENT PERMITTED BY APPLICABLE LAW.                                          #
+  #                                                                              #
+  # Some countries and states do not allow the disclaimer of certain warranties  #
+  # or the limitation of certain damages, so some or all of the terms above may  #
+  # not apply to you, and you may have additional rights. In that case, these    #
+  # Terms only limit our responsibilities to the maximum extent permissible in   #
+  # your country of residence.                                                   #
+  #                                                                              #
+  # OPENAI’S AFFILIATES, SUPPLIERS, LICENSORS, AND DISTRIBUTORS ARE INTENDED     #
+  # THIRD PARTY BENEFICIARIES OF THIS ADDENDUM.                                  #
+  #                                                                              #
+  # Indemnity. If you are a business or organisation, to the extent permitted    #
+  # by law, you will indemnify and hold harmless us, our affiliates, and our     #
+  # personnel, from and against any costs, losses, liabilities, and expenses     #
+  # (including attorneys’ fees) from third party claims arising out of or        #
+  # relating to your use of the Services and Content or any violation of         #
+  # these Terms.                                                                 #
+  #                                                                              #
+  # Governing law (business use). California law will govern these Terms except  # 
+  # for its conflicts of laws principles. All claims arising out of or relating  # 
+  # to these Terms will be brought exclusively in the federal or state courts of #
+  # San Francisco, California.                                                   #
+  ################################################################################
+
+  :liability06 a tosl:Liability ;
+      dcterms:description "Neither OpenAI nor any of its affiliates or licensors will be liable for any indirect, incidental, special, consequential, or exemplary damages. The total liability is limited to the greater of: (1) the amount paid by the user in the prior 12 months for the specific service, or (2) $100. These limitations apply only to the maximum extent permitted by applicable law.";
+      tosl:liableParty :OpenAI ;
+      tosl:targetParty :businessCustomer ;
+      rdf:value tosl:anyIndirectDamage, tosl:anyLoss, tosl:legalCompliance ;
+      tosl:limitation [
+          a odrl:LogicalConstraint ;
+          odrl:or (
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand tosl:totalAmount ;
+                  odrl:operator odrl:lteq ;
+                  odrl:rightOperand :consumerQuote12Months ;
+              ]
+              [
+                  a odrl:Constraint ;
+                  odrl:leftOperand odrl:payAmount ;
+                  odrl:operator odrl:eq ;
+                  odrl:rightOperand "100.00"^^xsd:decimal ;
+                  odrl:unit <http://dbpedia.org/resource/United_States_dollar>;
+              ]
+          )
+      ] .
+
+
+
+  ###############################  General  ######################################
+  # These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and       #
+  # OpenAI’s other services for individuals, along with any associated software  #
+  # applications, technology and websites (“Services”), including personal,      #
+  # non-commercial use of our Services by consumers. You form a contract with us #
+  # when you confirm that you accept these Terms or when you otherwise use       #
+  # the Services.                                                                #
+  ################################################################################
+
+  :obligation01 a odrl:Duty ;
+      dcterms:description "You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services.";
+      odrl:action tosl:consent ;
+      odrl:constraint [
+              a odrl:Constraint;
+              odrl:leftOperand tosl:consentType ;
+              odrl:operator odrl:eq ;
+              odrl:rightOperand tosl:implicitConsent
+          ] ;
+      odrl:target :agreement01 ;
+      odrl:assignee :customer .
+  ```
+
+  </details>
+
+- **odrl-validator**: invalid
+  - Warning: The assignee should be a Party or PartyCollection.
+  - Warning: The assigner should be a Party or PartyCollection.
+  - Violation: The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.
+- **odrlapi**: valid
+  - valid
+
 ## Original and corrected samples
 
 | Policy | Expected | odrl-validator (original → corrected) | odrlapi (original → corrected) | Why odrl-validator rejected the original |
 |---|---|---|---|---|
 | odrlapi-samples/sample020.ttl | valid | invalid → valid | valid → valid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
 | odrlapi-samples/sample021.ttl | valid | invalid → invalid | valid → valid | Conflict: The permission and prohibition have the same assignee, target and action |
-| odrlapi-samples/sample024.ttl | valid | invalid → invalid | valid → valid | Action is neither part of the ODRL Vocabulary nor typed as odrl:Action in a profile.<br>The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.<br>A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.<br>Value does not have shape <http://example.com/RdfListNodeShape> |
+| odrlapi-samples/sample024.ttl | valid | invalid → invalid | valid → valid | Action is neither part of the ODRL Vocabulary nor typed as odrl:Action in a profile.<br>The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile.<br>A LogicalConstraint must contain one of odrl:and, odrl:or, odrl:xone, or odrl:andSequence.<br>Missing expected value <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> |
 | odrlapi-samples/sample026.ttl | valid | invalid → valid | valid → valid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
 | odrlapi-samples/sample032.ttl | valid | invalid → valid | valid → valid | Error: Expected entity but got eof on line 16. |
 | odrlapi-samples/sample035.ttl | valid | invalid → valid | valid → valid | The rightOperand of odrl:dateTime must be an xsd:date or xsd:dateTime. |
-| odrlapi-samples/sample036.ttl | valid (?) | invalid → invalid | valid → valid | A Prohibition must have one odrl:target.<br>A Rule must have one action.<br>The policy type must be an ODRL policy class, or a subclass of odrl:Policy defined in a loaded profile.<br>A remedy must be an odrl:Duty, not a Permission or Prohibition. |
+| odrlapi-samples/sample036.ttl | valid (?) | invalid → invalid | valid → valid | Policies must have at least one permission, obligation or prohibition.<br>Value is not in http://www.w3.org/ns/odrl/2/Policy, http://www.w3.org/ns/odrl/2/Agreement, http://www.w3.org/ns/odrl/2/Assertion, http://www.w3.org/ns/odrl/2/Offer, http://www.w3.org/ns/odrl/2/Privacy, http://www.w3.org/ns/odrl/2/Request, http://www.w3.org/ns/odrl/2/Set, http://www.w3.org/ns/odrl/2/Ticket<br>A Rule must have one action.<br>A remedy must be an odrl:Duty, not a Permission or Prohibition.<br>A Prohibition must have one odrl:target. |
 | odrlapi-samples/sample047.ttl | invalid | invalid → valid | invalid → invalid | A Permission must have one odrl:target. |
 | odrlapi-samples/sample053.ttl | valid | invalid → invalid | valid → valid | Each constraint must conform to ODRL constraint or ODRL logical constraint.<br>The constraint leftOperand should be part of the ODRL vocabulary or typed as odrl:LeftOperand in a profile. |
 | odrlapi-samples/sample055.ttl | valid | invalid → valid | valid → valid | A Rule must have one action. |
