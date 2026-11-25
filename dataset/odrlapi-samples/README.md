@@ -4,7 +4,15 @@ The 83 example policies of [odrlapi](https://github.com/oeg-upm/licensius/tree/m
 Source: `odrlapi/src/main/webapp/samples` in [oeg-upm/licensius](https://github.com/oeg-upm/licensius), commit `9949458`.
 
 Each sample starts with a comment that says the expected result and why, for example `#invalid due to missing assigner in Offer`.
-The expected results in [`expected.json`](expected.json) are taken from these comments.
+The expected results in [`expected.json`](expected.json) are taken from these comments, except in these samples:
+
+| Sample | Comment | Expected | Why |
+|---|---|---|---|
+| sample024, sample053 | valid | invalid | The leftOperand is a literal (`"media"`), but it must be an IRI of the ODRL vocabulary or of a profile |
+| sample034 | valid | invalid | The action is a literal (`"reproduce"`), but it must be an IRI |
+| sample036 | valid (?) | invalid | The remedy is a prohibition, but a remedy must be a duty ([ODRL IM 2.6.2](https://www.w3.org/TR/odrl-model/#prohibition)) |
+| sample051 | valid | invalid | The same rule is a permission and a prohibition |
+| sample056, sample059, sample061, sample063 | valid | invalid | The action, leftOperand, operator or conflict strategy is defined in a profile (`odrl:profile`) that is not available, so it is not a known term |
 
 ## Changes to the original samples
 

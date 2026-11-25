@@ -30,6 +30,7 @@
     <https://openai.com/policies/service-credit-terms/>,
     <https://openai.com/brand/> ;
     odrl:obligation :obligation01 ;
+    tosl:liability :liability06 ;
     odrl:assigner :OpenAI .
 
 ### odrl:Party
