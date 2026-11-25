@@ -4,7 +4,7 @@ The 83 example policies of [odrlapi](https://github.com/oeg-upm/licensius/tree/m
 Source: `odrlapi/src/main/webapp/samples` in [oeg-upm/licensius](https://github.com/oeg-upm/licensius), commit `9949458`.
 
 Each sample starts with a comment that says the expected result and why, for example `#invalid due to missing assigner in Offer`.
-The expected results in [`../expected.json`](../expected.json) are taken from these comments.
+The expected results in [`expected.json`](expected.json) are taken from these comments.
 
 ## Changes to the original samples
 
@@ -15,6 +15,7 @@ The originals are kept in `original/`. The samples in this folder are the correc
 
   | Sample | What it tests | What was wrong |
   |---|---|---|
+  | sample021 | valid, conflict between a permission and a prohibition solved with `odrl:conflict odrl:perm` | `odrl:conflict` was inside the permission, but it is a property of the policy ([ODRL IM 2.10](https://www.w3.org/TR/odrl-model/#conflict)). Without it, the default strategy `odrl:invalid` makes the policy void. This correction is not in commit 2f60866 |
   | sample024 | valid | The operands of `odrl:xone` were not a list |
   | sample032 | valid, asset given outside the policy | It used the IRI of sample031 instead of sample032, and it ended with `;` instead of `.` (a Turtle syntax error) |
   | sample036 | valid (?), recursive remedy | The prohibition was nested inside another `odrl:prohibition` |

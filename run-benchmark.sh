@@ -11,7 +11,7 @@ echo "2/4 Installing odrl-validator and validating the dataset"
 npm install --silent --prefix validators/odrl-validator
 node validators/odrl-validator/run.js > /dev/null
 
-echo "3/4 Validating the dataset with odrlapi (about 5 minutes)"
+echo "3/4 Validating the dataset with odrlapi (about 15 minutes)"
 sh validators/odrlapi/run.sh
 
 echo "4/4 Comparing the results"
